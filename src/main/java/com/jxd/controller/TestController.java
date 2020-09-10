@@ -30,6 +30,11 @@ public class TestController {
     public String hello3() {
         return "index";
     }
+
+    @RequestMapping("/hello4")
+    public String hello4() {
+        return "index";
+    }
 }
 
 
