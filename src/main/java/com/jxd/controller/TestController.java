@@ -19,7 +19,10 @@ public class TestController {
     public String hel(){
         return "index";
     }
-
+    @RequestMapping("/hello5")
+    public String hello5() {
+        return "index";
+    }
     @RequestMapping("/hello6")
     public String hello6() {
         return "index";
