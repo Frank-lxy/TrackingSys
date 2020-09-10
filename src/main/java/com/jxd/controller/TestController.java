@@ -20,13 +20,8 @@ public class TestController {
         return "index";
     }
 
-    @RequestMapping("/hello3")
-    public String hello3() {
-        return "index";
-    }
-
-    @RequestMapping("/hello4")
-    public String hello4() {
+    @RequestMapping("/hello6")
+    public String hello6() {
         return "index";
     }
 }
