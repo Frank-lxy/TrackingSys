@@ -24,6 +24,11 @@ public class TestController {
     public String helloworld1() {
         return "index";
     }
+
+    @RequestMapping("/helloworld2")
+    public String helloworld2() {
+        return "index";
+    }
 }
 
 
