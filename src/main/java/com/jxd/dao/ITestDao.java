@@ -7,4 +7,5 @@ package com.jxd.dao;
  * @date : 2020-09-09 19:16
  **/
 public interface ITestDao {
+
 }
