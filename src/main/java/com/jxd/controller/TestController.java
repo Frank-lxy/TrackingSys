@@ -19,12 +19,17 @@ public class TestController {
     public String hel(){
         return "index";
     }
-    @RequestMapping("/hello4")
-    public String hello4() {
+    @RequestMapping("/hello6")
+    public String hello6(){
         return "index";
     }
-    @RequestMapping("/hello6")
-    public String hello6() {
+    @RequestMapping("/helloworld1")
+    public String helloworld1() {
+        return "index";
+    }
+
+    @RequestMapping("/helloworld2")
+    public String helloworld2() {
         return "index";
     }
 }
