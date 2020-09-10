@@ -20,9 +20,8 @@ public class TestController {
         return "index";
     }
 
-
-    @RequestMapping("/helloWorld")
-    public String helloWorld() {
+    @RequestMapping("/helloworld")
+    public String helloworld() {
         return "index";
     }
 }
