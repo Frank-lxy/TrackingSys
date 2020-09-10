@@ -28,8 +28,8 @@ public class TestController {
         return "index";
     }
 
-    @RequestMapping("/helloworld2")
-    public String helloworld2() {
+    @RequestMapping("/helloworld")
+    public String helloworld() {
         return "index";
     }
 }
