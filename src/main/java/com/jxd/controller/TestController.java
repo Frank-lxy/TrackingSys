@@ -23,8 +23,17 @@ public class TestController {
     public String hello6(){
         return "index";
     }
+    @RequestMapping("/hello7")
+    public String hello7(){
+        return "index";
+    }
     @RequestMapping("/helloworld1")
     public String helloworld1() {
+        return "index";
+    }
+
+    @RequestMapping("/helloworld")
+    public String helloworld() {
         return "index";
     }
 }
