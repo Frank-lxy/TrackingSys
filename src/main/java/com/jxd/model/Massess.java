@@ -1,7 +1,7 @@
 package com.jxd.model;
 
-public class Wassess {
-private Integer waId;
+public class Massess {
+private Integer maId;
 private Integer studentId;
 private String  managerName;
 private Integer departmentId;
@@ -10,12 +10,12 @@ private Integer assessItemId;
 private Double evaluate;
 private String assess;
 
-    public Integer getWaId() {
-        return waId;
+    public Integer getMaId() {
+        return maId;
     }
 
-    public void setWaId(Integer waId) {
-        this.waId = waId;
+    public void setMaId(Integer maId) {
+        this.maId = maId;
     }
 
     public Integer getStudentId() {
@@ -74,10 +74,10 @@ private String assess;
         this.assess = assess;
     }
 
-    public Wassess() {
+    public Massess() {
     }
 
-    public Wassess(Integer studentId, String managerName, Integer departmentId, Integer jobId, Integer assessItemId, Double evaluate, String assess) {
+    public Massess(Integer studentId, String managerName, Integer departmentId, Integer jobId, Integer assessItemId, Double evaluate, String assess) {
         this.studentId = studentId;
         this.managerName = managerName;
         this.departmentId = departmentId;
@@ -87,8 +87,8 @@ private String assess;
         this.assess = assess;
     }
 
-    public Wassess(Integer waId, Integer studentId, String managerName, Integer departmentId, Integer jobId, Integer assessItemId, Double evaluate, String assess) {
-        this.waId = waId;
+    public Massess(Integer maId, Integer studentId, String managerName, Integer departmentId, Integer jobId, Integer assessItemId, Double evaluate, String assess) {
+        this.maId = maId;
         this.studentId = studentId;
         this.managerName = managerName;
         this.departmentId = departmentId;
