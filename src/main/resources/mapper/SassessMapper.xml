@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
+个 个mapper 相当于一个dao 接口的实现类 -->
+<mapper namespace="com.jxd.dao.ISassessDao">
+    <sql id="BaseSql">
+        select saId,studentId,classId,state,evaluate,assess from sassess
+    </sql>
+    <!--Sassess getSassessById(Integer sassessId);-->
+    <select id="getSassessById" resultType="Sassess">
+        <include refid="BaseSql"></include>
+        where saId=#{saId}
+    </select>
+
+    <!--public List<Map<String, Object>> getAllAssess()-->
+    <select id="getAllAssess" resultType="Map">
+        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,c.teacherName teacherName,sa.saId saId,sa.state state,sa.evaluate evaluate,sa.assess assess
+        from (student st left join clazz c on st.classId = c.classId)
+        left join sassess sa on st.studentId = sa.studentId
+        where teacherName='周玉飞'
+    </select>
+    <!--  List<Map<String,Object>> getAssessByPage(String studentName, Integer classId, Integer count, Integer page);-->
+    <select id="getAssessByPage" resultType="Map">
+        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,c.teacherName teacherName,sa.saId saId,sa.state state,sa.evaluate evaluate,sa.assess assess
+        from (student st left join clazz c on st.classId = c.classId)
+        left join sassess sa on st.studentId = sa.studentId
+        <where>
+            <if test="studentName != null and studentName !=''">
+                studentName like '%' #{studentName} '%'
+            </if>
+
+            <if test="classId != null and classId !=''">
+                AND classId=#{classId}
+            </if>
+            teacherName='周玉飞'
+        </where>
+        limit #{count},#{page}
+    </select>
+   <!-- boolean addSassess(Sassess sassess);-->
+    <insert id="addSassess">
+        insert into sassess(studentId,classId,state,evaluate,assess)
+        values (#{studentId},#{classId},1,#{evaluate},#{assess})
+    </insert>
+
+   <!-- public boolean editSassess(Sassess sassess)-->
+    <update id="editSassess">
+        update sassess
+        set evaluate=#{evaluate},assess=#{assess}
+        where saId=#{saId}
+    </update>
+
+
+
+
+
+</mapper>
