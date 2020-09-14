@@ -1,9 +1,12 @@
 package com.jxd.model;
 
 public class Clazz {
-    private Integer classId;
-    private String clazz;
-    private String teacherName;
+    private Integer classId;//班期id
+    private String clazz;//班期名称
+    private String teacherName;//授课教师名称
+
+    public Clazz() {
+    }
 
     public Clazz(String clazz, String teacherName) {
         this.clazz = clazz;
@@ -14,9 +17,6 @@ public class Clazz {
         this.classId = classId;
         this.clazz = clazz;
         this.teacherName = teacherName;
-    }
-
-    public Clazz() {
     }
 
     public Integer getClassId() {

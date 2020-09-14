@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
+<mapper namespace="com.jxd.dao.IJobDao">
+    <!--boolean editJob(Job job);-->
+    <update id="editJob">
+        update job set jobName=#{jobName}
+        where jobId=#{jobId}
+    </update>
+
+    <!--Job getJobById(Integer jobId);-->
+    <select id="getJobById" resultType="Job">
+        select jobId,jobName
+        from job where jobId=#{jobId}
+    </select>
+
+    <!--boolean addJob(Job job);-->
+    <insert id="addJob">
+        insert into job(jobName)
+        values (#{jobName})
+    </insert>
+
+    <!--Job getJobByName(String jobName);-->
+    <select id="getJobByName" resultType="Job">
+        <include refid="BaseSql"></include>
+        where jobName=#{jobName}
+    </select>
+
+    <!--boolean deleteJobById(Integer jobId);-->
+    <delete id="deleteJobById">
+        delete from job where jobId=#{jobId}
+    </delete>
+
+    <!--List<Job> getJobPaging(Integer count, Integer pageSize, String jobName);-->
+    <select id="getJobPaging" resultType="Job">
+        <include refid="BaseSql"></include>
+        <where>
+            <if test="jobName != null and jobName != ''">
+                jobName like '%' #{jobName} '%'
+            </if>
+        </where>
+        order by jobId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<Job> getAllJob();-->
+    <select id="getAllJob" resultType="Job">
+        <include refid="BaseSql"></include>
+    </select>
+
+    <sql id="BaseSql">
+        select jobId,jobName from job
+    </sql>
+</mapper>

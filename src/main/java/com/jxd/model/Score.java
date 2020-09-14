@@ -1,8 +1,22 @@
 package com.jxd.model;
 
 public class Score {
-    private Integer studentId;
-    private Integer courseId;
+    private Integer studentId;//学员id
+    private Integer courseId;//课程id
+    private Double score;//课程分数
+
+    public Score() {
+    }
+
+    public Score(Double score) {
+        this.score = score;
+    }
+
+    public Score(Integer studentId, Integer courseId, Double score) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.score = score;
+    }
 
     public Integer getStudentId() {
         return studentId;
@@ -27,20 +41,4 @@ public class Score {
     public void setScore(Double score) {
         this.score = score;
     }
-
-    public Score() {
-    }
-
-    public Score(Integer courseId, Double score) {
-        this.courseId = courseId;
-        this.score = score;
-    }
-
-    public Score(Integer studentId, Integer courseId, Double score) {
-        this.studentId = studentId;
-        this.courseId = courseId;
-        this.score = score;
-    }
-
-    private Double score;
 }

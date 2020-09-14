@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
+<mapper namespace="com.jxd.dao.ICourseDao">
+    <!--boolean editCourse(Course course);-->
+    <update id="editCourse">
+        update course set courseName=#{courseName}
+        where courseId=#{courseId}
+    </update>
+
+    <!--Course getCourseById(Integer courseId);-->
+    <select id="getCourseById" resultType="Course">
+        select courseId,courseName
+        from course where courseId=#{courseId}
+    </select>
+
+    <!--boolean addCourse(Course course);-->
+    <insert id="addCourse">
+        insert into course(courseName)
+        values (#{courseName})
+    </insert>
+
+    <!--Course getCourseByName(String courseName);-->
+    <select id="getCourseByName" resultType="Course">
+        <include refid="BaseSql"></include>
+        where courseName=#{courseName}
+    </select>
+
+    <!--boolean deleteCourseById(Integer courseId);-->
+    <delete id="deleteCourseById">
+        delete from course where courseId=#{courseId}
+    </delete>
+
+    <!--List<Course> getCoursePaging(Integer count, Integer pageSize, String courseName);-->
+    <select id="getCoursePaging" resultType="Course">
+        <include refid="BaseSql"></include>
+        <where>
+            <if test="courseName != null and courseName != ''">
+                courseName like '%' #{courseName} '%'
+            </if>
+        </where>
+        order by courseId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<Course> getAllCourse();-->
+    <select id="getAllCourse" resultType="Course">
+        <include refid="BaseSql"></include>
+    </select>
+
+    <sql id="BaseSql">
+        select courseId,courseName from course
+    </sql>
+</mapper>

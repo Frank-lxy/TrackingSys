@@ -1,12 +1,17 @@
 package com.jxd.model;
 
 public class User {
-    private Integer userId;
-    private String userName;
-    private String password;
-    private Integer role;
+    private Integer userId;//用户id
+    private String userName;//用户名
+    private String password;//密码
+    private Integer role;//用户权限
 
     public User() {
+    }
+
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
     }
 
     public User(String userName, String password, Integer role) {

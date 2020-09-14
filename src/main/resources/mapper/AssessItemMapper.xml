@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
+<mapper namespace="com.jxd.dao.IAssessItemDao">
+
+    <!--boolean editAssessItem(AssessItem assessItem);-->
+    <update id="editAssessItem">
+        update assessitem set assessItemName=#{assessItemName}
+        where assessItemId=#{assessItemId}
+    </update>
+
+    <!--AssessItem getAssessItemById(Integer assessItemId);-->
+    <select id="getAssessItemById" resultType="AssessItem">
+        select assessItemId,assessItemName
+        from assessitem where assessItemId=#{assessItemId}
+    </select>
+
+    <!--boolean addAssessItem(AssessItem assessItem);-->
+    <insert id="addAssessItem">
+        insert into assessitem(assessItemName)
+        values (#{assessItemName})
+    </insert>
+
+    <!--AssessItem getAssessItemByName(String assessItemName);-->
+    <select id="getAssessItemByName" resultType="AssessItem">
+        <include refid="BaseSql"></include>
+        where assessItemName=#{assessItemName}
+    </select>
+
+    <!--boolean deleteAssessItemById(Integer assessItemId);-->
+    <delete id="deleteAssessItemById">
+        delete from assessitem where assessItemId=#{assessItemId}
+    </delete>
+
+    <!--List<AssessItem> getAssessItemPaging(Integer count, Integer pageSize,String assessItemName);-->
+    <select id="getAssessItemPaging" resultType="AssessItem">
+        <include refid="BaseSql"></include>
+        <where>
+            <if test="assessItemName != null and assessItemName != ''">
+                assessItemName like '%' #{assessItemName} '%'
+            </if>
+        </where>
+        order by assessItemId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<AssessItem> getAllAssessItem();-->
+    <select id="getAllAssessItem" resultType="AssessItem">
+        <include refid="BaseSql"></include>
+    </select>
+
+    <sql id="BaseSql">
+        select assessItemId,assessItemName from assessitem
+    </sql>
+</mapper>
