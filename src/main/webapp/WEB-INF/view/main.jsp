@@ -133,7 +133,6 @@
         <%
             }
         %>
-
             <%--项目经理菜单--%>
         <%
             if (user.getRole() == 3 ){
@@ -151,12 +150,12 @@
                     <a href="userList.jsp" target="mainFrame">学员成绩</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;" target="mainFrame">学员评价</a>
+                    <a href="userList.jsp" target="mainFrame">学员评价</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="" target="mainFrame">转正评价</a></dd>
-                        <dd><a href="" target="mainFrame">一年评价</a></dd>
-                        <dd><a href="" target="mainFrame">两年评价</a></dd>
-                        <dd><a href="getStudentList" target="mainFrame">三年评价</a></dd>
+                        <dd><a href="massessList" target="mainFrame">转正评价</a></dd>
+                        <dd><a href="massessList1" target="mainFrame">一年评价</a></dd>
+                        <dd><a href="massessList2" target="mainFrame">两年评价</a></dd>
+                        <dd><a href="massessList3" target="mainFrame">三年评价</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">

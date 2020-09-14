@@ -8,5 +8,5 @@ import com.jxd.service.ITestService;
  * @Descrition :
  * @date : 2020-09-09 19:17
  **/
-public class TestServiceImpl implements ITestService {
+public class TestServiceImpl implements ITestService  {
 }

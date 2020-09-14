@@ -19,6 +19,7 @@ public class Student {
     private Integer departmentId;//部门id
     private String hiredate;//入职日期
     private String remarks;//备注
+    private String tState;
 
     public Student() {
     }
@@ -83,6 +84,28 @@ public class Student {
         this.managerId = managerId;
         this.hiredate = hiredate;
         this.remarks = remarks;
+    }
+
+    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, String remarks, String tState) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.classId = classId;
+        this.managerId = managerId;
+        this.jobId = jobId;
+        this.departmentId = departmentId;
+        this.hiredate = hiredate;
+        this.remarks = remarks;
+        this.tState = tState;
     }
 
     public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, String remarks) {
@@ -248,5 +271,13 @@ public class Student {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String gettState() {
+        return tState;
+    }
+
+    public void settState(String tState) {
+        this.tState = tState;
     }
 }

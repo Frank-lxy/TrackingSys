@@ -3,19 +3,37 @@ package com.jxd.model;
 public class Massess {
     private Integer maId;
     private Integer studentId;
-    private String  managerName;
-    private Integer departmentId;
-    private Integer jobId;
-    private Integer assessItemId;
     private Double evaluate;
     private String assess;
+    private Integer state;
+    private Integer tState;
 
-    public Integer getWaId() {
+    public Massess() {
+    }
+
+    public Massess(Integer maId, Integer studentId, Double evaluate, String assess, Integer state, Integer tState) {
+        this.maId = maId;
+        this.studentId = studentId;
+        this.evaluate = evaluate;
+        this.assess = assess;
+        this.state = state;
+        this.tState = tState;
+    }
+
+    public Integer gettState() {
+        return tState;
+    }
+
+    public void settState(Integer tState) {
+        this.tState = tState;
+    }
+
+    public Integer getMaId() {
         return maId;
     }
 
-    public void setWaId(Integer waId) {
-        this.maId = waId;
+    public void setMaId(Integer maId) {
+        this.maId = maId;
     }
 
     public Integer getStudentId() {
@@ -24,38 +42,6 @@ public class Massess {
 
     public void setStudentId(Integer studentId) {
         this.studentId = studentId;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public Integer getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(Integer jobId) {
-        this.jobId = jobId;
-    }
-
-    public Integer getAssessItemId() {
-        return assessItemId;
-    }
-
-    public void setAssessItemId(Integer assessItemId) {
-        this.assessItemId = assessItemId;
     }
 
     public Double getEvaluate() {
@@ -74,27 +60,11 @@ public class Massess {
         this.assess = assess;
     }
 
-    public Massess() {
+    public Integer getState() {
+        return state;
     }
 
-    public Massess(Integer studentId, String managerName, Integer departmentId, Integer jobId, Integer assessItemId, Double evaluate, String assess) {
-        this.studentId = studentId;
-        this.managerName = managerName;
-        this.departmentId = departmentId;
-        this.jobId = jobId;
-        this.assessItemId = assessItemId;
-        this.evaluate = evaluate;
-        this.assess = assess;
-    }
-
-    public Massess(Integer maId, Integer studentId, String managerName, Integer departmentId, Integer jobId, Integer assessItemId, Double evaluate, String assess) {
-        this.maId = maId;
-        this.studentId = studentId;
-        this.managerName = managerName;
-        this.departmentId = departmentId;
-        this.jobId = jobId;
-        this.assessItemId = assessItemId;
-        this.evaluate = evaluate;
-        this.assess = assess;
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
