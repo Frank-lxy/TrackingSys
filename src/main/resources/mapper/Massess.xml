@@ -8,6 +8,11 @@
         select maId,studentId,evaluate,assess,state from massess
     </sql>
 
+    <select id="getMassess" resultType="Massess">
+        <include refid="BaseSql"></include>
+        where studentId=#{studentId} and tState=#{tState}
+    </select>
+
     <insert id="addMassessNone" >
         insert into massess(studentId,tState) values (#{studentId},#{tState})
     </insert>
@@ -40,9 +45,9 @@
     </select>
 
     <select id="getMassessList" resultType="map">
-          select m.maId,m.studentId,m.evaluate,m.assess,m.state,date_format(s.hiredate,'%Y-%m-%d') hiredate
-          from massess m right join student s on m.studentId=s.studentId
-          where  s.managerId=#{managerId}
+         select s.studentId,date_format(s.hiredate,'%Y-%m-%d') hiredate
+        from student s
+        where  s.managerId=7 AND tState=0 or tState is NULL
     </select>
 
     <select id="getMassessLists" resultType="map">

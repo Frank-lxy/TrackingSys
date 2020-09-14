@@ -78,12 +78,8 @@ public class MassessController {
     public String addMassess(Massess massess){
         boolean isDel = massessService.delMassessById(massess);
         boolean isAdd = massessService.addMassess(massess);
-        boolean isAdd1 = false;
-        if (massess.gettState()==3){
+        boolean isAdd1 = massessService.addMassessNone(massess.getStudentId(),massess.gettState()+1);
 
-        }else {
-             isAdd1 = massessService.addMassessNone(massess.getStudentId(),massess.gettState()+1);
-        }
         if(isAdd&&isDel&&isAdd1){
             return "添加成功";
         }else {
@@ -122,6 +118,10 @@ public class MassessController {
                 Integer studentId = (Integer)map.get("studentId");
                 Integer state = 0;
                 massessService.editMassessState(studentId,state);
+                Massess massess = massessService.getMassess(studentId,state);
+                if (massess==null){
+                    massessService.addMassessNone(studentId,state);
+                }
             }else if (days>365&&days<375){//一年
                 Integer studentId = (Integer)map.get("studentId");
                 Integer state = 1;
@@ -144,6 +144,7 @@ public class MassessController {
         Integer count = (pageIndex - 1) * pageSize;
 
         List<Map<String,Object>> list1 = massessService.getMassessLists(count,pageSize,studentName,managerId,tState);
+
         //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list1.toArray());
         JSONObject jsonObject = new JSONObject();

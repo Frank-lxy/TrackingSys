@@ -66,4 +66,9 @@ public class MassessServiceImpl implements IMassessService {
     public boolean addMassessNone(Integer studentId, Integer tState) {
         return massessDao.addMassessNone(studentId,tState);
     }
+
+    @Override
+    public Massess getMassess(Integer studentId, Integer tState) {
+        return massessDao.getMassess(studentId,tState);
+    }
 }

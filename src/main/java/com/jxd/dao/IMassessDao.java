@@ -33,5 +33,6 @@ public interface IMassessDao {
 
     boolean addMassessNone(@Param("studentId") Integer studentId,@Param("tState") Integer tState);
 
+    Massess getMassess(@Param("studentId") Integer studentId,@Param("tState") Integer tState);
 
 }

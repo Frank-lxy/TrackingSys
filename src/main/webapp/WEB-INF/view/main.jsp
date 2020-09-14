@@ -150,7 +150,7 @@
                     <a href="userList.jsp" target="mainFrame">学员成绩</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">学员评价</a>
+                    <a class="" href="javascript:;" target="mainFrame">学员评价</a>
                     <dl class="layui-nav-child">
                         <dd><a href="massessList" target="mainFrame">转正评价</a></dd>
                         <dd><a href="massessList1" target="mainFrame">一年评价</a></dd>
