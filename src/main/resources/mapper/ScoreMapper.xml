@@ -4,6 +4,10 @@
 <!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
 个 个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IScoreDao">
+
+    <select id="getClazzListByTchName" resultType="Clazz">
+    select classId,clazz,teacherName from clazz where teacherName=#{teacherName} order by classId desc
+    </select>
     <!--List<Course> getAllCourseByClassId(Integer classId);-->
 
     <select id="getAllCourseByClassId" resultType="Map">
@@ -12,13 +16,6 @@
     </select>
 
     <!--  public List<Map<String, Object>> getScoreByStuId(Integer studentId)-->
-<!--    <select id="getScoreByStuId" resultType="Map">
-
-        select w.courseId courseId,w.courseName courseName,s.score
-        from (select cs.courseId courseId,cs.classId classId,co.courseName courseName
-        from course co right join coursesel cs on co.courseId = cs.courseId  where cs.classId=#{classId}) w left join score s on w.courseId=s.courseId
-        where studentId=#{studentId}
-    </select>-->
 
     <select id="getScoreByStuId" resultType="Map">
 
@@ -26,8 +23,6 @@
         from ((course co left join coursesel cs on co.courseId = cs.courseId ) left join score s on co.courseId=s.courseId)
         where s.studentId=#{studentId} and cs.classId=#{classId}
     </select>
-
-
 
     <!--学生-->
     <!--List<Student> getStudentPaging(Integer count, Integer pageSize, String studentName);-->
@@ -38,7 +33,7 @@
                 studentName like '%' #{studentName} '%'
             </if>
             <if test="classId != null and classId != ''">
-                classId=#{classId}
+                AND classId=#{classId}
             </if>
         </where>
         order by studentId desc

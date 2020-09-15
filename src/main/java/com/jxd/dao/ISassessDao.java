@@ -1,6 +1,7 @@
 package com.jxd.dao;
 
 import com.jxd.model.Sassess;
+import com.jxd.model.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,13 +16,13 @@ public interface ISassessDao {
      * @param page 选择几条数据
      * @return 评价信息集合
      */
-    List<Map<String,Object>> getAssessByPage(@Param("studentName") String studentName,@Param("classId") Integer classId, @Param("count") Integer count, @Param("page") Integer page);
+    List<Map<String,Object>> getAssessByPage(@Param("studentName") String studentName,@Param("userName") String userName,@Param("classId") Integer classId, @Param("count") Integer count, @Param("page") Integer page);
 
     /**
      * 查询全部评价信息
      * @return
      */
-    List<Map<String,Object>> getAllAssess();
+    List<Map<String,Object>> getAllAssess(String userName);
 
     /**
      * 增加评价
@@ -42,4 +43,18 @@ public interface ISassessDao {
      * @return 评价对象
      */
     Sassess getSassessById(Integer sassessId);
+
+    /**
+     * 根据学生id查找评价
+     * @param studentId
+     * @return
+     */
+    Sassess getSassessByStuId(Integer studentId);
+
+    /**
+     * 通过用户id得到用户
+     * @param userId
+     * @return
+     */
+    User getUserById(Integer userId);
 }

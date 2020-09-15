@@ -1,6 +1,7 @@
 package com.jxd.service.impl;
 
 import com.jxd.dao.IScoreDao;
+import com.jxd.model.Clazz;
 import com.jxd.model.Course;
 import com.jxd.model.Student;
 import com.jxd.service.IScoreService;
@@ -38,5 +39,10 @@ public class ScoreServiceImpl implements IScoreService {
     @Override
     public List<Map<String, Object>> getScoreByStuId(Integer studentId,Integer classId) {
         return scoreDao.getScoreByStuId(studentId,classId);
+    }
+
+    @Override
+    public List<Clazz> getClazzListByTchName(String teacherName) {
+        return scoreDao.getClazzListByTchName(teacherName);
     }
 }

@@ -113,17 +113,11 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="newsList.jsp" target="mainFrame">学员跟踪表</a>
+                <li class="layui-nav-item">
+                    <a href="scoreList" target="mainFrame">学员成绩</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="studentList" target="mainFrame">学员信息</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">学员成绩</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">学员评价</a>
+                    <a href="sassessList" target="mainFrame">学员评价</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="userList.jsp" target="mainFrame">修改密码</a>

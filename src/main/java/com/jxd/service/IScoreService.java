@@ -1,5 +1,6 @@
 package com.jxd.service;
 
+import com.jxd.model.Clazz;
 import com.jxd.model.Course;
 import com.jxd.model.Student;
 
@@ -35,4 +36,11 @@ public interface IScoreService {
      * @return 成绩集合
      */
     List<Map<String,Object>> getScoreByStuId(Integer studentId,Integer classId);
+
+    /**
+     * 根据教师id查找所带班期
+     * @param teacherName 教师id
+     * @return 班期集合
+     */
+    List<Clazz> getClazzListByTchName(String teacherName);
 }

@@ -1,6 +1,7 @@
 package com.jxd.controller;
 
 import com.jxd.model.Sassess;
+import com.jxd.model.User;
 import com.jxd.service.ISassessService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -23,13 +24,17 @@ import java.util.Map;
 public class SassessController {
     @Autowired
     ISassessService sassessService;
-
+    @RequestMapping("/sassessList")
+    public String sassessList(){
+        return "sassessList";
+    }
     @RequestMapping(value = "/getAssessByPage",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public JSONObject getAssessByPage(String studentName,Integer classId,Integer limit, Integer page){
+    public JSONObject getAssessByPage(String studentName,Integer classId,Integer limit, Integer page,Integer userId){
         Integer count = limit*(page - 1);
-        List<Map<String,Object>> list = sassessService.getAssessByPage(studentName,classId,count,limit);
-        List<Map<String,Object>> list1 = sassessService.getAllAssess();
+        User user = sassessService.getUserById(userId);
+        List<Map<String,Object>> list = sassessService.getAssessByPage(studentName,user.getUserName(),classId,count,limit);
+        List<Map<String,Object>> list1 = sassessService.getAllAssess(user.getUserName());
         //把list返回到empList页面
         JSONArray jsonArray = JSONArray.fromObject(list);
         //创建json对象，用于返回layui表格需要的数据

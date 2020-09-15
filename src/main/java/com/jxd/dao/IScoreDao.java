@@ -1,5 +1,6 @@
 package com.jxd.dao;
 
+import com.jxd.model.Clazz;
 import com.jxd.model.Course;
 import com.jxd.model.Student;
 import org.apache.ibatis.annotations.Param;
@@ -36,4 +37,11 @@ public interface IScoreDao {
      * @return
      */
     List<Student> getStudentPaging(@Param("classId") Integer classId,@Param("count") Integer count,@Param("pageSize") Integer pageSize, @Param("studentName") String studentName);
+
+    /**
+     * 根据教师id查找所带班期
+     * @param teacherName
+     * @return
+     */
+    List<Clazz> getClazzListByTchName(String teacherName);
 }

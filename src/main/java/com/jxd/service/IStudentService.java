@@ -83,4 +83,11 @@ public interface IStudentService {
      * @return 学员列表
      */
     List<Student> getAllStudent();
+
+    /**
+     * 通过学生id得到学生信息
+     * @param studentId
+     * @return
+     */
+    Map<String,Object> getStuInfoById(Integer studentId);
 }

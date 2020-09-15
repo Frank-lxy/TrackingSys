@@ -1,6 +1,7 @@
 package com.jxd.service;
 
 import com.jxd.model.Sassess;
+import com.jxd.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public interface ISassessService {
      * @param page 选择几条数据
      * @return 评价信息集合
      */
-    List<Map<String,Object>> getAssessByPage(String studentName, Integer classId, Integer count, Integer page);
+    List<Map<String,Object>> getAssessByPage(String studentName, String userName, Integer classId, Integer count, Integer page);
 
     /**
      * 增加评价
@@ -42,5 +43,19 @@ public interface ISassessService {
      * 查询全部评价信息
      * @return
      */
-    List<Map<String,Object>> getAllAssess();
+    List<Map<String,Object>> getAllAssess(String userName);
+
+    /**
+     * 根据学生id查找评价
+     * @param studentId
+     * @return
+     */
+    Sassess getSassessByStuId(Integer studentId);
+
+    /**
+     * 通过用户id得到用户
+     * @param userId
+     * @return
+     */
+    User getUserById(Integer userId);
 }

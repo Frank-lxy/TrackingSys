@@ -75,4 +75,9 @@ public class StudentServiceImpl implements IStudentService {
     public List<Student> getAllStudent() {
         return studentDao.getAllStudent();
     }
+
+    @Override
+    public Map<String, Object> getStuInfoById(Integer studentId) {
+        return studentDao.getStuInfoById(studentId);
+    }
 }

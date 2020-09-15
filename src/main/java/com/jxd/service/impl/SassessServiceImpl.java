@@ -2,6 +2,7 @@ package com.jxd.service.impl;
 
 import com.jxd.dao.ISassessDao;
 import com.jxd.model.Sassess;
+import com.jxd.model.User;
 import com.jxd.service.ISassessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ public class SassessServiceImpl implements ISassessService {
     @Autowired
     ISassessDao sassessDao;
     @Override
-    public List<Map<String, Object>> getAssessByPage(String studentName, Integer classId, Integer count, Integer page) {
-        return sassessDao.getAssessByPage(studentName,classId,count,page);
+    public List<Map<String, Object>> getAssessByPage(String studentName, String userName,Integer classId, Integer count, Integer page) {
+        return sassessDao.getAssessByPage(studentName,userName,classId,count,page);
     }
 
     @Override
@@ -41,7 +42,17 @@ public class SassessServiceImpl implements ISassessService {
     }
 
     @Override
-    public List<Map<String, Object>> getAllAssess() {
-        return sassessDao.getAllAssess();
+    public List<Map<String, Object>> getAllAssess(String userName) {
+        return sassessDao.getAllAssess(userName);
+    }
+
+    @Override
+    public Sassess getSassessByStuId(Integer studentId) {
+        return sassessDao.getSassessByStuId(studentId);
+    }
+
+    @Override
+    public User getUserById(Integer userId) {
+        return sassessDao.getUserById(userId);
     }
 }

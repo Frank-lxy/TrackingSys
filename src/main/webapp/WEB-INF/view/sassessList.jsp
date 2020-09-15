@@ -39,7 +39,8 @@
 
         <div class="layui-input-inline">
             <select name="classId" id="classId">
-                <c:forEach var="clazz" items="${sessionScope.classes}">
+                <option value="">请选择期次</option>
+                <c:forEach var="clazz" items="${sessionScope.clazzes}">
                     <option value="${clazz.classId}">${clazz.clazz}</option>
                 </c:forEach>
             </select>
@@ -59,15 +60,16 @@
         var table = layui.table;
         var layer = layui.layer;
         var $ = layui.jquery;
+        var userId=${sessionScope.user.userId}
         //第一个实例
         table.render({
             elem: '#demo'
             ,toolbar: '#toolbarDemo'
-            ,height: 'full-90'
-            ,url: '/getAssessByPage' //数据接口
+            ,height: 'full-102'
+            ,url: '/getAssessByPage?userId='+ userId//数据接口
             ,page: true //分页
-            ,limit: 5//每页显示几条数据
-            ,limits: [5,10,15,20]
+            ,limit: 8//每页显示几条数据
+            ,limits: [8,16,24,32]
             ,cols: [[ //表头
                 {type:'numbers',title:'序号'}
                 ,{field: 'id', title: '学号', hide:true}

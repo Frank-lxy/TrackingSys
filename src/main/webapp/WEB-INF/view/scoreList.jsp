@@ -9,9 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>学生评价</title>
-    <link href="static/layui/css/layui.css" rel="stylesheet">
-    <script src="static/layui/layui.js"></script>
+    <title>学生评分</title>
+    <link href="../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../static/layui/layui.js"></script>
+    <script src="../../static/js/jquery-3.3.1.js"></script>
     <style>
         .layui-table-tool-self{
             display: none;
@@ -25,9 +26,10 @@
 
     </style>
 </head>
-<body>
-<div align="center"><table id="demo" lay-filter="test"></table></div>
-
+<body id="body">
+<div align="center"><table id="demo" lay-filter="test"></table>
+<div id="demoDiv" style="margin-top: -10px"></div>
+</div>
 <script type="text/html" id="toolbarDemo">
     <div align="left" style="float: left">
         <h2>成绩列表</h2>
@@ -38,49 +40,48 @@
         </div>
 
         <div class="layui-input-inline">
-            <select name="classId" id="classId">
-                <c:forEach var="clazz" items="${sessionScope.classes}">
-                    <option value="${clazz.classId}">${clazz.clazz}</option>
+            <select name="classId" id="clazzId" lay-filter="receive" lay-search="">
+                <c:forEach var="clazz" items="${sessionScope.clazzes}">
+                    <option value="${clazz.classId}">${clazz.classId}${clazz.clazz}</option>
                 </c:forEach>
             </select>
         </div>
-        <button class="layui-btn layui-btn-sm" lay-event="query">查询</button>
+        <button class="layui-btn layui-btn-sm" lay-event="query" id="query">查询</button>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="score">评分</a>
+    <a class="layui-btn layui-btn-xs " lay-event="query" >修改</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
 </script>
 <script>
+
     layui.use(['table',"layer"], function(){
         var table = layui.table;
         var layer = layui.layer;
         var $ = layui.jquery;
-        var head =[];//存放每一个期次的课程
+        //存放每一个期次的课程
         var classId=1;
         //获取老师所教期次课程
-        $.ajax({
-            url:"getAllCourseByClassId",
-            type:"get",
-            data:{
-                classId:classId
-            },
-            success:function (data) {
-
-                if(data){
+            var head =[];
+            $.ajax({
+                url:"getAllCourseByClassId",
+                type:"get",
+                data:{
+                    classId:classId
+                },
+                success:function (data) {
                     $.each(data,function (index,value) {
-                        head.push( {field:value.courseId, title: value.courseName,align:"center"})
-                        console.log( value.courseName)
+                        head.push( {field:value.courseId, title:value.courseName,align:"center"})
                     })
-
                     table.render({
                         elem: '#demo'
                         ,toolbar: '#toolbarDemo'
-                        ,height: 'full-90'
-                        ,url: '/getAllScoreInfo?classId='+classId //数据接口
+                        ,height: 'full-102'
+                        ,url: '/getAllScoreInfo?classId='+classId//数据接口
                         ,page: true //分页
-                        ,limit: 5//每页显示几条数据
-                        ,limits: [5,10,15,20]
+                        ,limit: 8//每页显示几条数据
+                        ,limits: [8,16,24,32]
                         ,cols: [[ //表头
                             {type:'numbers',title:'序号',rowspan:2}
                             ,{field: 'studentId', title: '学生编号',align:"center",hide:true,rowspan:2}
@@ -89,25 +90,20 @@
                             ,{field: 'graduate', title: '学校',align:"center",rowspan:2}
                             ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2}
                             ,{title: '培训期间测试成绩',align:"center",colspan:head.length}
-                            ,{fixed: 'right', title:'操作',align:'center', toolbar: '#barDemo',rowspan:2}
+                            ,{title:'操作',align:'center', toolbar: '#barDemo',width:180,rowspan:2}
                         ],head]
                     });
+                },
+                error:function () {
+                    layer.msg("执行失败")
                 }
-            },
-            error:function () {
-                layer.msg("执行失败")
-            }
-        })
-
-
-
-
+            })
         //监听事件监听lai-filter为test的元素的工具栏
         table.on('toolbar(test)', function(obj){//obj只按钮
             switch(obj.event){
                 case 'query':
                     var studentName=$("#studentName").val();
-                    var classId=$("#classId").val()
+                    var classId = $("#clazzId").val();
                     table.reload("demo",{//demo对应table的id
                         where:{
                             studentName:studentName,
@@ -153,9 +149,25 @@
                         $(".layui-laypage-btn").click();
                     }
                 })
+            }else if(layEvent === 'detail'){
+                //获取要编辑的编号
+                var studentId = data.studentId;
+                //根据编号获取信息
+                layer.open({
+                    type: 2,//弹出完整jsp，type=1弹出底层div
+                    title: "学员详细信息",
+                    content: "sassessDetailed?studentId=" + studentId,
+                    shadeClose: true,//点击遮罩，关闭弹框
+                    area: ['1035px','470px'],
+                    end:function () {
+                        //刷新当前页
+                        $(".layui-laypage-btn").click();
+                    }
+                });
             }
         });
     });
+
 </script>
 </body>
 </html>
