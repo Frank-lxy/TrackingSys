@@ -23,8 +23,8 @@ public class MassessServiceImpl implements IMassessService {
     IMassessDao massessDao;
 
     @Override
-    public List<Map<String,Object>> getMassessList(Integer managerId) {
-        return massessDao.getMassessList(managerId);
+    public List<Map<String,Object>> getMassessList( String studentName,Integer managerId,Integer tState) {
+        return massessDao.getMassessList(studentName,managerId,tState);
     }
 
     @Override

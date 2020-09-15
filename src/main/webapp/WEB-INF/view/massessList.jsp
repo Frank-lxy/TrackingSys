@@ -52,8 +52,8 @@
             , url: '/getAllMassess?tState='+tState //数据接口
             ,page: true //开启分页
             ,height: 'full-102'
-            ,limit:5
-            ,limits:[5,10,15,20]
+            ,limit:8
+            ,limits:[8,10,15,20]
             , cols: [[ //表头
                 {type:'numbers',title:'序号', width:'5%', sort: true}
                 , {field: 'maId', title: '评价编号',hide:true}
@@ -101,7 +101,7 @@
                     title:'评分',
                     shadeClose:true,//点击遮罩关闭弹窗
                     content:'/addMassessPage?studentId='+studentId,
-                    area:['35%','60%'],
+                    area:['40%','65%'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -115,7 +115,7 @@
                     title:'评分修改',
                     shadeClose:true,//点击遮罩关闭弹窗
                     content:'/getMassessById?maId=' + maId,
-                    area:['35%','60%'],
+                    area:['40%','65%'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

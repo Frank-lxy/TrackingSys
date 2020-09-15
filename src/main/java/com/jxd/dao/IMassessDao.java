@@ -15,7 +15,7 @@ import java.util.Map;
  **/
 public interface IMassessDao {
 
-    List<Map<String,Object>> getMassessList(Integer managerId);
+    List<Map<String,Object>> getMassessList(@Param("studentName") String studentName,@Param("managerId") Integer managerId,@Param("tState") Integer tState);
 
     List<Map<String,Object>> getMassessLists(@Param("count") Integer count, @Param("pageSize") Integer pageSize,@Param("studentName") String studentName,@Param("managerId") Integer managerId,@Param("tState") Integer tState);
 

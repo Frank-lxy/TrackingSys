@@ -103,7 +103,7 @@ public class MassessController {
         User user = (User)session.getAttribute("user");
         Integer managerId = user.getUserId();
         //获取所有学生
-        List<Map<String,Object>> list = massessService.getMassessList(managerId);
+        List<Map<String,Object>> list = massessService.getMassessList(studentName,managerId,tState);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         /*天数差*/

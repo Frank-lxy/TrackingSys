@@ -14,7 +14,7 @@ import java.util.Map;
  **/
 public interface IMassessService {
 
-    List<Map<String,Object>> getMassessList(Integer managerId);
+    List<Map<String,Object>> getMassessList(String studentName,Integer managerId,Integer tState);
 
     List<Map<String,Object>>  getMassessLists(Integer count, Integer pageSize, String studentName,Integer managerId,Integer tState);
 

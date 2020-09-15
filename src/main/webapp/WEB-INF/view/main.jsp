@@ -147,7 +147,13 @@
                     <a href="studentList" target="mainFrame">学员信息</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">学员成绩</a>
+                    <a class="" href="javascript:;" target="mainFrame">学员评分</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="massessList" target="mainFrame">转正评分</a></dd>
+                        <dd><a href="massessList1" target="mainFrame">一年评分</a></dd>
+                        <dd><a href="massessList2" target="mainFrame">两年评分</a></dd>
+                        <dd><a href="massessList3" target="mainFrame">三年评分</a></dd>
+                    </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;" target="mainFrame">学员评价</a>

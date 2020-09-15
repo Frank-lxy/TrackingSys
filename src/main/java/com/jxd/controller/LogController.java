@@ -38,7 +38,7 @@ public class LogController {
         //根据用户名密码查询用户
         user = userService.getUser(user);
         //如果用户id不为0，用户名、密码输入正确
-        if (user.getUserId() != 0){
+        if (user != null){
             //判断是否记住密码
             if ("y".equals(remember)){
                 //如果勾选记住密码，将用户名和密码存入cookie中
