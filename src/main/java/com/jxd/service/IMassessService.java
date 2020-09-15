@@ -18,6 +18,8 @@ public interface IMassessService {
 
     List<Map<String,Object>>  getMassessLists(Integer count, Integer pageSize, String studentName,Integer managerId,Integer tState);
 
+    List<Map<String,Object>>  getAllMassessList(Integer managerId);
+
     Student getStudentById(Integer studentId);
 
     boolean addMassess(Massess massess);

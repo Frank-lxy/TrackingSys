@@ -44,6 +44,11 @@
         select studentId,studentName,tState from student where studentId=#{studentId}
     </select>
 
+    <select id="getAllMassessList" resultType="map">
+        select studentId,date_format(hiredate,'%Y-%m-%d') hiredate,tState from student
+        where managerId=#{managerId}
+    </select>
+
     <select id="getMassessList" resultType="map">
         select  m.maId,s.studentId,m.evaluate,m.assess,s.studentName,d.departmentName,j.jobName,m.state,date_format(s.hiredate,'%Y-%m-%d') hiredate
         from ((massess m right join student s on m.studentId = s.studentId)

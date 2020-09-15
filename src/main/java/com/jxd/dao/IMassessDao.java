@@ -19,6 +19,8 @@ public interface IMassessDao {
 
     List<Map<String,Object>> getMassessLists(@Param("count") Integer count, @Param("pageSize") Integer pageSize,@Param("studentName") String studentName,@Param("managerId") Integer managerId,@Param("tState") Integer tState);
 
+    List<Map<String,Object>>  getAllMassessList(Integer managerId);
+
     Student getStudentById(Integer studentId);
 
     boolean addMassess(Massess massess);

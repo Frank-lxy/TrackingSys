@@ -33,6 +33,11 @@ public class MassessServiceImpl implements IMassessService {
     }
 
     @Override
+    public List<Map<String, Object>> getAllMassessList(Integer managerId) {
+        return massessDao.getAllMassessList(managerId);
+    }
+
+    @Override
     public Student getStudentById(Integer studentId) {
         return massessDao.getStudentById(studentId);
     }

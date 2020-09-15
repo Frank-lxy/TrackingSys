@@ -103,7 +103,7 @@ public class MassessController {
         User user = (User)session.getAttribute("user");
         Integer managerId = user.getUserId();
         //获取所有学生
-        List<Map<String,Object>> list = massessService.getMassessList(studentName,managerId,tState);
+        List<Map<String,Object>> list = massessService.getAllMassessList(managerId);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         /*天数差*/
@@ -138,6 +138,8 @@ public class MassessController {
 
             }
         }
+        //评价表数据
+        List<Map<String,Object>> list2 = massessService.getMassessList(studentName,managerId,tState);
         //获取分页数据
         Integer pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         Integer pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
@@ -150,7 +152,7 @@ public class MassessController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",0);
         jsonObject.put("msg","");
-        jsonObject.put("count",list.size());//一共有多少条数据
+        jsonObject.put("count",list2.size());//一共有多少条数据
         jsonObject.put("data",jsonArray);
         return jsonObject;
     }
