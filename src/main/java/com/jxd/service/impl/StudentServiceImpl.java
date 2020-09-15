@@ -1,13 +1,13 @@
 package com.jxd.service.impl;
 
 import com.jxd.dao.IStudentDao;
-import com.jxd.model.Clazz;
-import com.jxd.model.Student;
+import com.jxd.model.*;
 import com.jxd.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description TODO
@@ -42,6 +42,16 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public List<Clazz> getClazzList() {
+        return studentDao.getClazzList();
+    }
+
+    @Override
+    public List<User> getManagerList() {
+        return studentDao.getManagerList();
+    }
+
+    @Override
     public boolean deleteStudentById(Integer studentId) {
         return studentDao.deleteStudentById(studentId);
     }
@@ -52,7 +62,12 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<Student> getStudentPaging(Integer count, Integer pageSize, String studentName) {
+    public Map<String, Object> getStudentDetailedById(Integer studentId) {
+        return studentDao.getStudentDetailedById(studentId);
+    }
+
+    @Override
+    public List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName) {
         return studentDao.getStudentPaging(count, pageSize, studentName);
     }
 

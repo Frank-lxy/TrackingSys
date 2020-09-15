@@ -22,6 +22,9 @@
             padding: 5px;
             text-align: center;
         }
+        .lui{
+            background-color: #f8f8f8;'
+        }
     </style>
 </head>
 <body>
@@ -48,6 +51,13 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>&nbsp;
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<script type="text/html" id="sexTpl">
+    {{#  if(d.sex === '女'){ }}
+    <span style="color: #F581B1;">{{ d.sex }}</span>
+    {{#  } else { }}
+    <span style="color: #1E9FFF;">{{ d.sex }}</span>
+    {{#  } }}
+</script>
 <script>
     layui.use(['table','layer','laypage'], function(){
         var table = layui.table
@@ -68,12 +78,12 @@
                 ,{type:'numbers',title:'序号', width:'7%', sort:true}
                 ,{field: 'studentId', title: '学员编号', hide:true}
                 ,{field: 'studentName', title: '姓名',align:"center"}
-                ,{field: 'sex', title: '性别',align:"center", width:'7%'}
-                ,{field: 'homeTown', title: '籍贯',align:"center"}
-                ,{field: 'phone', title: '联系电话',align:"center"}
+                ,{field: 'sex', title: '性别',align:"center", width:'7%', templet: '#sexTpl'}
                 ,{field: 'graduate', title: '毕业院校',align:"center", width:'15%'}
                 ,{field: 'major', title: '专业',align:"center", width:'15%'}
-                ,{title:'操作', toolbar:'#barDemo',align:'center', width:180}
+                ,{field: 'departmentName', title: '部门',align:"center"}
+                ,{field: 'jobName', title: '职位',align:"center"}
+                ,{title:'操作', toolbar:'#barDemo',align:'center', width:180, style:'background-color: #f8f8f8;'}
             ]]
         });
         //监听事件，监听lay-filter为test的元素的工具栏
@@ -88,6 +98,7 @@
                             curr: 1
                         }
                     });
+                    $("#filter").val(filter);
                     break;
                 case 'add':
                     layer.open({
@@ -95,7 +106,7 @@
                         title:"新增学员",
                         content:'getStudentAdd',
                         shadeClose:true,//点击遮罩，关闭弹框
-                        area:['950px','510px']
+                        area:['950px','480px']
                     });
                     break;
                 case 'delete':
@@ -163,7 +174,7 @@
                     title: "编辑学员信息",
                     content: "getStudentById?studentId=" + studentId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['950px','510px'],
+                    area: ['950px','525px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

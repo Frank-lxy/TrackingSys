@@ -47,8 +47,16 @@
             margin-left: 5px;
         }
         img{
-            margin: 170px 0px 0px 170px;
-            width: 540px;
+            margin: 25% 0 0 25%;
+            width: 100%;
+        }
+        .card-style{
+            width: 350px;
+            height: 350px;
+            margin-top: 10%;
+            margin-left: 25%;
+            border-radius: 10px;
+            background-color: #f1f7fb;
         }
         .layui-this{
             background-color: #f1f7fb;
@@ -74,14 +82,6 @@
         }
         .layui-badge-rim, .layui-colla-content, .layui-colla-item, .layui-collapse, .layui-elem-field, .layui-form-pane .layui-form-item[pane], .layui-form-pane .layui-form-label, .layui-input, .layui-layedit, .layui-layedit-tool, .layui-quote-nm, .layui-select, .layui-tab-bar, .layui-tab-card, .layui-tab-title, .layui-tab-title .layui-this:after, .layui-textarea {
             border-color: #d7d7d7;
-        }
-        .card-style{
-            width: 350px;
-            height: 350px;
-            margin-top: 70px;
-            margin-left: 100px;
-            border-radius: 10px;
-            background-color: #f1f7fb;
         }
         .layui-input, .layui-select, .layui-textarea {
             height: 38px;
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item" style="margin-left: 20px">
-                                <div class="layui-input-block" style="margin-top: 20px">
+                                <div class="layui-input-block" style="margin-top: 20px;">
                                     <input type="checkbox" name="remember" value="y" lay-skin="primary" title="记住密码">
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
         var $ = layer.jquery;
         <c:if test="${not empty loginMsg}">
             <c:if test="${!loginMsg}">
-                layer.msg("登录失败");
+                layer.msg('${loginMsg}');
             </c:if>
         </c:if>
     });

@@ -1,4 +1,5 @@
 <%@ page import="com.jxd.model.Student" %>
+<%@ page import="java.util.Map" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -39,21 +40,21 @@
             <tbody>
             <tr>
                 <td>姓名</td>
-                <td>${student.studentName}</td>
+                <td>${map.studentName}</td>
                 <td>性别</td>
-                <td>${student.sex}</td>
+                <td>${map.sex}</td>
                 <td>民族</td>
-                <td>${student.nation}</td>
+                <td>${map.nation}</td>
                 <td rowspan="5">
                     <%
-                        Student student = (Student) request.getAttribute("student");
-                        if (student.getPhoto() != " " && student.getPhoto() != null){
+                        Map<String,Object> student = (Map) request.getAttribute("map");
+                        if (student.get("photo") != "" && student.get("photo") != null){
                     %>
-                    <img src="${student.photo}">
+                    <img src="${map.photo}">
                     <%
                         }else {
                     %>
-                    学员照片
+                    <span style="align-content: center">学员照片</span>
                     <%
                         }
                     %>
@@ -61,35 +62,35 @@
             </tr>
             <tr>
                 <td>出生年月</td>
-                <td>${student.birthday}</td>
+                <td>${map.birthday}</td>
                 <td>籍贯</td>
-                <td>${student.homeTown}</td>
+                <td>${map.homeTown}</td>
                 <td>婚否</td>
-                <td>${student.marriage}</td>
+                <td>${map.marriage}</td>
             </tr>
             <tr>
                 <td>联系电话</td>
-                <td colspan="2">${student.phone}</td>
+                <td colspan="2">${map.phone}</td>
                 <td>身份证号码</td>
-                <td colspan="2">${student.identityNum}</td>
+                <td colspan="2">${map.identityNum}</td>
             </tr>
             <tr>
                 <td>毕业学校</td>
-                <td colspan="2">${student.graduate}</td>
+                <td colspan="2">${map.graduate}</td>
                 <td>专业</td>
-                <td colspan="2">${student.major}</td>
+                <td colspan="2">${map.major}</td>
             </tr>
             <tr>
                 <td>入职日期</td>
-                <td>${student.hiredate}</td>
+                <td>${map.hiredate}</td>
                 <td>班期</td>
-                <td>${clazz.clazz}</td>
+                <td>${map.clazz}</td>
                 <td>部门名称</td>
-                <td>${department.departmentName}</td>
+                <td>${map.departmentName}</td>
             </tr>
             <tr>
                 <td>备注</td>
-                <td colspan="6">${student.remarks}</td>
+                <td colspan="6">${map.remarks}</td>
             </tr>
             </tbody>
         </table>

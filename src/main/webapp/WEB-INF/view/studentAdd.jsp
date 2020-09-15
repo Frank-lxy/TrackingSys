@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -23,7 +24,7 @@
             margin-left: 10px;
         }
         .layui-form-item .layui-input-inline {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .layui-form-select dl {
             max-height: 190px;
@@ -35,17 +36,18 @@
             padding-left: 20px;
         }
         img{
-            width: 180px;
+            height: 170px;
         }
         .showPhoto{
             border: solid 1px #eaeaea;
             margin: 15px 15px 10px 0;
-            height: 190px;
+            height: 170px;
+            width: 110px;
         }
     </style>
 </head>
 <body>
-<div style="margin: 30px 0px 0px 0px">
+<div style="margin: 15px 0px 0px 0px">
     <div style="display: flex;justify-content: center">
         <div class="layui-form">
             <div class="layui-form-item">
@@ -65,7 +67,7 @@
                         <div class="layui-input-inline">
                             <form id="uploadForm" method="post" enctype="multipart/form-data">
                                 <input type="file" id="photo" name="photo" style="display: none">
-                                <button type="button" class="layui-btn" id="updatePhoto">上传学员照片</button>
+                                <button type="button" class="layui-btn" id="updatePhoto">上传</button>
                             </form>
                             <input type="hidden" id="filePath">
                             <div class="showPhoto" id="uploadDiv"></div>
@@ -106,7 +108,12 @@
                 <div style="float: left">
                     <label class="layui-form-label">班期：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="classId" id="classId" autocomplete="off" class="layui-input">
+                        <select name="classId" id="classId" lay-filter="receive" lay-verify="required" lay-search="">
+                            <option></option>
+                            <c:forEach var="clazzList" items="${clazzList}">
+                                <option value="${clazzList.classId}" name="className">${clazzList.clazz}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <label class="layui-form-label">毕业学校：</label>
                     <div class="layui-input-inline">

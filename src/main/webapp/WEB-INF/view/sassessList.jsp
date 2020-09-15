@@ -109,7 +109,7 @@
             switch(obj.event){
                 case 'query':
                     var studentName=$("#studentName").val();
-                    var classId=$("#classId").val()
+                    var classId=$("#classId").val();
                     table.reload("demo",{//demo对应table的id
                         where:{
                            studentName:studentName,
@@ -118,7 +118,9 @@
                         page:{
                             curr:1
                         }
-                    })
+                    });
+                    $("#studentName").val(studentName);
+                    $("#classId").val(classId);
                     break;
             };
         });

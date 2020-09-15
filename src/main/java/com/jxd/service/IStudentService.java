@@ -1,11 +1,10 @@
 package com.jxd.service;
 
-import com.jxd.model.Clazz;
-import com.jxd.model.Department;
-import com.jxd.model.Student;
+import com.jxd.model.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IStudentService {
 
@@ -38,6 +37,18 @@ public interface IStudentService {
     boolean addStudent(Student student);
 
     /**
+     * 获取班期列表
+     * @return 班期
+     */
+    List<Clazz> getClazzList();
+
+    /**
+     * 获取项目经理列表
+     * @return 项目经理
+     */
+    List<User> getManagerList();
+
+    /**
      * 根据id删除学员
      * @param studentId 学员编号
      * @return 是否删除成功
@@ -52,13 +63,20 @@ public interface IStudentService {
     boolean deleteStudentBatch(String studentIds);
 
     /**
+     * 根据学员编号查询学员基本信息
+     * @param studentId 学员编号
+     * @return 学员基本信息
+     */
+    Map<String,Object> getStudentDetailedById(Integer studentId);
+
+    /**
      * 分页查询学员信息
      * @param count 跳过的数据
      * @param pageSize 每页显示条数
      * @param studentName 学员名称
      * @return 学员列表
      */
-    List<Student> getStudentPaging(Integer count, Integer pageSize, String studentName);
+    List<Map<String,Object>> getStudentPaging(@Param("count") Integer count,@Param("pageSize") Integer pageSize,@Param("studentName") String studentName);
 
     /**
      * 获取学员列表

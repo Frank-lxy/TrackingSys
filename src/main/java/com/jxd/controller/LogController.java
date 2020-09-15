@@ -32,28 +32,26 @@ public class LogController {
     }
 
     @RequestMapping(value = "/login",produces = "text/html;charset=utf-8")
-    public String login(String userName, String password , String remember, Model model, HttpServletResponse response){
-        //获取输入的用户名密码
-        User user = new User(userName,password);
+    public String login(User user, String remember, Model model, HttpServletResponse response){
         //根据用户名密码查询用户
         user = userService.getUser(user);
-        //如果用户id不为0，用户名、密码输入正确
+        //如果用户不为null，用户名、密码输入正确
         if (user != null){
             //判断是否记住密码
             if ("y".equals(remember)){
                 //如果勾选记住密码，将用户名和密码存入cookie中
-                Cookie usernameCookie = new Cookie("usernameCookie",userName);
+                Cookie usernameCookie = new Cookie("usernameCookie",user.getUserName());
                 usernameCookie.setMaxAge(60 * 60 * 24);
                 response.addCookie(usernameCookie);
 
-                Cookie userpasswordCookie = new Cookie("userpasswordCookie",password);
+                Cookie userpasswordCookie = new Cookie("userpasswordCookie",user.getPassword());
                 userpasswordCookie.setMaxAge(60 * 60 * 24);
                 response.addCookie(userpasswordCookie);
             }
             //将user存入session中
             model.addAttribute("user",user);
             return "main";
-        }else {//否则提示用户名或密码输入错误，并返回记住密码前的登录页面
+        }else {//否则返回记住密码前的登录页面
             model.addAttribute("loginMsg","用户名或密码错误");
             return "login";
         }

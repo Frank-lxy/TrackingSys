@@ -188,7 +188,7 @@
             <%
                 if (user.getRole() == 2){
             %>
-            <iframe name="mainFrame" src="getScoreList"></iframe>
+            <iframe name="mainFrame" src="scoreList"></iframe>
             <%
                 }
             %>

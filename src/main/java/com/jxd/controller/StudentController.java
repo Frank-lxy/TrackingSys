@@ -1,9 +1,8 @@
 package com.jxd.controller;
 
-import com.jxd.model.Clazz;
-import com.jxd.model.Department;
-import com.jxd.model.Student;
+import com.jxd.model.*;
 import com.jxd.service.IDepartmentService;
+import com.jxd.service.IJobService;
 import com.jxd.service.IStudentService;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -11,15 +10,14 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -29,11 +27,14 @@ import java.util.UUID;
  * @Version 1.0
  */
 @Controller
+@SessionAttributes({"clazzList","managerList","departmentList","jobList"})
 public class StudentController {
     @Autowired
     IStudentService studentService;
     @Autowired
     IDepartmentService departmentService;
+    @Autowired
+    IJobService jobService;
 
     @RequestMapping(value = "/editStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
@@ -43,6 +44,24 @@ public class StudentController {
             return "编辑成功";
         }else {
             return "编辑失败";
+        }
+    }
+
+    @RequestMapping(value = "/delFile",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String delFile(String path,HttpServletRequest request){
+        //获取文件的完整路径
+        String savePath = request.getServletContext().getRealPath("/" + path);
+        //根据完整路径创建文件对象
+        File file = new File(savePath);
+        if (file.exists() && file.isFile()){
+            if (file.delete()){
+                return "删除成功";
+            }else {
+                return "删除失败";
+            }
+        }else {
+            return "删除失败";
         }
     }
 
@@ -119,16 +138,8 @@ public class StudentController {
 
     @RequestMapping(value = "/getStudentDetailedById",produces = "text/html;charset=utf-8")
     public String getStudentDetailedById(Integer studentId, Model model){
-        //获取学员信息
-        Student student = studentService.getStudentById(studentId);
-        //根据班期id获取班期
-        Clazz clazz = studentService.getClazzById(student.getClassId());
-        //根据部门id获取部门
-        Department department = departmentService.getDepartmentById(student.getDepartmentId());
-
-        model.addAttribute("student",student);
-        model.addAttribute("clazz",clazz);
-        model.addAttribute("department",department);
+        Map<String,Object> map = studentService.getStudentDetailedById(studentId);
+        model.addAttribute("map",map);
         return "studentDetailed";
     }
 
@@ -144,7 +155,7 @@ public class StudentController {
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
         int count = (pageIndex - 1) * pageSize;
         //获取分页课程
-        List<Student> list1 = studentService.getStudentPaging(count,pageSize,studentName);
+        List<Map<String,Object>> list1 = studentService.getStudentPaging(count,pageSize,studentName);
         //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list1);
         JSONObject jsonObject = new JSONObject();
@@ -156,7 +167,15 @@ public class StudentController {
     }
 
     @RequestMapping("getStudentList")
-    public String getStudentList(){
+    public String getStudentList(Model model){
+        List<Clazz> clazzList = studentService.getClazzList();
+        List<User> managerList = studentService.getManagerList();
+        List<Department> departmentList = departmentService.getAllDepartment();
+        List<Job> jobList = jobService.getAllJob();
+        model.addAttribute("clazzList",clazzList);
+        model.addAttribute("managerList",managerList);
+        model.addAttribute("departmentList",departmentList);
+        model.addAttribute("jobList",jobList);
         return "studentList";
     }
 }

@@ -18,8 +18,8 @@ public class Student {
     private Integer jobId;//职务id
     private Integer departmentId;//部门id
     private String hiredate;//入职日期
+    private Integer tState;//状态
     private String remarks;//备注
-    private String tState;
 
     public Student() {
     }
@@ -86,28 +86,6 @@ public class Student {
         this.remarks = remarks;
     }
 
-    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, String remarks, String tState) {
-        this.studentId = studentId;
-        this.studentName = studentName;
-        this.sex = sex;
-        this.nation = nation;
-        this.birthday = birthday;
-        this.homeTown = homeTown;
-        this.marriage = marriage;
-        this.phone = phone;
-        this.identityNum = identityNum;
-        this.graduate = graduate;
-        this.major = major;
-        this.photo = photo;
-        this.classId = classId;
-        this.managerId = managerId;
-        this.jobId = jobId;
-        this.departmentId = departmentId;
-        this.hiredate = hiredate;
-        this.remarks = remarks;
-        this.tState = tState;
-    }
-
     public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, String remarks) {
         this.studentId = studentId;
         this.studentName = studentName;
@@ -126,6 +104,28 @@ public class Student {
         this.jobId = jobId;
         this.departmentId = departmentId;
         this.hiredate = hiredate;
+        this.remarks = remarks;
+    }
+
+    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, Integer tState, String remarks) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.classId = classId;
+        this.managerId = managerId;
+        this.jobId = jobId;
+        this.departmentId = departmentId;
+        this.hiredate = hiredate;
+        this.tState = tState;
         this.remarks = remarks;
     }
 
@@ -273,11 +273,11 @@ public class Student {
         this.remarks = remarks;
     }
 
-    public String gettState() {
+    public Integer gettState() {
         return tState;
     }
 
-    public void settState(String tState) {
+    public void settState(Integer tState) {
         this.tState = tState;
     }
 }
