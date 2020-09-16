@@ -50,7 +50,7 @@ public class JobServiceImpl implements IJobService {
     }
 
     @Override
-    public List<Job> getAllJob() {
-        return jobDao.getAllJob();
+    public List<Job> getAllJob( String jobName) {
+        return jobDao.getAllJob(jobName);
     }
 }

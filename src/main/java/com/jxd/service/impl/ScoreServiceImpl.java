@@ -3,6 +3,7 @@ package com.jxd.service.impl;
 import com.jxd.dao.IScoreDao;
 import com.jxd.model.Clazz;
 import com.jxd.model.Course;
+import com.jxd.model.Score;
 import com.jxd.model.Student;
 import com.jxd.service.IScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class ScoreServiceImpl implements IScoreService {
     }
 
     @Override
-    public List<Student> getAllStudent(Integer classId) {
-        return scoreDao.getAllStudent(classId);
+    public List<Student> getAllStudent(Integer classId,String studentName) {
+        return scoreDao.getAllStudent(classId,studentName);
     }
 
     @Override
@@ -44,5 +45,20 @@ public class ScoreServiceImpl implements IScoreService {
     @Override
     public List<Clazz> getClazzListByTchName(String teacherName) {
         return scoreDao.getClazzListByTchName(teacherName);
+    }
+
+    @Override
+    public Score getScore(Score score) {
+        return scoreDao.getScore(score);
+    }
+
+    @Override
+    public boolean addScore(Score score) {
+        return scoreDao.addScore(score);
+    }
+
+    @Override
+    public boolean editScore(Score score) {
+        return scoreDao.editScore(score);
     }
 }

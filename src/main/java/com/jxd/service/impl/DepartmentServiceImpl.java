@@ -56,7 +56,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
     }
 
     @Override
-    public List<Department> getAllDepartment() {
-        return departmentDao.getAllDepartment();
+    public List<Department> getAllDepartment(String departmentName) {
+        return departmentDao.getAllDepartment(departmentName);
     }
 }

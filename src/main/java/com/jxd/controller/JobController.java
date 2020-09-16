@@ -87,7 +87,7 @@ public class JobController {
         //过滤条件
         String jobName = request.getParameter("jobName");
         //获取所有课程
-        List<Job> list = jobService.getAllJob();
+        List<Job> list = jobService.getAllJob(jobName);
         //获取分页数据
         int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页

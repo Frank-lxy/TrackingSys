@@ -43,9 +43,14 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Job> getAllJob();-->
+    <!--List<Job> getAllJob( String jobName);-->
     <select id="getAllJob" resultType="Job">
         <include refid="BaseSql"></include>
+        <where>
+            <if test="jobName != null and jobName != ''">
+                jobName like '%' #{jobName} '%'
+            </if>
+        </where>
     </select>
 
     <sql id="BaseSql">

@@ -43,7 +43,7 @@ public interface ISassessService {
      * 查询全部评价信息
      * @return
      */
-    List<Map<String,Object>> getAllAssess(String userName);
+    List<Map<String,Object>> getAllAssess(String studentName, String userName, Integer classId);
 
     /**
      * 根据学生id查找评价

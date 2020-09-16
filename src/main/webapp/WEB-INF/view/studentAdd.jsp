@@ -44,6 +44,9 @@
             height: 170px;
             width: 110px;
         }
+        .layui-laydate-main{
+             height: 265px !important;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +101,7 @@
                 <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="phone" id="phone" required  lay-verify="required" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
+                        <input type="text" name="phone" id="phone" required  lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
                     </div>
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
@@ -108,27 +111,27 @@
                 <div style="float: left">
                     <label class="layui-form-label">班期：</label>
                     <div class="layui-input-inline">
-                        <select name="classId" id="classId" lay-filter="receive" lay-verify="required" lay-search="">
+                        <select name="classId" id="classId" lay-filter="receive" lay-search="">
                             <option></option>
                             <c:forEach var="clazzList" items="${clazzList}">
                                 <option value="${clazzList.classId}" name="className">${clazzList.clazz}</option>
                             </c:forEach>
                         </select>
                     </div>
-                    <label class="layui-form-label">毕业学校：</label>
+                    <label class="layui-form-label"><span style="color: red">*</span>毕业学校：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="graduate" id="graduate"  autocomplete="off" class="layui-input">
+                        <input type="text" name="graduate" id="graduate" required lay-verify="required" lay-reqtext="毕业学校不能为空"  autocomplete="off" class="layui-input">
                     </div>
-                    <label class="layui-form-label">专业：</label>
+                    <label class="layui-form-label"><span style="color: red">*</span>专业：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="major" id="major"  autocomplete="off" class="layui-input">
+                        <input type="text" name="major" id="major" required lay-verify="required" lay-reqtext="专业不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <label class="layui-form-label">备注：</label>
                 <div class="layui-input-inline" style="width: 790px">
                     <input type="text" name="remarks" id="remarks" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0px">
+                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 20px">
                     <button id="addCourse" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
                 </div>
             </div>
@@ -143,8 +146,18 @@
             ,laydate = layui.laydate;
         $ = layui.jquery;
 
+        //监听出生日期
         laydate.render({
-            elem: '#birthday'
+            elem: '#birthday',
+            trigger: 'click'
+        });
+
+        //失去焦点时验证身份证号
+        $("#identityNum").blur(function () {
+            var reg = /^\d{14}(\d|X|x)$|^\d{17}(\d|X|x)$/;
+            if (!reg.test($(this).val())){
+                layer.msg("输入的身份证号不正确");
+            }
         });
 
         /*点击上传照片*/
@@ -190,7 +203,7 @@
                 photo = $("#filePath").val(),
                 classId = $("#classId").val(),
                 remarks = $("#remarks").val();
-            if (studentName != '' && nation != '' && birthday != '' && homeTown != '' && phone != '' && identityNum != ''){
+            if (studentName != '' && nation != '' && birthday != '' && homeTown != '' && phone != '' && graduate != '' && major != '' && identityNum != ''){
                 $.ajax({
                     url:"addStudent",
                     type:"post",

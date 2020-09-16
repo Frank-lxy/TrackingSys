@@ -62,5 +62,5 @@ public interface IDepartmentService {
      * 获取部门列表
      * @return 部门列表
      */
-    List<Department> getAllDepartment();
+    List<Department> getAllDepartment(String departmentName);
 }

@@ -34,7 +34,7 @@ public class SassessController {
         Integer count = limit*(page - 1);
         User user = sassessService.getUserById(userId);
         List<Map<String,Object>> list = sassessService.getAssessByPage(studentName,user.getUserName(),classId,count,limit);
-        List<Map<String,Object>> list1 = sassessService.getAllAssess(user.getUserName());
+        List<Map<String,Object>> list1 = sassessService.getAllAssess(studentName,user.getUserName(),classId);
         //把list返回到empList页面
         JSONArray jsonArray = JSONArray.fromObject(list);
         //创建json对象，用于返回layui表格需要的数据

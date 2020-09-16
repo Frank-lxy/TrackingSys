@@ -4,7 +4,21 @@
 <!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
 个 个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IScoreDao">
-
+    <!--boolean editScore(Score score);-->
+    <update id="editScore">
+        update score set score=#{score}
+        where studentId=#{studentId} and courseId=#{courseId}
+    </update>
+    <!--boolean addScore(Score score);-->
+    <insert id="addScore" >
+        insert into score(studentId,courseId,score)
+        values (#{studentId},#{courseId},#{score})
+    </insert>
+    <!--Score getScore(Score score);-->
+    <select id="getScore" resultType="Score">
+        select studentId,courseId,score from score
+        where studentId=#{studentId} and courseId=#{courseId}
+    </select>
     <select id="getClazzListByTchName" resultType="Clazz">
     select classId,clazz,teacherName from clazz where teacherName=#{teacherName} order by classId desc
     </select>
@@ -43,7 +57,14 @@
     <!--List<Student> getAllStudent();-->
     <select id="getAllStudent" resultType="Student">
         <include refid="BaseSql"></include>
-        where classId = #{classId}
+        <where>
+            <if test="studentName != null and studentName != ''">
+                studentName like '%' #{studentName} '%'
+            </if>
+            <if test="classId != null and classId != ''">
+                AND classId=#{classId}
+            </if>
+        </where>
     </select>
 
     <sql id="BaseSql">

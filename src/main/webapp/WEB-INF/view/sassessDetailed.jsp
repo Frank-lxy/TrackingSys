@@ -23,6 +23,7 @@
         .layui-table-view .layui-form-checkbox {
             margin-top: 7px;
         }
+
         .layui-table-cell { height:auto; overflow:visible; text-overflow:inherit; white-space:normal; }
     </style>
 </head>
@@ -73,9 +74,9 @@
                     ,cols: [[ //表头
                         {field: 'school', title: '培训学校',align:"center",rowspan:2,width:130}
                         ,{field: 'clazz', title: '班期',align:"center",rowspan:2}
-                        ,{field: 'teacher', title: '评价人',align:"center",hide:true,rowspan:2}
-                        ,{field: 'graduate', title: '学校',align:"center",rowspan:2}
-                        ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2}
+                        ,{field: 'teacher', title: '评价人',align:"center",rowspan:2}
+                        ,{field: 'graduate', title: '学校',align:"center",rowspan:2,hide:true}
+                        ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2,hide:true}
                         ,{title: '培训期间测试成绩',align:"center",colspan:head.length}
                         ,{field: 'evaluate', title: '整体评价分数',align:"center",rowspan:2,templet: function (data) {
                                 if (data.evaluate == null || data.evaluate == 0){

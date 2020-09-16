@@ -68,24 +68,24 @@
 
         //表单验证
         $("#evaluate").blur(function () {
-            $(this).prop("class","layui-input")//每次触发时先清空一下red类选择器
+            $(this).prop("class","layui-input");//每次触发时先清空一下red类选择器
             $("#evaluateDiv").html("");//清空div
-            var evaluate = $(this).val()
+            var evaluate = $(this).val();
             if (evaluate==''){
-                $(this).prop("class","layui-input red")
+                $(this).prop("class","layui-input red");
                 $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
             }else if (isNaN(evaluate)){
-                $(this).prop("class","layui-input red")
+                $(this).prop("class","layui-input red");
                 $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字</span>")
             }
         });
         //表单验证
         $("#assess").blur(function () {
-            $(this).prop("class","layui-textarea ")//每次触发时先清空一下red类选择器
+            $(this).prop("class","layui-textarea ");//每次触发时先清空一下red类选择器
             $("#assessDiv").html("");//清空div
-            var assess = $(this).val()
+            var assess = $(this).val();
             if (assess==''){
-                $(this).prop("class","layui-textarea red")
+                $(this).prop("class","layui-textarea red");
                 $("#assessDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
             }
         });

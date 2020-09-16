@@ -42,8 +42,8 @@ public class SassessServiceImpl implements ISassessService {
     }
 
     @Override
-    public List<Map<String, Object>> getAllAssess(String userName) {
-        return sassessDao.getAllAssess(userName);
+    public List<Map<String, Object>> getAllAssess(String studentName, String userName, Integer classId) {
+        return sassessDao.getAllAssess(studentName,userName, classId);
     }
 
     @Override

@@ -44,9 +44,14 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<AssessItem> getAllAssessItem();-->
+    <!--List<AssessItem> getAllAssessItem(String assessItemName);-->
     <select id="getAllAssessItem" resultType="AssessItem">
         <include refid="BaseSql"></include>
+        <where>
+            <if test="assessItemName != null and assessItemName != ''">
+                assessItemName like '%' #{assessItemName} '%'
+            </if>
+        </where>
     </select>
 
     <sql id="BaseSql">
