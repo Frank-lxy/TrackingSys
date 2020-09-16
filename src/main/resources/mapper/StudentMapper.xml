@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
+<mapper namespace="com.jxd.dao.IStudentDao">
+
+    <!--Map<String,Object> getStuInfoById(Integer studentId);-->
+    <select id="getStuInfoById" resultType="Map">
+        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz
+        from student st left join clazz c on st.classId=c.classId
+        where studentId=#{studentId}
+    </select>
+
+    <!--boolean editStudent(Student student);-->
+    <update id="editStudent">
+        update student
+        <if test="hiredate != null and hiredate != ''">
+            set studentName=#{studentName},sex=#{sex},nation=#{nation},birthday=#{birthday},homeTown=#{homeTown},marriage=#{marriage},phone=#{phone},identityNum=#{identityNum},graduate=#{graduate},major=#{major},photo=#{photo},classId=#{classId},managerId=#{managerId},departmentId=#{departmentId},jobId=#{jobId},hiredate=#{hiredate},remarks=#{remarks}
+        </if>
+        <if test="hiredate == null or hiredate == ''">
+            set studentName=#{studentName},sex=#{sex},nation=#{nation},birthday=#{birthday},homeTown=#{homeTown},marriage=#{marriage},phone=#{phone},identityNum=#{identityNum},graduate=#{graduate},major=#{major},photo=#{photo},classId=#{classId},managerId=#{managerId},departmentId=#{departmentId},jobId=#{jobId},remarks=#{remarks}
+        </if>
+        where studentId=#{studentId}
+    </update>
+
+    <!--Student getStudentById(Integer studentId);-->
+    <select id="getStudentById" resultType="Student">
+        <include refid="BaseSql"></include>
+        where studentId=#{studentId}
+    </select>
+
+    <!--Clazz getClazzById(Integer classId);-->
+    <select id="getClazzById" resultType="Clazz">
+        select classId,clazz,teacherName from clazz
+        where classId=#{classId}
+    </select>
+
+    <!--boolean addStudent(Student student);-->
+    <insert id="addStudent">
+        insert into student(studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,remarks)
+        values (#{studentName},#{sex},#{nation},#{birthday},#{homeTown},#{marriage},#{phone},#{identityNum},#{graduate},#{major},#{photo},#{classId},#{remarks})
+    </insert>
+
+    <!--List<Clazz> getClazzList();-->
+    <select id="getClazzList" resultType="Clazz">
+        select classId,clazz,teacherName from clazz
+    </select>
+
+    <!--List<User> getManagerList();-->
+    <select id="getManagerList" resultType="User">
+        select userId,userName,password,role from user where role=3
+    </select>
+
+    <!--boolean deleteStudentById(Integer studentId);-->
+    <delete id="deleteStudentById">
+        delete from student where studentId=#{studentId}
+    </delete>
+
+    <!--boolean deleteStudentBatch(String studentIds);-->
+    <delete id="deleteStudentBatch">
+        delete from student where studentId in (${studentIds})
+    </delete>
+
+    <!--Map<String,Object> getStudentDetailedById(Integer studentId);-->
+    <select id="getStudentDetailedById" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
+        from (student s left join clazz c on s.classId=c.classId)
+        left join department d on s.departmentId=d.departmentId
+        where studentId=#{studentId}
+    </select>
+
+    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName);-->
+    <select id="getStudentPaging" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.classId classId,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
+        from (student s left join job j on s.jobId=j.jobId)
+        left join department d on s.departmentId=d.departmentId
+        <where>
+            <if test="studentName != null and studentName != ''">
+                studentName like '%' #{studentName} '%'
+            </if>
+        </where>
+        order by s.studentId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<Student> getAllStudent();-->
+    <select id="getAllStudent" resultType="Student">
+        <include refid="BaseSql"></include>
+    </select>
+
+    <sql id="BaseSql">
+        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,remarks
+        from student
+    </sql>
+</mapper>

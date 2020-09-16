@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
+个 个mapper 相当于一个dao 接口的实现类 -->
+<mapper namespace="com.jxd.dao.IMassessDao">
+    <sql id="BaseSql">
+        select maId,studentId,evaluate,assess,state from massess
+    </sql>
+
+    <select id="getMassess" resultType="Massess">
+        <include refid="BaseSql"></include>
+        where studentId=#{studentId} and tState=#{tState}
+    </select>
+
+    <insert id="addMassessNone" >
+        insert into massess(studentId,tState) values (#{studentId},#{tState})
+    </insert>
+
+    <delete id="delMassessById">
+        delete from massess  where studentId=#{studentId} and tState=#{tState}
+    </delete>
+
+    <update id="editMassessState">
+        update student set tState=#{tState}
+        where studentId=#{studentId}
+    </update>
+
+    <update id="editMassess">
+        update massess set evaluate=#{evaluate},assess=#{assess}
+        where maId=#{maId}
+    </update>
+
+    <select id="getMassessById" resultType="Massess">
+        <include refid="BaseSql"></include>
+         where maId=#{maId}
+    </select>
+
+    <insert id="addMassess" >
+        insert into massess(studentId,evaluate,assess,state,tState) values (#{studentId},#{evaluate},#{assess},#{state},#{tState})
+    </insert>
+
+    <select id="getStudentById" resultType="Student">
+        select studentId,studentName,tState from student where studentId=#{studentId}
+    </select>
+
+    <select id="getAllMassessList" resultType="map">
+        select studentId,date_format(hiredate,'%Y-%m-%d') hiredate,tState from student
+        where managerId=#{managerId}
+    </select>
+
+    <select id="getMassessList" resultType="map">
+        select  m.maId,s.studentId,m.evaluate,m.assess,s.studentName,d.departmentName,j.jobName,m.state,date_format(s.hiredate,'%Y-%m-%d') hiredate
+        from ((massess m right join student s on m.studentId = s.studentId)
+        left join department d on d.departmentId = s.departmentId)
+        left join job j on j.jobId = s.jobId
+        <where>
+            s.managerId=#{managerId} and s.tState = #{tState} and m.tState = #{tState}
+            <if test="studentName != null and studentName != ''">
+                and s.studentName like '%' #{studentName} '%'
+            </if>
+        </where>
+        order by s.studentId
+    </select>
+
+    <select id="getMassessLists" resultType="map">
+        select  m.maId,s.studentId,m.evaluate,m.assess,s.studentName,d.departmentName,j.jobName,m.state,date_format(s.hiredate,'%Y-%m-%d') hiredate
+        from ((massess m right join student s on m.studentId = s.studentId)
+        left join department d on d.departmentId = s.departmentId)
+        left join job j on j.jobId = s.jobId
+        <where>
+            s.managerId=#{managerId} and s.tState = #{tState} and m.tState = #{tState}
+            <if test="studentName != null and studentName != ''">
+                and s.studentName like '%' #{studentName} '%'
+            </if>
+        </where>
+        order by s.studentId
+        limit #{count},#{pageSize}
+    </select>
+
+</mapper>

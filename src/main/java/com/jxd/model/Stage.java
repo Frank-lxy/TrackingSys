@@ -1,8 +1,8 @@
 package com.jxd.model;
 
 public class Stage {
-    private Integer stageId;
-    private String stageName;
+    private Integer stageId;//工作阶段id
+    private String stageName;//阶段名称
 
     public Stage() {
     }

@@ -1,12 +1,32 @@
 package com.jxd.model;
 
 public class Sassess {
-    private Integer saId;
-    private Integer studentId;
-    private Integer classId;
-    private String state;
-    private Double evaluate;
-    private String assess;
+    private Integer saId;//学校评价id
+    private Integer studentId;//学员id
+    private Integer classId;//班期id
+    private String state;//状态
+    private Double evaluate;//整体评价分数
+    private String assess;//评价
+
+    public Sassess() {
+    }
+
+    public Sassess(Integer studentId, Integer classId, String state, Double evaluate, String assess) {
+        this.studentId = studentId;
+        this.classId = classId;
+        this.state = state;
+        this.evaluate = evaluate;
+        this.assess = assess;
+    }
+
+    public Sassess(Integer saId, Integer studentId, Integer classId, String state, Double evaluate, String assess) {
+        this.saId = saId;
+        this.studentId = studentId;
+        this.classId = classId;
+        this.state = state;
+        this.evaluate = evaluate;
+        this.assess = assess;
+    }
 
     public Integer getSaId() {
         return saId;
@@ -53,26 +73,6 @@ public class Sassess {
     }
 
     public void setAssess(String assess) {
-        this.assess = assess;
-    }
-
-    public Sassess() {
-    }
-
-    public Sassess(Integer studentId, Integer classId, String state, Double evaluate, String assess) {
-        this.studentId = studentId;
-        this.classId = classId;
-        this.state = state;
-        this.evaluate = evaluate;
-        this.assess = assess;
-    }
-
-    public Sassess(Integer saId, Integer studentId, Integer classId, String state, Double evaluate, String assess) {
-        this.saId = saId;
-        this.studentId = studentId;
-        this.classId = classId;
-        this.state = state;
-        this.evaluate = evaluate;
         this.assess = assess;
     }
 }

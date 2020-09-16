@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
+个 个mapper 相当于一个dao 接口的实现类 -->
+<mapper namespace="com.jxd.dao.IScoreDao">
+
+    <select id="getClazzListByTchName" resultType="Clazz">
+    select classId,clazz,teacherName from clazz where teacherName=#{teacherName} order by classId desc
+    </select>
+    <!--List<Course> getAllCourseByClassId(Integer classId);-->
+
+    <select id="getAllCourseByClassId" resultType="Map">
+        select cs.courseId courseId,cs.classId classId,co.courseName courseName
+        from course co right join coursesel cs on co.courseId = cs.courseId  where cs.classId=#{classId}
+    </select>
+
+    <!--  public List<Map<String, Object>> getScoreByStuId(Integer studentId)-->
+
+    <select id="getScoreByStuId" resultType="Map">
+
+        select co.courseId courseId,co.courseName courseName,s.score score
+        from ((course co left join coursesel cs on co.courseId = cs.courseId ) left join score s on co.courseId=s.courseId)
+        where s.studentId=#{studentId} and cs.classId=#{classId}
+    </select>
+
+    <!--学生-->
+    <!--List<Student> getStudentPaging(Integer count, Integer pageSize, String studentName);-->
+    <select id="getStudentPaging" resultType="Student">
+        <include refid="BaseSql"></include>
+        <where>
+            <if test="studentName != null and studentName != ''">
+                studentName like '%' #{studentName} '%'
+            </if>
+            <if test="classId != null and classId != ''">
+                AND classId=#{classId}
+            </if>
+        </where>
+        order by studentId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<Student> getAllStudent();-->
+    <select id="getAllStudent" resultType="Student">
+        <include refid="BaseSql"></include>
+        where classId = #{classId}
+    </select>
+
+    <sql id="BaseSql">
+        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,remarks from student
+    </sql>
+</mapper>

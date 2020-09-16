@@ -1,22 +1,133 @@
 package com.jxd.model;
 
 public class Student {
-    private Integer studentId;
-    private String studentName;
-    private String sex;
-    private String nation;
-    private String birthday;
-    private String homeTown;
-    private String marriage;
-    private String phone;
-    private String identityNum;
-    private String graduate;
-    private String major;
-    private String photo;
-    private Integer classId;
-    private Integer managerId;
-    private String hiredate;
-    private String remarks;
+    private Integer studentId;//学员id
+    private String studentName;//学员姓名
+    private String sex;//性别
+    private String nation;//民族
+    private String birthday;//出生年月
+    private String homeTown;//籍贯
+    private String marriage;//婚否
+    private String phone;//联系电话
+    private String identityNum;//身份证号码
+    private String graduate;//毕业院校
+    private String major;//专业
+    private String photo;//照片
+    private Integer classId;//班期id
+    private Integer managerId;//项目经理id
+    private Integer jobId;//职务id
+    private Integer departmentId;//部门id
+    private String hiredate;//入职日期
+    private Integer tState;//状态
+    private String remarks;//备注
+
+    public Student() {
+    }
+
+    public Student(Integer studentId, String studentName, String sex, String homeTown, String phone, String graduate, String major) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.sex = sex;
+        this.homeTown = homeTown;
+        this.phone = phone;
+        this.graduate = graduate;
+        this.major = major;
+    }
+
+    public Student(String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, String remarks) {
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.remarks = remarks;
+    }
+
+    public Student(String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, String hiredate, String remarks) {
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.classId = classId;
+        this.managerId = managerId;
+        this.hiredate = hiredate;
+        this.remarks = remarks;
+    }
+
+    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, String hiredate, String remarks) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.classId = classId;
+        this.managerId = managerId;
+        this.hiredate = hiredate;
+        this.remarks = remarks;
+    }
+
+    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, String remarks) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.classId = classId;
+        this.managerId = managerId;
+        this.jobId = jobId;
+        this.departmentId = departmentId;
+        this.hiredate = hiredate;
+        this.remarks = remarks;
+    }
+
+    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, Integer jobId, Integer departmentId, String hiredate, Integer tState, String remarks) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.sex = sex;
+        this.nation = nation;
+        this.birthday = birthday;
+        this.homeTown = homeTown;
+        this.marriage = marriage;
+        this.phone = phone;
+        this.identityNum = identityNum;
+        this.graduate = graduate;
+        this.major = major;
+        this.photo = photo;
+        this.classId = classId;
+        this.managerId = managerId;
+        this.jobId = jobId;
+        this.departmentId = departmentId;
+        this.hiredate = hiredate;
+        this.tState = tState;
+        this.remarks = remarks;
+    }
 
     public Integer getStudentId() {
         return studentId;
@@ -130,6 +241,22 @@ public class Student {
         this.managerId = managerId;
     }
 
+    public Integer getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Integer jobId) {
+        this.jobId = jobId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
     public String getHiredate() {
         return hiredate;
     }
@@ -146,43 +273,11 @@ public class Student {
         this.remarks = remarks;
     }
 
-    public Student() {
+    public Integer gettState() {
+        return tState;
     }
 
-    public Student(String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, String hiredate, String remarks) {
-        this.studentName = studentName;
-        this.sex = sex;
-        this.nation = nation;
-        this.birthday = birthday;
-        this.homeTown = homeTown;
-        this.marriage = marriage;
-        this.phone = phone;
-        this.identityNum = identityNum;
-        this.graduate = graduate;
-        this.major = major;
-        this.photo = photo;
-        this.classId = classId;
-        this.managerId = managerId;
-        this.hiredate = hiredate;
-        this.remarks = remarks;
-    }
-
-    public Student(Integer studentId, String studentName, String sex, String nation, String birthday, String homeTown, String marriage, String phone, String identityNum, String graduate, String major, String photo, Integer classId, Integer managerId, String hiredate, String remarks) {
-        this.studentId = studentId;
-        this.studentName = studentName;
-        this.sex = sex;
-        this.nation = nation;
-        this.birthday = birthday;
-        this.homeTown = homeTown;
-        this.marriage = marriage;
-        this.phone = phone;
-        this.identityNum = identityNum;
-        this.graduate = graduate;
-        this.major = major;
-        this.photo = photo;
-        this.classId = classId;
-        this.managerId = managerId;
-        this.hiredate = hiredate;
-        this.remarks = remarks;
+    public void settState(Integer tState) {
+        this.tState = tState;
     }
 }
