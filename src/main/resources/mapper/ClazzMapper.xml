@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
+个 个mapper 相当于一个dao 接口的实现类 -->
+<mapper namespace="com.jxd.dao.IClazzDao">
+    <insert id="addClazz">
+        insert into clazz(clazz,teacherName) values (#{clazz},#{teacherName})
+    </insert>
+    <select id="getAllClazz" resultType="com.jxd.model.Clazz">
+        SELECT clazz.classId, clazz.clazz, clazz.teacherName FROM clazz
+    </select>
+    <select id="getAllClazzByPage" resultType="com.jxd.model.Clazz">
+        SELECT clazz.classId, clazz.clazz, clazz.teacherName FROM clazz
+        limit #{count}, #{page}
+    </select>
+    <select id="getClazz" resultType="com.jxd.model.Clazz">
+        SELECT clazz.classId, clazz.clazz, clazz.teacherName FROM clazz
+        <where>
+            <if test="clazz != null and clazz !=''">
+                clazz=#{clazz}
+            </if>
+            <if test="teacherName != null">
+                and teacherName like '%' #{teacherName} '%'
+            </if>
+        </where>
+    </select>
+    <select id="getMaxClazz" resultType="Clazz">
+        SELECT clazz FROM clazz WHERE classId=(SELECT MAX(classId) FROM clazz)
+    </select>
+    <select id="getAllClazzByName" resultType="Clazz">
+        SELECT classId FROM clazz WHERE clazz=#{clazz}
+    </select>
+    <update id="updateClazz">
+        update clazz set clazz=#{clazz},teacherName=#{teacherName}
+    </update>
+    <delete id="delClazz">
+        delete  form clazz where classId=#{classId}
+    </delete>
+</mapper>

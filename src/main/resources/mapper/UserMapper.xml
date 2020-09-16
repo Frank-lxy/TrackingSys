@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
+<mapper namespace="com.jxd.dao.IUserDao">
+
+    <!--User getUser(User user);-->
+    <select id="getUser" resultType="User">
+        select userId,userName,password,role from user where userName=#{userName} and password=#{password}
+    </select>
+
+    <select id="getAllUser" resultType="User">
+        select userId,userName,password,role from user
+    </select>
+    <select id="getUserById" resultType="User">
+        select userId,userName,password,role from user
+        where userId=#{userId}
+    </select>
+    <select id="getAllUserByPage" resultType="User">
+        select userId,userName,password,role from user order by userId desc
+        limit #{pageIndex},#{pageSize}
+    </select>
+    <insert id="addUser">
+        insert into user(userName,password,role) values (#{userName},#{password},#{role})
+    </insert>
+    <update id="updateUser">
+        update user set password=#{password}
+        where userId=#{userId}
+    </update>
+    <update id="updateAdmin">
+        update user set password=#{password}
+        where userId=#{userId}
+    </update>
+    <select id="getUsers" resultType="com.jxd.model.User">
+        select userId,userName,role,password from user
+        <where>
+            <if test="userName != null and userName!=''">
+                userName=#{userName}
+            </if>
+            <if test="role != null">
+                and role=#{role}
+            </if>
+        </where>
+    </select>
+    <select id="getAllTeachers" resultType="User">
+       SELECT userName from user where role=2
+    </select>
+    <delete id="deleteById" parameterType="User">
+ delete from user where userId = #{userId}
+ </delete>
+</mapper>
