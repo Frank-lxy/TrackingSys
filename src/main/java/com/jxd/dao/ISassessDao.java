@@ -22,7 +22,7 @@ public interface ISassessDao {
      * 查询全部评价信息
      * @return
      */
-    List<Map<String,Object>> getAllAssess(String userName);
+    List<Map<String,Object>> getAllAssess(@Param("studentName") String studentName,@Param("userName") String userName,@Param("classId") Integer classId);
 
     /**
      * 增加评价

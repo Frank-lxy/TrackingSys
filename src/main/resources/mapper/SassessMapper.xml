@@ -27,7 +27,18 @@
         select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,c.teacherName teacherName,sa.saId saId,sa.state state,sa.evaluate evaluate,sa.assess assess
         from (student st left join clazz c on st.classId = c.classId)
         left join sassess sa on st.studentId = sa.studentId
-        where teacherName=#{userName}
+        <where>
+            <if test="studentName != null and studentName !=''">
+                studentName like '%' #{studentName} '%'
+            </if>
+
+            <if test="classId != null and classId !=''">
+                AND c.classId=#{classId}
+            </if>
+            <if test="userName != null and userName !=''">
+                AND teacherName=#{userName}
+            </if>
+        </where>
     </select>
     <!--  List<Map<String,Object>> getAssessByPage(String studentName, Integer classId, Integer count, Integer page);-->
     <select id="getAssessByPage" resultType="Map">
@@ -42,7 +53,9 @@
             <if test="classId != null and classId !=''">
                 AND c.classId=#{classId}
             </if>
-            and teacherName=#{userName}
+            <if test="userName != null and userName !=''">
+                AND teacherName=#{userName}
+            </if>
         </where>
         limit #{count},#{page}
     </select>

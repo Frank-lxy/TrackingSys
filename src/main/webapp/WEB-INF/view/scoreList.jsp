@@ -1,3 +1,5 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.jxd.model.Clazz" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -50,9 +52,7 @@
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="score">评分</a>
-    <a class="layui-btn layui-btn-xs " lay-event="query" >修改</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn  layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
 </script>
 <script>
 
@@ -61,7 +61,20 @@
         var layer = layui.layer;
         var $ = layui.jquery;
         //存放每一个期次的课程
-        var classId=1;
+        var classId=${requestScope.clazz.classId};
+
+        var title =
+            [ //表头
+                {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
+                , {field: 'username', title: '用户名', width: 80}
+                , {field: 'sex', title: '性别', width: 80, sort: true}
+                , {field: 'city', title: '城市', width: 80}
+                , {field: 'sign', title: '签名', width: 177}
+                , {field: 'experience', title: '积分', width: 80, sort: true}
+                , {field: 'score', title: '评分', width: 80, sort: true}
+                , {field: 'classify', title: '职业', width: 80}
+                , {field: 'wealth', title: '财富', sort: true}
+            ]
         //获取老师所教期次课程
             var head =[];
             $.ajax({
@@ -72,12 +85,12 @@
                 },
                 success:function (data) {
                     $.each(data,function (index,value) {
-                        head.push( {field:value.courseId, title:value.courseName,align:"center"})
+                        head.push( {field:value.courseId, title:value.courseName,align:"center",edit: 'text'})
                     })
                     table.render({
                         elem: '#demo'
                         ,toolbar: '#toolbarDemo'
-                        ,height: 'full-102'
+                        ,height: 'full-32'
                         ,url: '/getAllScoreInfo?classId='+classId//数据接口
                         ,page: true //分页
                         ,limit: 8//每页显示几条数据
@@ -90,7 +103,7 @@
                             ,{field: 'graduate', title: '学校',align:"center",rowspan:2}
                             ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2}
                             ,{title: '培训期间测试成绩',align:"center",colspan:head.length}
-                            ,{title:'操作',align:'center', toolbar: '#barDemo',width:180,rowspan:2}
+                            ,{title:'操作',align:'center', toolbar: '#barDemo',width:90,rowspan:2}
                         ],head]
                     });
                 },
@@ -98,21 +111,68 @@
                     layer.msg("执行失败")
                 }
             })
+
+        //监听单元格编辑
+        table.on('edit(test)', function(obj){
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+            var oldScore = $(this).prev().text();// 单元格编辑之前的值
+            var preScore = $(this).parent().prev().children().text();//得到编辑的单元格之前的值
+            if(preScore == '' || preScore == undefined || preScore ==null){
+                //重新赋值
+                $(this).val(oldScore);
+                layer.msg("当前课程还未开始，不能进行打分")
+                return;
+            }else if(isNaN(value) || value < 0 || value > 100){
+                //重新赋值
+                $(this).val(oldScore);
+                layer.msg("输入错误，只能输入数字(0-100)")
+                return;
+            }else {
+                $.ajax({
+                    url:"addOrEditScore",
+                    type:"post",
+                    data:{
+                        studentId:data.studentId,
+                        courseId:field,
+                        score:value
+                    },
+                    dataType:"text",//服务器响应数据的类型
+                    success:function (data) {
+                        if(data){
+                            layer.msg(data);
+                            setTimeout("close()",2000)
+                        }
+                    },
+                    error:function () {
+                        layer.msg("执行失败")
+                        setTimeout("close()",2000)
+                    }
+                })
+            }
+        });
         //监听事件监听lai-filter为test的元素的工具栏
         table.on('toolbar(test)', function(obj){//obj只按钮
             switch(obj.event){
                 case 'query':
                     var studentName=$("#studentName").val();
-                    var classId = $("#clazzId").val();
+                    var classId = $("#clazzId option:selected").val();
                     table.reload("demo",{//demo对应table的id
+                        url:"getAllScoreInfo?classId=" + classId,
                         where:{
                             studentName:studentName,
-                            classId:classId
                         },//where代表过滤条件
                         page:{
                             curr:1
                         }
-                    })
+                    });
+                    //在页面上保留查询条件
+                    $("#studentName").val(studentName);
+                    $("#clazzId option").each(function() { // 遍历所有option，如果option内容为classId，就设置起selected属性为true
+                        if($(this).val()==classId){
+                            $(this).prop("selected",true);
+                    }});
                     break;
             };
         });
@@ -120,7 +180,7 @@
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'assess'){
+            if(layEvent === 'score'){
                 var studentId = data.studentId;
                 var classId = data.classId;
                 var studentName = data.studentName;

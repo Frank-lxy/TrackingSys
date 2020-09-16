@@ -36,6 +36,28 @@ public class ScoreController {
     @Autowired
     private IStudentService studentService;
 
+    @RequestMapping(value = "/addOrEditScore",produces ={ "text/html;charset=UTF-8"})
+    @ResponseBody
+    public String addOrEditScore(Score score){
+        Integer stuId = score.getStudentId();
+        Score score1 = scoreService.getScore(score);
+        if (score1 == null){
+            boolean isAdd = scoreService.addScore(score);
+            if (isAdd){
+                return "已评分";
+            }else {
+                return "评价失败";
+            }
+        }else {
+            boolean isEdit = scoreService.editScore(score);
+            if (isEdit){
+                return "已修改";
+            }else {
+                return "修改失败";
+            }
+        }
+
+    }
     @RequestMapping("/scoreList")
     public String scoreList(HttpSession session,Model model){
         User user = (User) session.getAttribute("user");
@@ -67,7 +89,7 @@ public class ScoreController {
         List<Map<String,Object>> list = new ArrayList<>();
         Integer count = limit*(page - 1);
         //某个班期的全部学生
-        List<Student> students = scoreService.getAllStudent(classId);
+        List<Student> students = scoreService.getAllStudent(classId,studentName);
         List<Student> students1 = scoreService.getStudentPaging(classId,count,limit,studentName);
 
         //把每一个学生的信息和对应成绩进行封装

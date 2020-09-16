@@ -2,6 +2,7 @@ package com.jxd.dao;
 
 import com.jxd.model.Clazz;
 import com.jxd.model.Course;
+import com.jxd.model.Score;
 import com.jxd.model.Student;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,7 +28,7 @@ public interface IScoreDao {
      * 查询全部学生
      * @return
      */
-    List<Student> getAllStudent(Integer classId);
+    List<Student> getAllStudent(@Param("classId") Integer classId,@Param("studentName") String studentName);
 
     /**
      * 分页查询学生
@@ -44,4 +45,26 @@ public interface IScoreDao {
      * @return
      */
     List<Clazz> getClazzListByTchName(String teacherName);
+
+    /**
+     * 查找某个同学的某个课程的成绩
+     * @param score 分数
+     * @return 分数对象
+     */
+    Score getScore(Score score);
+
+    /**
+     * 增加成绩
+     * @param score 成绩对象
+     * @return 是否添加成功
+     */
+    boolean addScore(Score score);
+
+
+    /**
+     * 修改成绩
+     * @param score
+     * @return
+     */
+    boolean editScore(Score score);
 }
