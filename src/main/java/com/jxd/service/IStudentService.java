@@ -16,6 +16,13 @@ public interface IStudentService {
     boolean editStudent(Student student);
 
     /**
+     * 根据学员id获取学员状态
+     * @param studentId  学员id
+     * @return 学员状态
+     */
+    String getStateByStudentId(Integer studentId);
+
+    /**
      * 根据id查询学员信息
      * @param studentId 学员id
      * @return 学员信息
@@ -54,6 +61,14 @@ public interface IStudentService {
      * @return 是否删除成功
      */
     boolean deleteStudentById(Integer studentId);
+    //删除该学员的学校评价表内容
+    boolean deleteSassessByStudentId(Integer studentId);
+    //删除该学员的成绩表内容
+    boolean deleteScoreByStudentId(Integer studentId);
+    //删除该学员的工作评价表内容
+    boolean deleteMassessByStudentId(Integer studentId);
+    //删除该学员的评分表内容
+    boolean deleteAssessItemByStudentId(Integer studentId);
 
     /**
      * 根据id批量删除学员
@@ -76,18 +91,11 @@ public interface IStudentService {
      * @param studentName 学员名称
      * @return 学员列表
      */
-    List<Map<String,Object>> getStudentPaging(@Param("count") Integer count,@Param("pageSize") Integer pageSize,@Param("studentName") String studentName);
+    List<Map<String,Object>> getStudentPaging(Integer count,Integer pageSize,String studentName,String departmentId,String jobId);
 
     /**
      * 获取学员列表
      * @return 学员列表
      */
-    List<Student> getAllStudent();
-
-    /**
-     * 通过学生id得到学生信息
-     * @param studentId
-     * @return
-     */
-    Map<String,Object> getStuInfoById(Integer studentId);
+    List<Student> getAllStudent(String studentName,String departmentId,String jobId);
 }

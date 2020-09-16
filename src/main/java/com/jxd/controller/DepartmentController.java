@@ -83,7 +83,7 @@ public class DepartmentController {
                 return "删除失败";
             }
         }else {
-            return "该部门有学员存在，不能删除";
+            return "该部门中有学员，不能删除";
         }
     }
 
@@ -93,7 +93,7 @@ public class DepartmentController {
         //过滤条件
         String departmentName = request.getParameter("departmentName");
         //获取所有部门
-        List<Department> list = departmentService.getAllDepartment();
+        List<Department> list = departmentService.getAllDepartment(departmentName);
         //获取分页数据
         int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页

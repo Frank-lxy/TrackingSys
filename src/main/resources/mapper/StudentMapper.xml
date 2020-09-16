@@ -22,6 +22,11 @@
         where studentId=#{studentId}
     </update>
 
+    <!--String getStateByStudentId(Integer studentId);-->
+    <select id="getStateByStudentId" resultType="String">
+        select state from sassess where studentId=#{studentId};
+    </select>
+
     <!--Student getStudentById(Integer studentId);-->
     <select id="getStudentById" resultType="Student">
         <include refid="BaseSql"></include>
@@ -55,6 +60,24 @@
         delete from student where studentId=#{studentId}
     </delete>
 
+    <!--
+    boolean deleteSassessByStudentId(Integer studentId);
+    boolean deleteScoreByStudentId(Integer studentId);
+    boolean deleteMassessByStudentId(Integer studentId);
+    boolean deleteAssessItemByStudentId(Integer studentId);-->
+    <delete id="deleteSassessByStudentId">
+        delete from sassess where studentId=#{studentId}
+    </delete>
+    <delete id="deleteScoreByStudentId">
+        delete from score where studentId=#{studentId}
+    </delete>
+    <delete id="deleteMassessByStudentId">
+        delete from massess where studentId=#{studentId}
+    </delete>
+    <delete id="deleteAssessItemByStudentId">
+        delete from assessItem where studentId=#{studentId}
+    </delete>
+
     <!--boolean deleteStudentBatch(String studentIds);-->
     <delete id="deleteStudentBatch">
         delete from student where studentId in (${studentIds})
@@ -68,14 +91,21 @@
         where studentId=#{studentId}
     </select>
 
-    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName);-->
+    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName,String departmentId,String jobId);-->
     <select id="getStudentPaging" resultType="Map">
-        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.classId classId,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
-        from (student s left join job j on s.jobId=j.jobId)
-        left join department d on s.departmentId=d.departmentId
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
+        from ((student s left join job j on s.jobId=j.jobId)
+        left join department d on s.departmentId=d.departmentId)
+        left join clazz c on s.classId=c.classId
         <where>
             <if test="studentName != null and studentName != ''">
-                studentName like '%' #{studentName} '%'
+                s.studentName like '%' #{studentName} '%'
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and s.departmentId=#{departmentId}
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and s.jobId=#{jobId}
             </if>
         </where>
         order by s.studentId desc
@@ -85,10 +115,21 @@
     <!--List<Student> getAllStudent();-->
     <select id="getAllStudent" resultType="Student">
         <include refid="BaseSql"></include>
+        <where>
+            <if test="studentName != null and studentName != ''">
+                studentName like '%' #{studentName} '%'
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and departmentId=#{departmentId}
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and jobId=#{jobId}
+            </if>
+        </where>
     </select>
 
     <sql id="BaseSql">
-        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,remarks
+        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,tState,remarks
         from student
     </sql>
 </mapper>

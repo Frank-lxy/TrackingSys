@@ -87,7 +87,7 @@ public class AssessItemController {
         //过滤条件
         String assessItemName = request.getParameter("assessItemName");
         //获取所有评价项
-        List<AssessItem> list = assessItemService.getAllAssessItem();
+        List<AssessItem> list = assessItemService.getAllAssessItem(assessItemName);
         //获取分页数据
         int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页

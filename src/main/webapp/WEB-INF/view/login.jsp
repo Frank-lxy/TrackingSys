@@ -139,10 +139,10 @@
                                 </div>
                                 <div class="layui-input-inline">
                                     <input type="password" name="password" value="${password}" required lay-verify="required" lay-reqtext="密码不能为空" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                                </div>
+                            </div>
                             </div>
                             <div class="layui-form-item" style="margin-left: 20px">
-                                <div class="layui-input-block" style="margin-top: 20px;">
+                                <div class="layui-input-block" style="margin-top: 20px;height: 10px">
                                     <input type="checkbox" name="remember" value="y" lay-skin="primary" title="记住密码">
                                 </div>
                             </div>

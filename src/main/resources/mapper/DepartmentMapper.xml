@@ -51,9 +51,14 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Department> getAllDepartment();-->
+    <!--List<Department> getAllDepartment(String departmentName);-->
     <select id="getAllDepartment" resultType="Department">
         <include refid="BaseSql"></include>
+        <where>
+            <if test="departmentName != null and departmentName != ''">
+                departmentName like '%' #{departmentName} '%'
+            </if>
+        </where>
     </select>
 
     <sql id="BaseSql">

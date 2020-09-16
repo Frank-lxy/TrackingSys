@@ -43,9 +43,14 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Course> getAllCourse();-->
+    <!--List<Course> getAllCourse(String courseName);-->
     <select id="getAllCourse" resultType="Course">
         <include refid="BaseSql"></include>
+        <where>
+            <if test="courseName != null and courseName != ''">
+                courseName like '%' #{courseName} '%'
+            </if>
+        </where>
     </select>
 
     <sql id="BaseSql">

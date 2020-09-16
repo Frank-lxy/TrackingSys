@@ -67,8 +67,13 @@ public class StudentController {
 
     @RequestMapping(value = "/getStudentById",produces = "text/html;charset=utf-8")
     public String getStudentById(Integer studentId, Model model){
+        //根据学员编号获取学员基本信息
         Student student = studentService.getStudentById(studentId);
+        //根据学员编号获取学员当前状态
+        String state = studentService.getStateByStudentId(studentId);
+
         model.addAttribute("student",student);
+        model.addAttribute("state",state);
         return "studentEdit";
     }
 
@@ -148,14 +153,16 @@ public class StudentController {
     public JSON getAllStudent(HttpServletRequest request){
         //过滤条件
         String studentName = request.getParameter("studentName");
+        String departmentId = request.getParameter("departmentId");
+        String jobId = request.getParameter("jobId");
         //获取所有课程
-        List<Student> list = studentService.getAllStudent();
+        List<Student> list = studentService.getAllStudent(studentName,departmentId,jobId);
         //获取分页数据
         int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
         int count = (pageIndex - 1) * pageSize;
         //获取分页课程
-        List<Map<String,Object>> list1 = studentService.getStudentPaging(count,pageSize,studentName);
+        List<Map<String,Object>> list1 = studentService.getStudentPaging(count,pageSize,studentName,departmentId,jobId);
         //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list1);
         JSONObject jsonObject = new JSONObject();
@@ -166,12 +173,12 @@ public class StudentController {
         return jsonObject;
     }
 
-    @RequestMapping("getStudentList")
+    @RequestMapping("/getStudentList")
     public String getStudentList(Model model){
         List<Clazz> clazzList = studentService.getClazzList();
         List<User> managerList = studentService.getManagerList();
-        List<Department> departmentList = departmentService.getAllDepartment();
-        List<Job> jobList = jobService.getAllJob();
+        List<Department> departmentList = departmentService.getAllDepartment(null);
+        List<Job> jobList = jobService.getAllJob(null);
         model.addAttribute("clazzList",clazzList);
         model.addAttribute("managerList",managerList);
         model.addAttribute("departmentList",departmentList);

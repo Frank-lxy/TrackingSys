@@ -48,13 +48,15 @@
                 <td rowspan="5">
                     <%
                         Map<String,Object> student = (Map) request.getAttribute("map");
-                        if (student.get("photo") != "" && student.get("photo") != null){
+                        String photo = (String) student.get("photo");
+                        int index = photo.indexOf("files");
+                        if (index != -1){
                     %>
                     <img src="${map.photo}">
                     <%
                         }else {
                     %>
-                    <span style="align-content: center">学员照片</span>
+                    <span style="align-content: center">未上传学员照片</span>
                     <%
                         }
                     %>

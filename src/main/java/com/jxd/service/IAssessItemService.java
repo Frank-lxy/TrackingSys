@@ -55,5 +55,5 @@ public interface IAssessItemService {
      * 获取评价项列表
      * @return 评价项列表
      */
-    List<AssessItem> getAllAssessItem();
+    List<AssessItem> getAllAssessItem(String assessItemName);
 }

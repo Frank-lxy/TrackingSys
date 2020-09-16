@@ -55,17 +55,17 @@
         left join department d on d.departmentId = s.departmentId)
         left join job j on j.jobId = s.jobId
         <where>
-            s.managerId=#{managerId} and s.tState = #{tState} and m.tState = #{tState}
+            s.managerId=#{managerId} and m.tState = #{tState}
             <if test="studentName != null and studentName != ''">
                 and s.studentName like '%' #{studentName} '%'
             </if>
         </where>
-        order by s.studentId
+        order by s.studentId desc
     </select>
 
     <select id="getMassessLists" resultType="map">
-        select  m.maId,s.studentId,m.evaluate,m.assess,s.studentName,d.departmentName,j.jobName,m.state,date_format(s.hiredate,'%Y-%m-%d') hiredate
-        from ((massess m right join student s on m.studentId = s.studentId)
+        select  m.maId maId,s.studentId studentId,m.evaluate evaluate,m.assess assess,s.studentName studentName,d.departmentName departmentName,j.jobName jobName,m.state state,date_format(s.hiredate,'%Y-%m-%d') hiredate
+        from ((massess m right join student s on m.studentId=s.studentId)
         left join department d on d.departmentId = s.departmentId)
         left join job j on j.jobId = s.jobId
         <where>
@@ -74,7 +74,7 @@
                 and s.studentName like '%' #{studentName} '%'
             </if>
         </where>
-        order by s.studentId
+        order by s.studentId desc
         limit #{count},#{pageSize}
     </select>
 

@@ -50,7 +50,7 @@ public class AssessItemServiceImpl implements IAssessItemService {
     }
 
     @Override
-    public List<AssessItem> getAllAssessItem() {
-        return assessItemDao.getAllAssessItem();
+    public List<AssessItem> getAllAssessItem(String assessItemName) {
+        return assessItemDao.getAllAssessItem(assessItemName);
     }
 }

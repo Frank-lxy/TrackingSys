@@ -1,3 +1,4 @@
+<%@ page import="com.jxd.model.Student" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -43,6 +44,9 @@
             margin: 15px 15px 10px 0;
             height: 170px;
             width: 110px;
+        }
+        #checkDiv1{
+            color: #9F9F9F;
         }
     </style>
 </head>
@@ -124,7 +128,7 @@
                 <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="phone" id="phone" value="${student.phone}" required  lay-verify="required" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
+                        <input type="text" name="phone" id="phone" value="${student.phone}" required  lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
                     </div>
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
@@ -134,7 +138,7 @@
                 <div style="float: left">
                     <label class="layui-form-label">班期：</label>
                     <div class="layui-input-inline">
-                        <select name="classId" id="classId" lay-filter="receive" lay-verify="required" lay-search="">
+                        <select name="classId" id="classId" lay-filter="receive" lay-search="">
                             <option></option>
                             <c:forEach var="clazzList" items="${sessionScope.clazzList}">
                                 <c:if test="${clazzList.classId == student.classId}">
@@ -146,64 +150,98 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <label class="layui-form-label">毕业学校：</label>
+                    <label class="layui-form-label"><span style="color: red">*</span>毕业学校：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="graduate" id="graduate" value="${student.graduate}" autocomplete="off" class="layui-input">
+                        <input type="text" name="graduate" id="graduate" value="${student.graduate}" required lay-verify="required" lay-reqtext="毕业学校不能为空" autocomplete="off" class="layui-input">
                     </div>
-                    <label class="layui-form-label">专业：</label>
+                    <label class="layui-form-label"><span style="color: red">*</span>专业：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="major" id="major" value="${student.major}" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div style="float: left">
-                    <label class="layui-form-label">项目经理：</label>
-                    <div class="layui-input-inline">
-                        <select name="managerId" id="managerId" lay-filter="receive" lay-search="">
-                            <option></option>
-                            <c:forEach var="managerList" items="${sessionScope.managerList}">
-                                <c:if test="${managerList.userId == student.managerId}">
-                                    <option value="${managerList.userId}" name="classId" selected>${managerList.userName}</option>
-                                </c:if>
-                                <c:if test="${managerList.userId != student.managerId}">
-                                    <option value="${managerList.userId}" name="classId">${managerList.userName}</option>
-                                </c:if>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <label class="layui-form-label">部门：</label>
-                    <div class="layui-input-inline">
-                        <select name="departmentId" id="departmentId" lay-filter="receive" lay-search="">
-                            <option></option>
-                            <c:forEach var="departmentList" items="${sessionScope.departmentList}">
-                                <c:if test="${departmentList.departmentId == student.departmentId}">
-                                    <option value="${departmentList.departmentId}" name="classId" selected>${departmentList.departmentName}</option>
-                                </c:if>
-                                <c:if test="${departmentList.departmentId != student.departmentId}">
-                                    <option value="${departmentList.departmentId}" name="classId">${departmentList.departmentName}</option>
-                                </c:if>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <label class="layui-form-label">职务：</label>
-                    <div class="layui-input-inline">
-                        <select name="jobId" id="jobId" lay-filter="receive" lay-search="">
-                            <option></option>
-                            <c:forEach var="jobList" items="${sessionScope.jobList}">
-                                <c:if test="${jobList.jobId == student.jobId}">
-                                    <option value="${jobList.jobId}" name="classId" selected>${jobList.jobName}</option>
-                                </c:if>
-                                <c:if test="${jobList.jobId != student.jobId}">
-                                    <option value="${jobList.jobId}" name="classId">${jobList.jobName}</option>
-                                </c:if>
-                            </c:forEach>
-                        </select>
+                        <input type="text" name="major" id="major" value="${student.major}" required lay-verify="required" lay-reqtext="专业不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div style="float: left">
-                    <label class="layui-form-label">入职日期：</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="hiredate" id="hiredate" value="${student.hiredate}" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    <%
+                        String state = (String)request.getAttribute("state");
+                        if ("1".equals(state)){
+                    %>
+                    <div id="checkDiv">
+                        <label class="layui-form-label">项目经理：</label>
+                        <div class="layui-input-inline">
+                            <select name="managerId" id="managerId" lay-filter="receive" lay-search="">
+                                <option></option>
+                                <c:forEach var="managerList" items="${sessionScope.managerList}">
+                                    <c:if test="${managerList.userId == student.managerId}">
+                                        <option value="${managerList.userId}" name="classId" selected>${managerList.userName}</option>
+                                    </c:if>
+                                    <c:if test="${managerList.userId != student.managerId}">
+                                        <option value="${managerList.userId}" name="classId">${managerList.userName}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <label class="layui-form-label">部门：</label>
+                        <div class="layui-input-inline">
+                            <select name="departmentId" id="departmentId" lay-filter="receive" lay-search="">
+                                <option></option>
+                                <c:forEach var="departmentList" items="${sessionScope.departmentList}">
+                                    <c:if test="${departmentList.departmentId == student.departmentId}">
+                                        <option value="${departmentList.departmentId}" name="classId" selected>${departmentList.departmentName}</option>
+                                    </c:if>
+                                    <c:if test="${departmentList.departmentId != student.departmentId}">
+                                        <option value="${departmentList.departmentId}" name="classId">${departmentList.departmentName}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <label class="layui-form-label">职务：</label>
+                        <div class="layui-input-inline">
+                            <select name="jobId" id="jobId" lay-filter="receive" lay-search="">
+                                <option></option>
+                                <c:forEach var="jobList" items="${sessionScope.jobList}">
+                                    <c:if test="${jobList.jobId == student.jobId}">
+                                        <option value="${jobList.jobId}" name="classId" selected>${jobList.jobName}</option>
+                                    </c:if>
+                                    <c:if test="${jobList.jobId != student.jobId}">
+                                        <option value="${jobList.jobId}" name="classId">${jobList.jobName}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <label class="layui-form-label">入职日期：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="hiredate" id="hiredate" value="${student.hiredate}" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
+                    <%
+                        }else {
+                    %>
+                    <div id="checkDiv1">
+                        <label class="layui-form-label">项目经理：</label>
+                        <div class="layui-input-inline">
+                            <select name="managerId" id="managerId1">
+                                <option value="">未完成全部课程</option>
+                            </select>
+                        </div>
+                        <label class="layui-form-label">部门：</label>
+                        <div class="layui-input-inline">
+                            <select name="departmentId" id="departmentId1">
+                                <option value="">未完成全部课程</option>
+                            </select>
+                        </div>
+                        <label class="layui-form-label">职务：</label>
+                        <div class="layui-input-inline">
+                            <select name="jobId" id="jobId1">
+                                <option value="">未完成全部课程</option>
+                            </select>
+                        </div>
+                        <label class="layui-form-label">入职日期：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="hiredate" id="hiredate1"  placeholder="未完成全部课程" autocomplete="off" class="layui-input" readonly>
+                        </div>
+                    </div>
+                    <%
+                        }
+                    %>
                     <label class="layui-form-label">备注：</label>
                     <div class="layui-input-inline" style="width: 500px">
                         <input type="text" name="remarks" id="remarks" value="${student.remarks}" autocomplete="off" class="layui-input">
@@ -224,11 +262,22 @@
             ,laydate = layui.laydate;
         $ = layui.jquery;
 
+        //监听日期组件
         laydate.render({
-            elem: '#birthday'
+            elem: '#birthday',
+            trigger: 'click'
         });
         laydate.render({
-            elem: '#hiredate'
+            elem: '#hiredate',
+            trigger: 'click'
+        });
+
+        //失去焦点时验证身份证号
+        $("#identityNum").blur(function () {
+            var reg = /^\d{14}(\d|X|x)$|^\d{17}(\d|X|x)$/;
+            if (!reg.test($(this).val())){
+                layer.msg("输入的身份证号不正确");
+            }
         });
 
         /*点击上传照片*/
@@ -300,7 +349,7 @@
                 jobId = $("#jobId").val(),
                 hiredate = $("#hiredate").val(),
                 remarks = $("#remarks").val();
-            if (studentName != '' && nation != '' && birthday != '' && homeTown != '' && phone != '' && identityNum != ''){
+            if (studentName != '' && nation != '' && birthday != '' && homeTown != '' && phone != '' && graduate != '' && major != '' && identityNum != ''){
                 $.ajax({
                     url:"editStudent",
                     type:"post",
@@ -339,7 +388,7 @@
     });
     var closeAdd = function () {
         parent.location.reload();//刷新父页面
-    }
+    };
 </script>
 </body>
 </html>

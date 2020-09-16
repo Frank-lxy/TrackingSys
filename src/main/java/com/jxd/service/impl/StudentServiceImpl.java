@@ -27,6 +27,11 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public String getStateByStudentId(Integer studentId) {
+        return studentDao.getStateByStudentId(studentId);
+    }
+
+    @Override
     public Student getStudentById(Integer studentId) {
         return studentDao.getStudentById(studentId);
     }
@@ -57,6 +62,26 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public boolean deleteSassessByStudentId(Integer studentId) {
+        return studentDao.deleteSassessByStudentId(studentId);
+    }
+
+    @Override
+    public boolean deleteScoreByStudentId(Integer studentId) {
+        return studentDao.deleteScoreByStudentId(studentId);
+    }
+
+    @Override
+    public boolean deleteMassessByStudentId(Integer studentId) {
+        return studentDao.deleteMassessByStudentId(studentId);
+    }
+
+    @Override
+    public boolean deleteAssessItemByStudentId(Integer studentId) {
+        return studentDao.deleteAssessItemByStudentId(studentId);
+    }
+
+    @Override
     public boolean deleteStudentBatch(String studentIds) {
         return studentDao.deleteStudentBatch(studentIds);
     }
@@ -67,13 +92,13 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName) {
-        return studentDao.getStudentPaging(count, pageSize, studentName);
+    public List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName,String departmentId,String jobId) {
+        return studentDao.getStudentPaging(count, pageSize, studentName,departmentId,jobId);
     }
 
     @Override
-    public List<Student> getAllStudent() {
-        return studentDao.getAllStudent();
+    public List<Student> getAllStudent(String studentName,String departmentId,String jobId) {
+        return studentDao.getAllStudent(studentName, departmentId, jobId);
     }
 
     @Override
