@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-<div align="center"><table id="demo" lay-filter="test"></table></div>
+<div align="center" style="margin: 0 10px"><table id="demo" lay-filter="test"></table></div>
 
 <script type="text/html" id="toolbarDemo">
     <div align="left" style="float: left">
@@ -48,12 +48,6 @@
         <button class="layui-btn layui-btn-sm" lay-event="query">查询</button>
     </div>
 </script>
-<%--<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="score">评分</a>
-    <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>
-
-</script>--%>
-
 <script>
 
     layui.use(['table',"layer"], function(){
@@ -65,7 +59,7 @@
         table.render({
             elem: '#demo'
             ,toolbar: '#toolbarDemo'
-            ,height: 'full-102'
+            ,height: 'full-32'
             ,url: '/getAssessByPage?userId='+ userId//数据接口
             ,page: true //分页
             ,limit: 8//每页显示几条数据
@@ -76,7 +70,7 @@
                 ,{field: 'studentId', title: '学生编号',align:"center",hide:true}
                 ,{field: 'studentName', title: '学生姓名',align:"center"}
                 ,{field: 'classId', title: '班期编号',align:"center",hide:true}
-                ,{field: 'clazz', title: '班期名称',align:"center"}
+                ,{field: 'clazz', title: '班期名称',align:"center",sort:true}
                 ,{field: 'saId', title: '评价编号',align:"center",hide:true}
                 ,{field: 'evaluate', title: '整体分数',align:"center",templet: function (data) {
                         if (data.evaluate == null || data.evaluate == 0){
@@ -92,7 +86,7 @@
                             return data.assess
                         }
                     }}
-                ,{field: 'state', title: '操作',align:"center",templet: function (data) {
+                ,{field: 'state', title: '操作',align:"center",width:150,templet: function (data) {
                         if (data.state == 1){
                             return '<a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="">已评价</a>' +
                                 '    <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>'

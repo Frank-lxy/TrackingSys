@@ -102,6 +102,16 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public List<Map<String, Object>> getAllStudentByTidPaging(Integer count, Integer pageSize, String studentName, String departmentId, String jobId, String teacherName) {
+        return studentDao.getAllStudentByTidPaging(count,pageSize,studentName,departmentId,jobId,teacherName);
+    }
+
+    @Override
+    public List<Student> getAllStudentByTid(String studentName, String departmentId, String jobId, String teacherName) {
+        return studentDao.getAllStudentByTid(studentName,departmentId,jobId,teacherName);
+    }
+
+    @Override
     public Map<String, Object> getStuInfoById(Integer studentId) {
         return studentDao.getStuInfoById(studentId);
     }

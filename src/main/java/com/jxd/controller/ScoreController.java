@@ -62,7 +62,7 @@ public class ScoreController {
     public String scoreList(HttpSession session,Model model){
         User user = (User) session.getAttribute("user");
         List<Clazz> clazzes = scoreService.getClazzListByTchName(user.getUserName());
-        Clazz clazz = clazzes.get(0);
+        Clazz clazz = clazzes.get(0);//最新班期
         model.addAttribute("clazzes",clazzes);
         model.addAttribute("clazz",clazz);
         return "scoreList";

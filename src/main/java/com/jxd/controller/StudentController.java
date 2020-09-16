@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -150,7 +151,7 @@ public class StudentController {
 
     @RequestMapping(value = "/getAllStudent",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public JSON getAllStudent(HttpServletRequest request){
+    public JSON getAllStudent(HttpServletRequest request, HttpSession session){
         //过滤条件
         String studentName = request.getParameter("studentName");
         String departmentId = request.getParameter("departmentId");
@@ -173,6 +174,33 @@ public class StudentController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "/getAllStudentByTid",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public JSON getAllStudentByTid(HttpServletRequest request, HttpSession session){
+        //过滤条件
+        String studentName = request.getParameter("studentName");
+        String departmentId = request.getParameter("departmentId");
+        String jobId = request.getParameter("jobId");
+        User user = (User) session.getAttribute("user");
+        String teacherName = user.getUserName();
+        //获取所有课程
+        List<Student> list = studentService.getAllStudentByTid(studentName,departmentId,jobId,teacherName);
+        //获取分页数据
+        int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
+        int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
+        int count = (pageIndex - 1) * pageSize;
+        //获取分页课程
+        List<Map<String,Object>> list1 = studentService.getAllStudentByTidPaging(count,pageSize,studentName,departmentId,jobId,teacherName);
+        //将数组转换为json数据
+        JSONArray jsonArray = JSONArray.fromObject(list1);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("msg","");
+        jsonObject.put("count",list.size());//一共有多少条数据
+        jsonObject.put("data",jsonArray);
+        return jsonObject;
+    }
+
     @RequestMapping("/getStudentList")
     public String getStudentList(Model model){
         List<Clazz> clazzList = studentService.getClazzList();
@@ -185,4 +213,14 @@ public class StudentController {
         model.addAttribute("jobList",jobList);
         return "studentList";
     }
+
+    @RequestMapping("/tStudentList")
+    public String tStudentList(Model model){
+        List<Department> departmentList = departmentService.getAllDepartment(null);
+        List<Job> jobList = jobService.getAllJob(null);
+        model.addAttribute("departmentList",departmentList);
+        model.addAttribute("jobList",jobList);
+        return "tStudentList";
+    }
+
 }

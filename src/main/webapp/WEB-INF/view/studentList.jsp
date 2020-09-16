@@ -216,7 +216,7 @@
                     title: "编辑学员信息",
                     content: "getStudentById?studentId=" + studentId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['950px','545px'],
+                    area: ['950px','520px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

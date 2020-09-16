@@ -114,7 +114,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item">
-                    <a href="getStudentList" target="mainFrame">学员基本信息</a>
+                    <a href="tStudentList" target="mainFrame">学员基本信息</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="scoreList" target="mainFrame">学员成绩</a>

@@ -29,7 +29,7 @@
     </style>
 </head>
 <body id="body">
-<div align="center"><table id="demo" lay-filter="test"></table>
+<div align="center" style="margin: 0 10px"><table id="demo" lay-filter="test"></table>
 <div id="demoDiv" style="margin-top: -10px"></div>
 </div>
 <script type="text/html" id="toolbarDemo">
@@ -60,21 +60,8 @@
         var table = layui.table;
         var layer = layui.layer;
         var $ = layui.jquery;
-        //存放每一个期次的课程
+        //最新班期的id
         var classId=${requestScope.clazz.classId};
-
-        var title =
-            [ //表头
-                {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
-                , {field: 'username', title: '用户名', width: 80}
-                , {field: 'sex', title: '性别', width: 80, sort: true}
-                , {field: 'city', title: '城市', width: 80}
-                , {field: 'sign', title: '签名', width: 177}
-                , {field: 'experience', title: '积分', width: 80, sort: true}
-                , {field: 'score', title: '评分', width: 80, sort: true}
-                , {field: 'classify', title: '职业', width: 80}
-                , {field: 'wealth', title: '财富', sort: true}
-            ]
         //获取老师所教期次课程
             var head =[];
             $.ajax({
@@ -100,8 +87,8 @@
                             ,{field: 'studentId', title: '学生编号',align:"center",hide:true,rowspan:2}
                             ,{field: 'studentName', title: '姓名',align:"center",rowspan:2}
                             ,{field: 'sex', title: '性别',align:"center",hide:true,rowspan:2}
-                            ,{field: 'graduate', title: '学校',align:"center",rowspan:2}
-                            ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2}
+                            ,{field: 'graduate', title: '学校',align:"center",rowspan:2,hide:true}
+                            ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2,hide:true}
                             ,{title: '培训期间测试成绩',align:"center",colspan:head.length}
                             ,{title:'操作',align:'center', toolbar: '#barDemo',width:90,rowspan:2}
                         ],head]

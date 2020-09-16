@@ -98,4 +98,26 @@ public interface IStudentService {
      * @return 学员列表
      */
     List<Student> getAllStudent(String studentName,String departmentId,String jobId);
+
+    /**
+     * 分页查询学员信息
+     * @param count 跳过的数据
+     * @param pageSize 每页显示条数
+     * @param studentName 学员名称
+     * @return 学员列表
+     */
+    List<Map<String,Object>> getAllStudentByTidPaging(Integer count,Integer pageSize, String studentName, String departmentId,String jobId,String teacherName);
+
+    /**
+     * 获取学员列表
+     * @return 学员列表
+     */
+    List<Student> getAllStudentByTid(String studentName,String departmentId,String jobId,String teacherName);
+
+    /**
+     * 根据学生编号获得学生信息
+     * @param studentId 学生编号
+     * @return map集合
+     */
+    public Map<String, Object> getStuInfoById(Integer studentId);
 }
