@@ -25,12 +25,12 @@
         .layui-table-view .layui-form-checkbox {
             margin-top: 7px;
         }
-
     </style>
 </head>
 <body id="body">
-<div align="center" style="margin: 0 10px"><table id="demo" lay-filter="test"></table>
-<div id="demoDiv" style="margin-top: -10px"></div>
+<div align="center" style="margin: 0 10px">
+    <table id="demo" lay-filter="test"></table>
+   <%-- <div id="demoDiv" style="margin-top: -10px"></div>--%>
 </div>
 <script type="text/html" id="toolbarDemo">
     <div align="left" style="float: left">
@@ -43,6 +43,7 @@
 
         <div class="layui-input-inline">
             <select name="classId" id="clazzId" lay-filter="receive" lay-search="">
+                <option value="">请选择期次</option>
                 <c:forEach var="clazz" items="${sessionScope.clazzes}">
                     <option value="${clazz.classId}">${clazz.classId}${clazz.clazz}</option>
                 </c:forEach>
@@ -57,9 +58,9 @@
 <script>
 
     layui.use(['table',"layer"], function(){
-        var table = layui.table;
-        var layer = layui.layer;
-        var $ = layui.jquery;
+        var table = layui.table
+            ,layer = layui.layer
+            ,$ = layui.jquery;
         //最新班期的id
         var classId=${requestScope.clazz.classId};
         //获取老师所教期次课程
@@ -79,10 +80,10 @@
                         ,toolbar: '#toolbarDemo'
                         ,height: 'full-32'
                         ,url: '/getAllScoreInfo?classId='+classId//数据接口
-                        ,page: true //分页
-                        ,limit: 8//每页显示几条数据
+                        ,page: true
+                        ,limit: 8
                         ,limits: [8,16,24,32]
-                        ,cols: [[ //表头
+                        ,cols: [[
                             {type:'numbers',title:'序号',rowspan:2}
                             ,{field: 'studentId', title: '学生编号',align:"center",hide:true,rowspan:2}
                             ,{field: 'studentName', title: '姓名',align:"center",rowspan:2}
@@ -106,13 +107,11 @@
                 ,field = obj.field; //得到字段
             var oldScore = $(this).prev().text();// 单元格编辑之前的值
             var preScore = $(this).parent().prev().children().text();//得到编辑的单元格之前的值
-            if(preScore == '' || preScore == undefined || preScore ==null){
-                //重新赋值
+            if(preScore == '' || preScore == '待评分' || preScore ==null){//前一项课程是否已打分
                 $(this).val(oldScore);
                 layer.msg("当前课程还未开始，不能进行打分")
                 return;
-            }else if(isNaN(value) || value < 0 || value > 100){
-                //重新赋值
+            }else if(isNaN(value) || value < 0 || value > 100){//输入的是否是数字且在0-100范围
                 $(this).val(oldScore);
                 layer.msg("输入错误，只能输入数字(0-100)")
                 return;
@@ -140,7 +139,7 @@
             }
         });
         //监听事件监听lai-filter为test的元素的工具栏
-        table.on('toolbar(test)', function(obj){//obj只按钮
+        table.on('toolbar(test)', function(obj){//obj指按钮
             switch(obj.event){
                 case 'query':
                     var studentName=$("#studentName").val();
@@ -154,17 +153,17 @@
                             curr:1
                         }
                     });
-                    //在页面上保留查询条件
-                    $("#studentName").val(studentName);
+
+                    $("#studentName").val(studentName);//在页面上保留查询条件
                     $("#clazzId option").each(function() { // 遍历所有option，如果option内容为classId，就设置起selected属性为true
                         if($(this).val()==classId){
                             $(this).prop("selected",true);
-                    }});
+                        }});
                     break;
             };
         });
         //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function(obj){ //tool是工具条事件名，test是table原始容器的属性lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent === 'score'){
@@ -205,16 +204,13 @@
                     title: "学员详细信息",
                     content: "sassessDetailed?studentId=" + studentId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['1035px','470px'],
-                    end:function () {
-                        //刷新当前页
-                        $(".layui-laypage-btn").click();
-                    }
+                    area: ['1035px','470px']
                 });
             }
         });
     });
 
 </script>
+
 </body>
 </html>

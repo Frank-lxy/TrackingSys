@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface ISassessDao {
+
     /**
      * 分页查询评价信息
      * @param studentName 学生姓名
+     * @param userName 用户姓名
      * @param classId 班级编号
      * @param count 跳过几条数据
      * @param page 选择几条数据
@@ -20,7 +22,10 @@ public interface ISassessDao {
 
     /**
      * 查询全部评价信息
-     * @return
+     * @param studentName 学生姓名
+     * @param userName 用户姓名
+     * @param classId 班级编号
+     * @return 评价信息集合
      */
     List<Map<String,Object>> getAllAssess(@Param("studentName") String studentName,@Param("userName") String userName,@Param("classId") Integer classId);
 
@@ -37,6 +42,7 @@ public interface ISassessDao {
      * @return 是否修改成功
      */
     boolean editSassess(Sassess sassess);
+
     /**
      * 根据评价id查找评价
      * @param sassessId 评价id
@@ -46,8 +52,8 @@ public interface ISassessDao {
 
     /**
      * 根据学生id查找评价
-     * @param studentId
-     * @return
+     * @param studentId 学生id
+     * @return 评价对象
      */
     Sassess getSassessByStuId(Integer studentId);
 

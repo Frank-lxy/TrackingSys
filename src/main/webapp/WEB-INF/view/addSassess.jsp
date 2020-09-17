@@ -10,8 +10,8 @@
 <html>
 <head>
     <title>学校评价</title>
-    <link href="/static/layui/css/layui.css" rel="stylesheet">
-    <script src="/static/layui/layui.js"></script>
+    <link href="../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../static/layui/layui.js"></script>
     <style>
         .red{
             border: 1px red solid;
@@ -41,7 +41,7 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">整体评分</label>
+            <label class="layui-form-label"><span style="color: red">*</span> 整体评分</label>
             <div class="layui-input-inline">
                 <input id="evaluate" type="text" name="evaluate" autocomplete="off" class="layui-input">
                 <div id="evaluateDiv" style="padding:2px;height: 5px"></div>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">评价</label>
+            <label class="layui-form-label"><span style="color: red">*</span> 评价</label>
             <div class="layui-input-block">
                 <textarea id="assess" name="assess" class="layui-textarea" style="width: 360px"></textarea>
                 <div id="assessDiv" style="padding:2px;height: 5px"></div>
@@ -65,7 +65,6 @@
 <script>
     layui.use(['laydate','form'], function(){
         var $ = layui.jquery;
-
         //表单验证
         $("#evaluate").blur(function () {
             $(this).prop("class","layui-input");//每次触发时先清空一下red类选择器
@@ -74,9 +73,9 @@
             if (evaluate==''){
                 $(this).prop("class","layui-input red");
                 $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
-            }else if (isNaN(evaluate)){
+            }else if (isNaN(evaluate) || evaluate < 0 || evaluate >5){
                 $(this).prop("class","layui-input red");
-                $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字</span>")
+                $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字(0-5)</span>")
             }
         });
         //表单验证
@@ -90,7 +89,7 @@
             }
         });
         $("#addSassess").click(function () {
-            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) ){
+            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) && $("#evaluate").val() > 0 && $("#evaluate").val() < 5 ){
                 $.ajax({
                     url:"addSassess",
                     type:"post",
@@ -113,8 +112,6 @@
                     }
                 })
             }else {
-               // layer.msg("请正确填写信息")
-
                 var evaluate = $("#evaluate").val();
                 if (evaluate==''){
                     $("#evaluate").prop("class","layui-input red");
@@ -131,7 +128,6 @@
                 }
 
             }
-
         })
     });
     //关闭当前层

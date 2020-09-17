@@ -113,7 +113,7 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item">
+                <li class="layui-nav-item layui-this">
                     <a href="tStudentList" target="mainFrame">学员基本信息</a>
                 </li>
                 <li class="layui-nav-item">
@@ -123,7 +123,7 @@
                     <a href="sassessList" target="mainFrame">学员评价</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">修改密码</a>
+                    <a href="editPwd" target="mainFrame">修改密码</a>
                 </li>
             </ul>
         </div>
@@ -162,7 +162,7 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">修改密码</a>
+                    <a href="editPwd" target="mainFrame">修改密码</a>
                 </li>
             </ul>
         </div>
@@ -185,7 +185,7 @@
             <%
                 if (user.getRole() == 2){
             %>
-            <iframe name="mainFrame" src="scoreList"></iframe>
+            <iframe name="mainFrame" src="tStudentList"></iframe>
             <%
                 }
             %>

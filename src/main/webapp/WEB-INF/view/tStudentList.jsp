@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>学员基本信息</title>
-    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <link href="../../static/layui/css/layui.css" rel="stylesheet" >
     <script src="../../static/layui/layui.js"></script>
     <style>
         .layui-table-tool-self{
@@ -37,9 +37,11 @@
         <h2>学员基本信息</h2>
     </div>
     <div align="right">
+
         <div class="layui-input-inline">
             <input type="text" id="filter" placeholder="请输入学员姓名" autocomplete="off" class="layui-input">
         </div>
+
         <div class="layui-input-inline">
             <select name="departmentId" id="departmentId" lay-filter="receive" lay-search="">
                 <option value="">请选择部门</option>
@@ -48,6 +50,7 @@
                 </c:forEach>
             </select>
         </div>
+
         <div class="layui-input-inline">
             <select name="jobId" id="jobId" lay-filter="receive" lay-search="">
                 <option value="">请选择职务</option>
@@ -56,6 +59,7 @@
                 </c:forEach>
             </select>
         </div>
+
         <div class="layui-input-inline">
             <button class="layui-btn layui-btn-sm" lay-event="query">查询</button>
         </div>
@@ -76,8 +80,8 @@
         var table = layui.table
             ,layer = layui.layer
             ,laypage = layui.laypage
-            ,form = layui.form;
-        var $ = layui.jquery;
+            ,form = layui.form
+            ,$ = layui.jquery;
         //第一个实例
         table.render({
             elem: '#demo'

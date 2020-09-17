@@ -21,4 +21,9 @@ public class UserServiceImpl implements IUserService {
     public User getUser(User user) {
         return userDao.getUser(user);
     }
+
+    @Override
+    public boolean editPwdById(User user) {
+        return userDao.editPwdById(user);
+    }
 }

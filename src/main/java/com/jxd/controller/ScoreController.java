@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author:Chai HongFang
+ * @Author:Chai Hong Fang
  * @Description:
  * @Date:2020/9/12 9:33
  * @Version:1.0
@@ -39,8 +39,8 @@ public class ScoreController {
     @RequestMapping(value = "/addOrEditScore",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String addOrEditScore(Score score){
-        Integer stuId = score.getStudentId();
         Score score1 = scoreService.getScore(score);
+        //判断是否给某个学生的某个科目打过分
         if (score1 == null){
             boolean isAdd = scoreService.addScore(score);
             if (isAdd){
@@ -58,11 +58,14 @@ public class ScoreController {
         }
 
     }
+
     @RequestMapping("/scoreList")
     public String scoreList(HttpSession session,Model model){
         User user = (User) session.getAttribute("user");
+        //根据老师姓名查找班期
         List<Clazz> clazzes = scoreService.getClazzListByTchName(user.getUserName());
-        Clazz clazz = clazzes.get(0);//最新班期
+        //最新班期
+        Clazz clazz = clazzes.get(0);
         model.addAttribute("clazzes",clazzes);
         model.addAttribute("clazz",clazz);
         return "scoreList";
@@ -75,6 +78,7 @@ public class ScoreController {
         model.addAttribute("studentId",studentId);
         return "sassessDetailed";
     }
+
     @RequestMapping(value = "/getAllCourseByClassId")
     @ResponseBody
     public List<Map<String,Object>> getAllCourseByClassId(Integer classId){
@@ -82,14 +86,16 @@ public class ScoreController {
         List<Map<String,Object>> list = scoreService.getAllCourseByClassId(classId);
         return list;
     }
+
     @RequestMapping(value = "/getAllScoreInfo",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSON getAllScoreInfo(Integer classId, Integer limit, Integer page, String studentName){
         //存放封装的学生和成绩信息
         List<Map<String,Object>> list = new ArrayList<>();
         Integer count = limit*(page - 1);
-        //某个班期的全部学生
+        //通过班期查找学生
         List<Student> students = scoreService.getAllStudent(classId,studentName);
+        //分页查找
         List<Student> students1 = scoreService.getStudentPaging(classId,count,limit,studentName);
 
         //把每一个学生的信息和对应成绩进行封装
@@ -104,8 +110,8 @@ public class ScoreController {
             map.put("graduate",student.getGraduate());
             map.put("homeTown",student.getHomeTown());
             for (Map score:scores){
-                if(score.get("score")==null){
-                    map.put(  Integer.toString((Integer)score.get("courseId")),"待评价");
+                if(score.get("score") == null){
+                    map.put(  Integer.toString((Integer)score.get("courseId")),"");
                 }else {
                     map.put(  Integer.toString((Integer)score.get("courseId")),score.get("score"));
                 }
@@ -125,7 +131,6 @@ public class ScoreController {
         return jsonObject;
     }
 
-
     @RequestMapping(value = "/getDetailInfoById",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSON  getDetailInfoById(Integer studentId, HttpSession session){
@@ -135,30 +140,31 @@ public class ScoreController {
         User user = (User) session.getAttribute("user");
         //学生评价
         Sassess sassess = sassessService.getSassessByStuId(studentId);
-
+        //根据学生id查找学生信息
         Map<String,Object> stu = studentService.getStuInfoById(studentId);
 
-            //每个学生的各科成绩
-            List<Map<String,Object>> scores = scoreService.getScoreByStuId((Integer) stu.get("studentId"),(Integer) stu.get("classId"));
-            //把每个学生信息和他的各科成绩存储在map中
-            Map<String,Object> map = new HashMap<>();
-            map.put("school","学习评价");
-            map.put("clazz",stu.get("clazz"));
-            map.put("teacher",user.getUserName());
-            for (Map score:scores){
-                if(score.get("score")==null){
-                    map.put(  Integer.toString((Integer)score.get("courseId")),"待评价");
-                }else {
-                    map.put(  Integer.toString((Integer)score.get("courseId")),score.get("score"));
-                }
-            }
-            if(sassess != null){
-                map.put("evaluate",sassess.getEvaluate());
+        //学生的各科成绩
+        List<Map<String,Object>> scores = scoreService.getScoreByStuId((Integer) stu.get("studentId"),(Integer) stu.get("classId"));
+        //把每个学生信息和他的各科成绩存储在map中
+        Map<String,Object> map = new HashMap<>();
+        map.put("school","学习评价");
+        map.put("clazz",stu.get("clazz"));
+        map.put("teacher",user.getUserName());
+        for (Map score:scores){
+            if(score.get("score") == null){
+                map.put(  Integer.toString((Integer)score.get("courseId")),"");
             }else {
-                map.put("evaluate"," ");
+                map.put(  Integer.toString((Integer)score.get("courseId")),score.get("score"));
             }
-            //把map添加到list中
-            list.add(map);
+        }
+        if(sassess != null){
+            map.put("evaluate",sassess.getEvaluate());
+        }else {
+            map.put("evaluate"," ");
+        }
+        //把map添加到list中
+        list.add(map);
+
         //转换为json数组
         JSONArray jsonArray = JSONArray.fromObject(list);
         //创建json对象，用于返回layui表格需要的数据

@@ -7,4 +7,8 @@
     <select id="getUser" resultType="User">
         select userId,userName,password,role from user where userName=#{userName} and password=#{password}
     </select>
+    <!--boolean editPwdById(User user);-->
+    <update id="editPwdById">
+        update user set password=#{password} where userId=#{userId}
+    </update>
 </mapper>

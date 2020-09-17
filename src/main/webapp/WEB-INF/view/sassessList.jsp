@@ -10,8 +10,8 @@
 <html>
 <head>
     <title>学生评价</title>
-    <link href="static/layui/css/layui.css" rel="stylesheet">
-    <script src="static/layui/layui.js"></script>
+    <link href="../../static/layui/css/layui.css" rel="stylesheet">
+    <script src="../../static/layui/layui.js"></script>
     <style>
         .layui-table-tool-self{
             display: none;
@@ -26,7 +26,9 @@
     </style>
 </head>
 <body>
-<div align="center" style="margin: 0 10px"><table id="demo" lay-filter="test"></table></div>
+<div align="center" style="margin: 0 10px">
+    <table id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="toolbarDemo">
     <div align="left" style="float: left">
@@ -51,18 +53,17 @@
 <script>
 
     layui.use(['table',"layer"], function(){
-        var table = layui.table;
-        var layer = layui.layer;
-        var $ = layui.jquery;
-        var userId=${sessionScope.user.userId}
-        //第一个实例
+        var table = layui.table
+            ,layer = layui.layer
+            ,$ = layui.jquery
+            ,userId=${sessionScope.user.userId}
         table.render({
             elem: '#demo'
             ,toolbar: '#toolbarDemo'
             ,height: 'full-32'
             ,url: '/getAssessByPage?userId='+ userId//数据接口
-            ,page: true //分页
-            ,limit: 8//每页显示几条数据
+            ,page: true
+            ,limit: 8
             ,limits: [8,16,24,32]
             ,cols: [[ //表头
                 {type:'numbers',title:'序号'}
@@ -96,12 +97,11 @@
                         }
                     }
                 }
-               /* ,{fixed: 'right', title:'操作',align:'center', toolbar: '#barDemo'}*/
             ]]
         });
 
         //监听事件监听lai-filter为test的元素的工具栏
-        table.on('toolbar(test)', function(obj){//obj只按钮
+        table.on('toolbar(test)', function(obj){//obj指按钮
             switch(obj.event){
                 case 'query':
                     var studentName=$("#studentName").val();
@@ -115,13 +115,14 @@
                             curr:1
                         }
                     });
+                    //保留查询条件
                     $("#studentName").val(studentName);
                     $("#classId").val(classId);
                     break;
             };
         });
         //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function(obj){ //tool是工具条事件名，test是table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent === 'assess'){
@@ -130,10 +131,10 @@
                 var studentName = data.studentName;
                 layer.open({
                     type:2,//1：弹出隐藏div 2：弹出完整jsp页面
-                    title:'评分',
+                    title:'评价',
                     shadeClose:true,//点击遮罩关闭弹窗
                     content:'/sassess?studentId=' + studentId + '&classId='+ classId + '&studentName='+ studentName ,
-                    area:['600px','500px'],
+                    area:['600px','435px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -144,10 +145,10 @@
                 var studentName = data.studentName;
                 layer.open({
                     type:2,//1：弹出隐藏div 2：弹出完整jsp页面
-                    title:'学生修改',
+                    title:'修改',
                     shadeClose:true,//点击遮罩关闭弹窗
                     content:'/getSassessById?saId=' + saId + '&studentName='+ studentName,
-                    area:['600px','500px'],
+                    area:['600px','435px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

@@ -23,7 +23,6 @@
         .layui-table-view .layui-form-checkbox {
             margin-top: 7px;
         }
-
         .layui-table-cell { height:auto; overflow:visible; text-overflow:inherit; white-space:normal; }
     </style>
 </head>
@@ -44,7 +43,6 @@
     $(function () {
         var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.sassess.assess}</td></tr>")
         $("#demoDiv").append(obj)
-
     })
 
     layui.use(['table',"layer"], function(){
@@ -70,8 +68,8 @@
                     ,toolbar: '#toolbarDemo'
                     ,url: '/getDetailInfoById?studentId=' + studentId //数据接口
                     ,width:1025
-                    ,page: false //分页
-                    ,cols: [[ //表头
+                    ,page: false
+                    ,cols: [[
                         {field: 'school', title: '培训学校',align:"center",rowspan:2,width:130}
                         ,{field: 'clazz', title: '班期',align:"center",rowspan:2}
                         ,{field: 'teacher', title: '评价人',align:"center",rowspan:2}
