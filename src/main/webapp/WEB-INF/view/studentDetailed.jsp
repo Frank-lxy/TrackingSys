@@ -22,6 +22,7 @@
         }
         img{
             width: 160px;
+            height: 223px;
         }
     </style>
 </head>

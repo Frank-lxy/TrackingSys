@@ -39,7 +39,7 @@ public class CourseController {
     public String getCourseById(Integer courseId, Model model){
         Course course = courseService.getCourseById(courseId);
         model.addAttribute("course",course);
-        return "courseEdit";
+        return "editCourse";
     }
 
     @RequestMapping(value = "/addCourse",produces = "text/html;charset=utf-8")
@@ -66,7 +66,7 @@ public class CourseController {
 
     @RequestMapping("getCourseAdd")
     public String getCourseAdd(){
-        return "courseAdd";
+        return "addCourse";
     }
 
     @RequestMapping(value = "/deleteCourseById",produces = "text/html;charset=utf-8")

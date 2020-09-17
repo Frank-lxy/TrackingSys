@@ -35,6 +35,10 @@
             padding-right: 0;
             padding-left: 20px;
         }
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
         img{
             height: 170px;
         }
@@ -131,7 +135,7 @@
                 <div class="layui-input-inline" style="width: 790px">
                     <input type="text" name="remarks" id="remarks" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 20px">
+                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 10px">
                     <button id="addCourse" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
                 </div>
             </div>

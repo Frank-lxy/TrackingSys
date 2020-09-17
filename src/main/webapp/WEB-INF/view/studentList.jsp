@@ -65,7 +65,7 @@
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="search">查看</a>&nbsp;
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>&nbsp;
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>&nbsp;
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="sexTpl">
@@ -87,7 +87,7 @@
             elem: '#demo'
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllStudent' //数据接口
-            ,height: 'full-60'
+            ,height: 'full-102'
             ,page:true //开启分页
             ,limit:8   //每页显示几条数据
             ,limits:[8,10,15,20]
@@ -99,10 +99,28 @@
                 ,{field: 'sex', title: '性别',align:"center", width:'7%', templet: '#sexTpl', sort:true}
                 ,{field: 'graduate', title: '毕业院校',align:"center", width:'13%'}
                 ,{field: 'major', title: '专业',align:"center", width:'13%', hide:true}
-                ,{field: 'clazz', title: '班期',align:"center"}
-                ,{field: 'departmentName', title: '部门',align:"center"}
-                ,{field: 'jobName', title: '职位',align:"center"}
-                ,{title:'操作', toolbar:'#barDemo',align:'center', width:180, style:'background-color: #f8f8f8;'}
+                ,{field: 'clazz', title: '班期',align:"center", templet:function (data) {
+                        if (data.clazz == null){
+                            return '未上课'
+                        }else {
+                            return data.clazz
+                        }
+                    }}
+                ,{field: 'departmentName', title: '部门',align:"center", templet:function (data) {
+                        if (data.departmentName == null){
+                            return '未入职'
+                        }else {
+                            return data.departmentName
+                        }
+                    }}
+                ,{field: 'jobName', title: '职位',align:"center", templet:function (data) {
+                        if (data.jobName == null){
+                            return '未入职'
+                        }else {
+                            return data.jobName
+                        }
+                    }}
+                ,{title:'操作', toolbar:'#barDemo',align:'center', width:180}
             ]]
         });
         //监听事件，监听lay-filter为test的元素的工具栏
@@ -132,7 +150,7 @@
                         title:"新增学员",
                         content:'getStudentAdd',
                         shadeClose:true,//点击遮罩，关闭弹框
-                        area:['950px','480px']
+                        area:['950px','470px']
                     });
                     break;
                 case 'delete':
@@ -216,7 +234,7 @@
                     title: "编辑学员信息",
                     content: "getStudentById?studentId=" + studentId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['950px','520px'],
+                    area: ['950px','510px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

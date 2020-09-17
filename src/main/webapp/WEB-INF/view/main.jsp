@@ -79,7 +79,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;" target="mainFrame">学员管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="" target="mainFrame">学员跟踪表</a></dd>
+                        <dd class="layui-this"><a href="getStudentTracking" target="mainFrame">学员跟踪表</a></dd>
                         <dd><a href="getStudentList" target="mainFrame">基本信息</a></dd>
                     </dl>
                 </li>
@@ -178,7 +178,7 @@
             <%
                 if (user.getRole() == 1){
             %>
-            <iframe name="mainFrame" src="getStudentList"></iframe>
+            <iframe name="mainFrame" src="getStudentTracking"></iframe>
             <%
                 }
             %>

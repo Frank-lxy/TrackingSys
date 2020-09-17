@@ -51,6 +51,7 @@
                 jobName like '%' #{jobName} '%'
             </if>
         </where>
+        order by jobId desc
     </select>
 
     <sql id="BaseSql">

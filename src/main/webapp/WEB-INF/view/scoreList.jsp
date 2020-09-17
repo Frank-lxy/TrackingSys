@@ -56,7 +56,6 @@
     <a class="layui-btn  layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
 </script>
 <script>
-
     layui.use(['table',"layer"], function(){
         var table = layui.table
             ,layer = layui.layer

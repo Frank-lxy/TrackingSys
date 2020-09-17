@@ -35,5 +35,4 @@ public interface IMassessService {
     boolean addMassessNone(Integer studentId,Integer tState);
 
     Massess getMassess(Integer studentId,Integer tState);
-
 }
