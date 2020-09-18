@@ -2,6 +2,86 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
 <mapper namespace="com.jxd.dao.IStudentDao">
+    <!--List<TState> getTStateList();-->
+    <select id="getTStateList" resultType="TState">
+        select tState,stateName from tState;
+    </select>
+
+    <!--List<Massess> getMassessByStuId(Integer studentId);-->
+    <select id="getMassessByStuId" resultType="Massess">
+        select maId,studentId,evaluate,assess,state,tState
+        from massess
+        where studentId=#{studentId}
+    </select>
+
+    <!--List<Student> getStudentListByClassIdPaging(Integer classId,Integer count,Integer limit);-->
+    <select id="getStudentListByClassIdPaging" resultType="Student">
+        <include refid="BaseSql"></include>
+        where classId=#{classId}
+        order by studentId desc
+        limit #{count},#{limit}
+    </select>
+
+    <!--List<Student> getStudentListByClassId(Integer classId);-->
+    <select id="getStudentListByClassId" resultType="Student">
+        <include refid="BaseSql"></include>
+        where classId=#{classId}
+        order by studentId desc
+    </select>
+
+    <!--List<Course> getCourseByClassId(Integer classId);-->
+    <select id="getCourseByClassId" resultType="Course">
+        select c.courseId courseId,c.courseName courseName
+        from course c left join coursesel cs on c.courseId=cs.courseId
+        where cs.classId=#{classId}
+    </select>
+
+    <!--List<Student> getAllStudentByTid(String studentName,String departmentId,String jobId,String teacherName);-->
+    <select id="getAllStudentByTid" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
+        from ((student s left join job j on s.jobId=j.jobId)
+        left join department d on s.departmentId=d.departmentId)
+        left join clazz c on s.classId=c.classId
+        <where>
+            <if test="studentName != null and studentName != ''">
+                s.studentName like '%' #{studentName} '%'
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and s.departmentId=#{departmentId}
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and s.jobId=#{jobId}
+            </if>
+            <if test="teacherName != null and teacherName != ''">
+                and c.teacherName=#{teacherName}
+            </if>
+        </where>
+        order by s.studentId desc
+    </select>
+
+    <!--List<Map<String,Object>> getAllStudentByTidPaging(Integer count,Integer pageSize, String studentName, String departmentId,String jobId,String teacherName);-->
+    <select id="getAllStudentByTidPaging" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
+        from ((student s left join job j on s.jobId=j.jobId)
+        left join department d on s.departmentId=d.departmentId)
+        left join clazz c on s.classId=c.classId
+        <where>
+            <if test="studentName != null and studentName != ''">
+                s.studentName like '%' #{studentName} '%'
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and s.departmentId=#{departmentId}
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and s.jobId=#{jobId}
+            </if>
+            <if test="teacherName != null and teacherName != ''">
+                and c.teacherName=#{teacherName}
+            </if>
+        </where>
+        order by s.studentId desc
+        limit #{count},#{pageSize}
+    </select>
 
     <!--Map<String,Object> getStuInfoById(Integer studentId);-->
     <select id="getStuInfoById" resultType="Map">
@@ -47,12 +127,15 @@
 
     <!--List<Clazz> getClazzList();-->
     <select id="getClazzList" resultType="Clazz">
-        select classId,clazz,teacherName from clazz
+        select classId,clazz,teacherName
+        from clazz
+        order by classId desc
     </select>
 
     <!--List<User> getManagerList();-->
     <select id="getManagerList" resultType="User">
-        select userId,userName,password,role from user where role=3
+        select userId,userName,password,role
+        from user where role=3
     </select>
 
     <!--boolean deleteStudentById(Integer studentId);-->

@@ -40,7 +40,7 @@ public class JobController {
     public String getJobById(Integer jobId, Model model){
         Job job = jobService.getJobById(jobId);
         model.addAttribute("job",job);
-        return "jobEdit";
+        return "editJob";
     }
 
     @RequestMapping(value = "/addJob",produces = "text/html;charset=utf-8")
@@ -67,7 +67,7 @@ public class JobController {
 
     @RequestMapping("getJobAdd")
     public String getJobAdd(){
-        return "jobAdd";
+        return "addJob";
     }
 
     @RequestMapping(value = "/deleteJobById",produces = "text/html;charset=utf-8")

@@ -22,6 +22,31 @@ public class StudentServiceImpl implements IStudentService {
     IStudentDao studentDao;
 
     @Override
+    public List<TState> getTStateList() {
+        return studentDao.getTStateList();
+    }
+
+    @Override
+    public List<Massess> getMassessByStuId(Integer studentId) {
+        return studentDao.getMassessByStuId(studentId);
+    }
+
+    @Override
+    public List<Student> getStudentListByClassIdPaging(Integer classId,Integer count, Integer limit) {
+        return studentDao.getStudentListByClassIdPaging(classId, count, limit);
+    }
+
+    @Override
+    public List<Student> getStudentListByClassId(Integer classId) {
+        return studentDao.getStudentListByClassId(classId);
+    }
+
+    @Override
+    public List<Course> getCourseByClassId(Integer classId) {
+        return studentDao.getCourseByClassId(classId);
+    }
+
+    @Override
     public boolean editStudent(Student student) {
         return studentDao.editStudent(student);
     }
@@ -99,6 +124,16 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public List<Student> getAllStudent(String studentName,String departmentId,String jobId) {
         return studentDao.getAllStudent(studentName, departmentId, jobId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllStudentByTidPaging(Integer count, Integer pageSize, String studentName, String departmentId, String jobId, String teacherName) {
+        return studentDao.getAllStudentByTidPaging(count,pageSize,studentName,departmentId,jobId,teacherName);
+    }
+
+    @Override
+    public List<Student> getAllStudentByTid(String studentName, String departmentId, String jobId, String teacherName) {
+        return studentDao.getAllStudentByTid(studentName,departmentId,jobId,teacherName);
     }
 
     @Override

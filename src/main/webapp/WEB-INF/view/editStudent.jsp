@@ -27,6 +27,9 @@
         .layui-form-item .layui-input-inline {
             margin-bottom: 20px;
         }
+        .layui-form-item {
+            margin-bottom: 10px;
+        }
         .layui-form-select dl {
             max-height: 190px;
         }
@@ -36,12 +39,16 @@
             padding-right: 0;
             padding-left: 20px;
         }
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
         img{
-            height: 170px;
+            height: 175px;
         }
         .showPhoto{
             border: solid 1px #eaeaea;
-            margin: 15px 15px 10px 0;
+            margin: 10px 15px 10px 0;
             height: 170px;
             width: 110px;
         }

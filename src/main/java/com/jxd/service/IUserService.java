@@ -1,7 +1,6 @@
 package com.jxd.service;
 
 import com.jxd.model.User;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface IUserService {
     boolean updateUserPwd(Integer userId, String password);
     boolean updateAdmin(Integer userId, String password);
     boolean deleteById(Integer userId);
-    List<User>getMaxUserId();
+    List<User> getMaxUserId();
     List<User> getAllUserByPage( Integer pageIndex, Integer pageSize);
     List<User> getAllUser();
     List<User> getUserById(Integer userId);

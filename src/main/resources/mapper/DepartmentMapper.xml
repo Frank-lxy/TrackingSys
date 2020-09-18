@@ -59,6 +59,7 @@
                 departmentName like '%' #{departmentName} '%'
             </if>
         </where>
+        order by departmentId desc
     </select>
 
     <sql id="BaseSql">

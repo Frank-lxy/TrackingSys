@@ -22,17 +22,15 @@
     <select id="getClazzListByTchName" resultType="Clazz">
     select classId,clazz,teacherName from clazz where teacherName=#{teacherName} order by classId desc
     </select>
-    <!--List<Course> getAllCourseByClassId(Integer classId);-->
 
+    <!--List<Course> getAllCourseByClassId(Integer classId);-->
     <select id="getAllCourseByClassId" resultType="Map">
         select cs.courseId courseId,cs.classId classId,co.courseName courseName
         from course co right join coursesel cs on co.courseId = cs.courseId  where cs.classId=#{classId}
     </select>
 
-    <!--  public List<Map<String, Object>> getScoreByStuId(Integer studentId)-->
-
+    <!--  public List<Map<String, Object>> getScoreByStuId(Integer studentId,Integer classId)-->
     <select id="getScoreByStuId" resultType="Map">
-
         select co.courseId courseId,co.courseName courseName,s.score score
         from ((course co left join coursesel cs on co.courseId = cs.courseId ) left join score s on co.courseId=s.courseId)
         where s.studentId=#{studentId} and cs.classId=#{classId}

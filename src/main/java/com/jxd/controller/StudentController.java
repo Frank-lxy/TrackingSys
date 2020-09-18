@@ -1,9 +1,7 @@
 package com.jxd.controller;
 
 import com.jxd.model.*;
-import com.jxd.service.IDepartmentService;
-import com.jxd.service.IJobService;
-import com.jxd.service.IStudentService;
+import com.jxd.service.*;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -14,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Description TODO
@@ -35,6 +32,135 @@ public class StudentController {
     IDepartmentService departmentService;
     @Autowired
     IJobService jobService;
+    @Autowired
+    IScoreService scoreService;
+    @Autowired
+    ISassessService sassessService;
+
+    @RequestMapping("/getStudentListByClassId")
+    @ResponseBody
+    public JSON getStudentListByClassId(Integer classId,Integer limit,Integer page){
+
+        List<Map<String,Object>> studentList = new ArrayList<>();
+
+        int count = (page - 1) * limit;
+        //获取该班级的所有学员
+        List<Student> list = studentService.getStudentListByClassId(classId);
+        //分页获取该班级的所有学员
+        List<Student> list1 = studentService.getStudentListByClassIdPaging(classId,count,limit);
+        //获取该班期课程列表
+        List<Map<String,Object>> courseList = scoreService.getAllCourseByClassId(classId);
+        //获取经理评价的评价阶段
+        List<TState> tStateList = studentService.getTStateList();
+        //把每一个学生的信息和对应评分进行封装
+        for (Student student:list1){
+            //获取该学生的学校各课程成绩
+            List<Map<String,Object>> scores = scoreService.getScoreByStuId(student.getStudentId(),student.getClassId());
+            //获取该学员的学校整体评价分数
+            Sassess sassess = sassessService.getSassessByStuId(student.getStudentId());
+            //获取该学员的项目经理整体评价分数
+            List<Massess> massesses = studentService.getMassessByStuId(student.getStudentId());
+            //把每个学生信息和他的各科成绩存储在map中
+            Map<String,Object> map = new HashMap<>();
+            map.put("studentId",student.getStudentId());
+            map.put("studentName",student.getStudentName());
+            map.put("sex",student.getSex());
+            map.put("graduate",student.getGraduate());
+            map.put("homeTown",student.getHomeTown());
+            //添加学校课程评分
+            if(scores.size() == 0){
+                for (int i = 0;i < courseList.size(); i++){
+                    map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                }
+            }else if (scores.size() == courseList.size()){
+                for (int i = 0;i < scores.size(); i++){
+                    if (scores.get(i).get("score") == null){
+                        map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                    }else {
+                        map.put(courseList.get(i).get("courseId").toString(),scores.get(i).get("score"));
+                    }
+                }
+            }else {
+                for (int i = 0;i < scores.size(); i++){
+                    if (scores.get(i).get("score") == null){
+                        map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                    }else {
+                        map.put(courseList.get(i).get("courseId").toString(),scores.get(i).get("score"));
+                    }
+                }
+                for (int i = scores.size(); i < courseList.size(); i++){
+                    map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                }
+            }
+            //添加学校整体评价评分
+            if (sassess == null){
+                map.put("sevaluate","待评分");
+            }else {
+                map.put("sevaluate",sassess.getEvaluate());
+            }
+            //添加项目经理整体评价评分
+            if(massesses.size() == 0){
+                for (int i = 0;i < tStateList.size(); i++){
+                    map.put("mevaluate" + (i + 1),"待评价");
+                }
+            }else if (massesses.size() == tStateList.size()){
+                for (int i = 0;i < massesses.size(); i++){
+                    if (massesses.get(i).getEvaluate() == null){
+                        map.put("mevaluate" + (i + 1),"待评分");
+                    }else {
+                        map.put("mevaluate" + (i + 1),scores.get(i).get("score"));
+                    }
+                }
+            }else {
+                for (int i = 0;i < massesses.size(); i++){
+                    if (massesses.get(i).getEvaluate() == null){
+                        map.put("mevaluate" + (i + 1),"待评分");
+                    }else {
+                        map.put("mevaluate" + (i + 1),massesses.get(i).getEvaluate());
+                    }
+                }
+                for (int i = massesses.size(); i < tStateList.size(); i++){
+                    map.put("mevaluate" + (i + 1),"待评分");
+                }
+            }
+            //把map添加到list中
+            studentList.add(map);
+        }
+        //转换为json数组
+        JSONArray jsonArray = JSONArray.fromObject(studentList);
+        //创建json对象，用于返回layui表格需要的数据
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("msg","");
+        jsonObject.put("count",list.size());//一共有多少条数据
+        jsonObject.put("data",jsonArray);
+
+        return jsonObject;
+    }
+
+    @RequestMapping(value = "/getCourseByClassId")
+    @ResponseBody
+    public List<Map<String, Object>> getCourseByClassId(Integer classId){
+        //根据班期id获取班期的所学课程
+        List<Map<String,Object>> list = scoreService.getAllCourseByClassId(classId);
+        return list;
+    }
+
+    @RequestMapping(value = "/getStudentTracking",produces = "text/html;charset=utf-8")
+    public String getStudentTracking(Model model){
+        //获取各个下拉列表的值，并存入session
+        List<Clazz> clazzList = studentService.getClazzList();
+        List<User> managerList = studentService.getManagerList();
+        List<Department> departmentList = departmentService.getAllDepartment(null);
+        List<Job> jobList = jobService.getAllJob(null);
+        model.addAttribute("clazzList",clazzList);
+        model.addAttribute("managerList",managerList);
+        model.addAttribute("departmentList",departmentList);
+        model.addAttribute("jobList",jobList);
+
+        model.addAttribute("clazzId",clazzList.get(9).getClassId());
+        return "studentTracking";
+    }
 
     @RequestMapping(value = "/editStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
@@ -74,7 +200,7 @@ public class StudentController {
 
         model.addAttribute("student",student);
         model.addAttribute("state",state);
-        return "studentEdit";
+        return "editStudent";
     }
 
     @RequestMapping(value = "/addStudent",produces = "text/html;charset=utf-8")
@@ -116,7 +242,7 @@ public class StudentController {
 
     @RequestMapping("getStudentAdd")
     public String getStudentAdd(){
-        return "studentAdd";
+        return "addStudent";
     }
 
     @RequestMapping(value = "/deleteStudentById",produces = "text/html;charset=utf-8")
@@ -150,7 +276,7 @@ public class StudentController {
 
     @RequestMapping(value = "/getAllStudent",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public JSON getAllStudent(HttpServletRequest request){
+    public JSON getAllStudent(HttpServletRequest request, HttpSession session){
         //过滤条件
         String studentName = request.getParameter("studentName");
         String departmentId = request.getParameter("departmentId");
@@ -173,16 +299,45 @@ public class StudentController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "/getAllStudentByTid",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public JSON getAllStudentByTid(HttpServletRequest request, HttpSession session){
+        //过滤条件
+        String studentName = request.getParameter("studentName");
+        String departmentId = request.getParameter("departmentId");
+        String jobId = request.getParameter("jobId");
+        User user = (User) session.getAttribute("user");
+        String teacherName = user.getUserName();
+        //获取所有课程
+        List<Student> list = studentService.getAllStudentByTid(studentName,departmentId,jobId,teacherName);
+        //获取分页数据
+        int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
+        int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
+        int count = (pageIndex - 1) * pageSize;
+        //获取分页课程
+        List<Map<String,Object>> list1 = studentService.getAllStudentByTidPaging(count,pageSize,studentName,departmentId,jobId,teacherName);
+        //将数组转换为json数据
+        JSONArray jsonArray = JSONArray.fromObject(list1);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("msg","");
+        jsonObject.put("count",list.size());//一共有多少条数据
+        jsonObject.put("data",jsonArray);
+        return jsonObject;
+    }
+
     @RequestMapping("/getStudentList")
     public String getStudentList(Model model){
-        List<Clazz> clazzList = studentService.getClazzList();
-        List<User> managerList = studentService.getManagerList();
-        List<Department> departmentList = departmentService.getAllDepartment(null);
-        List<Job> jobList = jobService.getAllJob(null);
-        model.addAttribute("clazzList",clazzList);
-        model.addAttribute("managerList",managerList);
-        model.addAttribute("departmentList",departmentList);
-        model.addAttribute("jobList",jobList);
         return "studentList";
     }
+
+    @RequestMapping("/tStudentList")
+    public String tStudentList(Model model){
+        List<Department> departmentList = departmentService.getAllDepartment(null);
+        List<Job> jobList = jobService.getAllJob(null);
+        model.addAttribute("departmentList",departmentList);
+        model.addAttribute("jobList",jobList);
+        return "tStudentList";
+    }
+
 }

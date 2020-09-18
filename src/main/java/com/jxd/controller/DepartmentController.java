@@ -41,7 +41,7 @@ public class DepartmentController {
     public String getDepartmentById(Integer departmentId, Model model){
         Department department = departmentService.getDepartmentById(departmentId);
         model.addAttribute("department",department);
-        return "departmentEdit";
+        return "editDepartment";
     }
 
     @RequestMapping(value = "/addDepartment",produces = "text/html;charset=utf-8")
@@ -68,7 +68,7 @@ public class DepartmentController {
 
     @RequestMapping("getDepartmentAdd")
     public String getDepartmentAdd(){
-        return "departmentAdd";
+        return "addDepartment";
     }
 
     @RequestMapping(value = "/deleteDepartmentById",produces = "text/html;charset=utf-8")

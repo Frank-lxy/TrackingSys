@@ -3,6 +3,7 @@ package com.jxd.controller;
 import com.jxd.model.Sassess;
 import com.jxd.model.User;
 import com.jxd.service.ISassessService;
+import com.jxd.service.IUserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +25,44 @@ import java.util.Map;
 public class SassessController {
     @Autowired
     ISassessService sassessService;
+    @Autowired
+    IUserService userService;
+
+    @RequestMapping("/editPwd")
+    public String editPwd(){
+        return "editPwd";
+    }
+
     @RequestMapping("/sassessList")
     public String sassessList(){
         return "sassessList";
     }
+
+    @RequestMapping(value = "/editPwdById",produces ={ "text/html;charset=UTF-8"})
+    @ResponseBody
+    public String editPwdById(User user){
+        //修改密码是否成功
+        boolean isEdit = userService.editPwdById(user);
+        if (isEdit){
+            return "修改成功";
+        }else {
+            return "修改失败";
+        }
+    }
+
     @RequestMapping(value = "/getAssessByPage",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSONObject getAssessByPage(String studentName,Integer classId,Integer limit, Integer page,Integer userId){
         Integer count = limit*(page - 1);
         User user = sassessService.getUserById(userId);
+        //分页获得评价信息
         List<Map<String,Object>> list = sassessService.getAssessByPage(studentName,user.getUserName(),classId,count,limit);
+        //获得评价信息
         List<Map<String,Object>> list1 = sassessService.getAllAssess(studentName,user.getUserName(),classId);
-        //把list返回到empList页面
+
+        //把list返回到assessList页面
         JSONArray jsonArray = JSONArray.fromObject(list);
         //创建json对象，用于返回layui表格需要的数据
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",0);
         jsonObject.put("msg","");
@@ -50,8 +74,10 @@ public class SassessController {
 
     @RequestMapping("/sassess")
     public String sassessPage(Integer studentId,Integer classId,String studentName,Model model){
+        //增加评价时需要传递的参数
         model.addAttribute("studentId",studentId);
         model.addAttribute("classId",classId);
+        //在页面上显示姓名
         model.addAttribute("studentName",studentName);
         return "addSassess";
     }
@@ -59,6 +85,7 @@ public class SassessController {
     @RequestMapping(value = "/addSassess",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String addSassess(Sassess sassess){
+        //是否评价成功
         boolean isAdd = sassessService.addSassess(sassess);
         if (isAdd){
             return "评价成功";
@@ -66,8 +93,10 @@ public class SassessController {
             return "评价失败";
         }
     }
+
     @RequestMapping("/getSassessById")
     public String getSassessById(Integer saId, String studentName,Model model){
+        //修改评价时得到原来的评价数据
         Sassess sassess = sassessService.getSassessById(saId);
         model.addAttribute("studentName",studentName);
         model.addAttribute("sassess",sassess);
@@ -77,6 +106,7 @@ public class SassessController {
     @RequestMapping(value = "/editSassess",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String editSassess(Sassess sassess){
+        //修改评价是否成功
         boolean isEdit = sassessService.editSassess(sassess);
         if (isEdit){
             return "修改成功";

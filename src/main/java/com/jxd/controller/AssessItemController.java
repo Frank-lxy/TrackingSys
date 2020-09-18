@@ -40,7 +40,7 @@ public class AssessItemController {
     public String getAssessItemById(Integer assessItemId, Model model){
         AssessItem assessItem = assessItemService.getAssessItemById(assessItemId);
         model.addAttribute("assessItem",assessItem);
-        return "assessItemEdit";
+        return "editAssessItem";
     }
 
     @RequestMapping(value = "/addAssessItem",produces = "text/html;charset=utf-8")
@@ -67,7 +67,7 @@ public class AssessItemController {
 
     @RequestMapping("getAssessItemAdd")
     public String getAssessItemAdd(){
-        return "assessItemAdd";
+        return "addAssessItem";
     }
 
     @RequestMapping(value = "/deleteAssessItemById",produces = "text/html;charset=utf-8")
