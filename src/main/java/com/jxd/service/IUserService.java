@@ -16,6 +16,7 @@ public interface IUserService {
     boolean updateUserPwd(Integer userId, String password);
     boolean updateAdmin(Integer userId, String password);
     boolean deleteById(Integer userId);
+    List<User>getMaxUserId();
     List<User> getAllUserByPage( Integer pageIndex, Integer pageSize);
     List<User> getAllUser();
     List<User> getUserById(Integer userId);

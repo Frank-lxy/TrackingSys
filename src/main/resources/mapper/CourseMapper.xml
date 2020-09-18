@@ -52,7 +52,10 @@
             </if>
         </where>
     </select>
-
+<select id="getCourseIdByName" resultType="Course">
+    <include refid="BaseSql"></include>
+    where courseName=#{courseName}
+</select>
     <sql id="BaseSql">
         select courseId,courseName from course
     </sql>

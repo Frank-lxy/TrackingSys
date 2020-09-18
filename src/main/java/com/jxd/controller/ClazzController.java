@@ -68,11 +68,16 @@ public class ClazzController {
         return "clazzList";
     }
 
+
+    /**
+     * 跳转到新增期次页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/addClazz")
     @ModelAttribute
     public String addClazz(Model model) {
         List<Clazz> list = clazzService.getMaxClazz();//获取ID最大的班期
-
         String num = null;
         String str1 = "";
         for (Clazz s : list) {
@@ -104,10 +109,17 @@ public class ClazzController {
         return "addClazz";
     }
 
+    /**
+     * 新增一个新的期次
+     * @param clazz
+     * @param courseName
+     * @param teacherName
+     * @return
+     */
     @RequestMapping("/addNewClazz")
     @ResponseBody
-    public String addNewClazz(String clazz, String[] arr, String teacherName) {
-
+    public String addNewClazz(String clazz, String courseName, String teacherName) {
+        String []arr=courseName.split(",");
         List<String> list1 = new ArrayList<>();
         Integer classId = null;
         Integer courseId = null;
@@ -127,12 +139,12 @@ public class ClazzController {
                 addCoursesel = courseselService.addCoursesel(courseId, classId);
             }
         } else {
-            return "添加班期失败";
+            return "新增班期失败";
         }
         if (addClazz && addCoursesel) {
-            return "添加成功";
+            return "新增成功";
         } else {
-            return "添加失败";
+            return "新增失败";
         }
     }
 

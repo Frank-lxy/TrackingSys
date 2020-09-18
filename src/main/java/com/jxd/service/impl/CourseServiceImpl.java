@@ -53,4 +53,9 @@ public class CourseServiceImpl implements ICourseService {
     public List<Course> getAllCourse(String courseName) {
         return courseDao.getAllCourse(courseName);
     }
+
+    @Override
+    public List<Course> getCourseIdByName(String courseName) {
+        return courseDao.getCourseIdByName(courseName);
+    }
 }

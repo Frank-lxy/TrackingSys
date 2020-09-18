@@ -43,7 +43,7 @@
                 <label class="layui-form-label">权限</label>
                 <div class="layui-input-block">
                     <select name="city" lay-verify="required" id="Character" required>
-                        <option value="">请选择权限</option>
+                        <option value="" id="chater">请选择权限</option>
                         <option value="教师">教师</option>
                         <option value="经理">经理</option>
                     </select>
@@ -67,7 +67,7 @@
         var userName = "";
         var pwd = "";
         var repwd = "";
-        var character = $("#Character").val();
+        var Character = ""
         $("#userName").blur(function () {
             userName = $("#userName").val();
             if (userName == "") {
@@ -76,9 +76,9 @@
         })
         $("#repwd").blur(function () {
             repwd = $("#repwd").val();
-            repwd = $("#password").val();
-            if (repwd !=pwd) {
-                layer.msg("两次密码输入不一致");
+            pwd = $("#password").val();
+            if (repwd!=pwd) {
+                layer.msg("两次密码输入不一致，请重新输入");
             }
         })
         $("#password").blur(function () {
@@ -93,7 +93,7 @@
             }
         });
         $("#addUser").click(function () {
-            if (repwd != pwd || character == "") {
+            if (repwd != pwd ||$("#Character").val()=="" ) {
                 layer.msg("输入有误，请检查")
             } else {
                 $.ajax({

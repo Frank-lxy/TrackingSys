@@ -18,6 +18,7 @@ public interface IUserDao {
     List<User> getAllUser();
     List<User> getUsers();
     List<User> getAllTeachers();
+    List<User>getMaxUserId();
     List<User> getUserById(Integer userId);
     boolean deleteById(Integer userId);
     List<User> getAllUserByPage(@Param("pageIndex") Integer pageIndex,@Param("pageSize") Integer pageSize);

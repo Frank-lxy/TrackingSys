@@ -47,4 +47,7 @@
     <delete id="deleteById" parameterType="User">
  delete from user where userId = #{userId}
  </delete>
+    <select id="getMaxUserId" resultType="User">
+        select userId from user where userId=(SELECT MAX(userId)from user)
+    </select>
 </mapper>

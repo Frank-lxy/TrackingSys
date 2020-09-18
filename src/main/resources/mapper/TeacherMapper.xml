@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
+个 个mapper 相当于一个dao 接口的实现类 -->
+<mapper namespace="com.jxd.dao.ITeacherDao">
+    <sql id="BaseSql">
+        select teacherId,teacherName,sex,phoneNumber,hometown,idCardNum,photo,birthday,userId from teacher
+    </sql>
+    <select id="getAllTeacher" resultType="Teacher">
+        <include refid="BaseSql"></include>
+    </select>
+    <select id="getAllTeacherById" resultType="Teacher">
+        <include refid="BaseSql"></include>
+        where teacherId=#{teacherId}
+    </select>
+    <update id="updateTeacher">
+        update teacher set teacherName=#{teacherName}, birthday=#{birthday}, idCardNum=#{idCardNum}, phoneNumber=#{phoneNumber}, sex=#{sex}, homeTown=#{homeTown},photo=#{photo}
+        where teacherId=#{teacherId}
+    </update>
+    <select id="getAllTeacherByPage" resultType="Teacher">
+        <include refid="BaseSql"></include>
+        limit #{count}, #{page}
+    </select>
+    <select id="getTeachers" resultType="com.jxd.model.Teacher">
+        <include refid="BaseSql"></include>
+        <where>
+            <if test="teacherName != null and teacherName !=''">
+                teacherName like '%' #{teacherName} '%'
+            </if>
+        </where>
+    </select>
+    <insert id="addTeacher">
+        insert into teacher(teacherName, birthday, idCardNum, phoneNumber, sex, homeTown,photo)
+        values (#{teacherName},#{birthday},#{idCardNum},#{phoneNumber},#{sex},#{homeTown},#{photo})
+    </insert>
+    <delete id="delTeacherById">
+        delete from teacher where teacherId=#{teacherId}
+    </delete>
+    <select id="getTeacherById" resultType="Teacher">
+        select userId from teacher
+        where teacherId=#{teacherId}
+    </select>
+    <update id="updateUserId">
+        update teacher set userId=#{userId}
+        where teacherId=#{teacherId}
+    </update>
+    <select id="getMaxId" resultType="Teacher">
+        select teacherId from teacher where teacherId=(SELECT MAX(teacherId)from teacher)
+    </select>
+</mapper>

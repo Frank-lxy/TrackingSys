@@ -54,5 +54,12 @@ public interface ICourseService {
      * 获取课程列表
      * @return 课程列表
      */
-    List<Course> getAllCourse(String courseName);
+    List<Course> getAllCourse();
+
+    /**
+     * 通过课程名获取课程Id
+     * @param courseName
+     * @return
+     */
+    List<Course> getCourseIdByName(String courseName);
 }

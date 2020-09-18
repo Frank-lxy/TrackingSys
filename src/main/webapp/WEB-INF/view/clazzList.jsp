@@ -12,18 +12,24 @@
     <title>班期管理</title>
     <script src="../../static/layui/layui.js"></script>
     <link href="../../static/layui/css/layui.css"rel="stylesheet">
+    <style>
+        .layui-table-tool-self{
+            display: none;
+        }
+        .layui-table-tool-temp{
+            padding: 0px;
+        }
+        .laytable-cell-checkbox{
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<div align="center">
+<div align="center" style="margin: 0px 10px">
     <table id="demo" lay-filter="test"></table>
 </div>
 
-<style>
-    .layui-table-tool-self{
-        display: none;
-    }
-
-</style >
 <script type="text/html" id="toolbarDemo">
     <div align="right">
         <div class="layui-input-inline">
@@ -51,19 +57,17 @@
         //第一个实例
         table.render({
             elem: '#demo'
-            ,height: 500
-            ,width: 800
-            ,limit:5
-            ,limits:[5,10,15,20]
+            ,height: 'full-32'
+            ,limit:8
+            ,limits:[8,10,15,20]
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllClazz' //数据接口
             ,page: true //开启分页
             ,cols: [[ //表头
-                {field: 'classId', title: '编号', width:130, sort: true,hide:true}
-                ,{type:'numbers',title:'序号'}
-                ,{field: 'clazz', title: '班期', width:150}
-                ,{field: 'teacherName', title: '教师名称', width:150, sort: true}
-
+                {type:'numbers',title:'序号', width:'15%', sort:true}
+                ,{field: 'courseId', title: '课程号', hide:true}
+                ,{field: 'clazz', title: '班期',align:"center"}
+                ,{field: 'teacherName', title: '教师姓名',align:"center"}
             ]]
         });
         table.on('toolbar(test)', function(obj){

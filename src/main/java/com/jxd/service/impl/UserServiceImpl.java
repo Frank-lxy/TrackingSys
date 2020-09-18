@@ -78,4 +78,9 @@ public class UserServiceImpl implements IUserService {
     public boolean deleteById(Integer userId) {
         return userDao.deleteById(userId);
     }
+
+    @Override
+    public List<User> getMaxUserId() {
+        return userDao.getMaxUserId();
+    }
 }

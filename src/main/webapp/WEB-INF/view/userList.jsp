@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: xzh
@@ -10,18 +11,23 @@
 <head>
     <meta charset="utf-8" />
     <title>用户管理</title>
-    <style>
-    .layui-table-tool-self{
-        display: none;
-    }
-
-
-</style >
     <link rel="stylesheet" href="../../static/layui/css/layui.css">
     <script src="../../static/layui/layui.js"></script>
+    <style>
+        .layui-table-tool-self{
+            display: none;
+        }
+        .layui-table-tool-temp{
+            padding: 0px;
+        }
+        .laytable-cell-checkbox{
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<div align="center">
+<div align="center" style="margin: 0px 10px">
     <table id="demo" lay-filter="test"></table>
 </div>
 
@@ -31,7 +37,11 @@
             <input type="text" placeholder="请输入用户名" class="layui-input" id="userName">
         </div>
         <div class="layui-input-inline">
-            <input type="text" placeholder="请输入用户职位" class="layui-input" id="Character">
+            <select name="city" lay-verify="required" id="Character" required>
+                <option value="">请选择权限</option>
+                <option value="教师">教师</option>
+                <option value="经理">经理</option>
+            </select>
         </div>
         <div class="layui-input-inline">
             <button class="layui-btn layui-btn-sm"  lay-event="query">查询</button>
@@ -42,7 +52,7 @@
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="modify">重置密码</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="modify">重置</a>
 </script>
 <script>
     layui.use(['table','layer','jquery'], function() {
@@ -52,27 +62,26 @@
         //第一个实例
         table.render({
             elem: '#demo'
-            , height: 'full-90'
-            , limit: 5
-            , limits: [5, 10, 15, 20]
+            , height: 'full-32'
+            , limit: 8
+            , limits: [8, 10, 15, 20]
             , toolbar: '#toolbarDemo'//添加工具栏
             , url: '/getAllUser' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
-                {type: 'checkbox'}
-                , {field: 'userId', title: '用户id', width: 130, sort: true, hide: true}
-                , {type: 'numbers', title: '序号'}
-                , {field: 'userName', title: '用户名', width: 150}
-                , {field: 'password', title: '密码', width: 150, sort: true}
-                , {field: 'character', title: '权限', width: 150, sort: true}
-                , {field: 'operate', title: '操作',toolbar:'#barDemo',width:150}
+                  {type: 'checkbox'}
+                , {type: 'numbers', title: '序号', width:'15%', sort:true}
+                , {field: 'userId', title: '用户id', hide: true}
+                , {field: 'userName', title: '用户名',align:"center"}
+                , {field: 'password', title: '密码',align:"center"}
+                , {field: 'character', title: '权限',align:"center"}
+                , {field: 'operate', title: '操作',toolbar:'#barDemo',align:"center"}
             ]]
         });
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
                 case 'query':
-                    layer.msg("查询");
                     var userName = $("#userName").val();
                     var Character = $("#Character").val();
                     //table重载

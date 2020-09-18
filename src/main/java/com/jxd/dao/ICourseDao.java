@@ -53,8 +53,14 @@ public interface ICourseDao {
 
     /**
      * 获取课程列表
-     * @param courseName 课程名称
      * @return 课程列表
      */
-    List<Course> getAllCourse(@Param("courseName")String courseName);
+    List<Course> getAllCourse();
+
+    /**
+     * 通过课程名获取课程Id
+     * @param courseName
+     * @return
+     */
+    List<Course> getCourseIdByName(String courseName);
 }

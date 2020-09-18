@@ -22,7 +22,8 @@ public class UserController {
     IUserService userService;
 
     @RequestMapping("/userList")
-    public String studentList() {
+    public String studentList(Model model) {
+
         return "userList";
     }
 
@@ -31,6 +32,12 @@ public class UserController {
         return "addUser";
     }
 
+    /**
+     * 查询全部的用户信息
+     * @param limit
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "/getAllUser", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getAllUser(String limit, String page) {
@@ -79,31 +86,63 @@ public class UserController {
         return jsonObject;
     }
 
+    /**
+     * 查询
+     * @param userName
+     * @param Character
+     * @return
+     */
     @RequestMapping(value = "/getUsers", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getUsers(String userName, String Character) {
         //过滤条件
         //获取所有部门
         List<User> list = new ArrayList<>();
-        if (Character.contains("教") || Character.contains("师")) {
+        List<UserInfo> list1=new ArrayList<>();
+        if (Character.equals("教师")) {
             Integer role = 2;
             list = userService.getUsers(userName, role);
-        } else if (Character.contains("经") || Character.contains("理")) {
+            for (User u:list){
+                UserInfo userInfo=new UserInfo(u.getUserId(), u.getUserName(), u.getPassword(), "教师");
+                list1.add(userInfo);
+            }
+        } else if (Character.equals("经理")) {
             Integer role = 3;
             list = userService.getUsers(userName, role);
+            for (User u:list){
+                UserInfo userInfo=new UserInfo(u.getUserId(), u.getUserName(), u.getPassword(), "经理");
+                list1.add(userInfo);
+            }
         } else if (Character == "") {
             Integer role = null;
             list = userService.getUsers(userName, role);
+            for (User u:list){
+                if (u.getRole()==1){
+                    UserInfo userInfo=new UserInfo(u.getUserId(), u.getUserName(), u.getPassword(), "管理员");
+                    list1.add(userInfo);
+                }else if (u.getRole()==2){
+                    UserInfo userInfo=new UserInfo(u.getUserId(), u.getUserName(), u.getPassword(), "教师");
+                    list1.add(userInfo);
+                }else if (u.getRole()==3){
+                    UserInfo userInfo=new UserInfo(u.getUserId(), u.getUserName(), u.getPassword(), "经理");
+                    list1.add(userInfo);
+                }
+            }
         }
-        JSONArray jsonArray = JSONArray.fromObject(list);
+        JSONArray jsonArray = JSONArray.fromObject(list1);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", 0);
         jsonObject.put("msg", "");
-        jsonObject.put("count", list.size());//一共有多少条数据
+        jsonObject.put("count", list1.size());//一共有多少条数据
         jsonObject.put("data", jsonArray);
         return jsonObject;
     }
 
+    /**
+     * 重置密码
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/inituser", produces = "text/html;charset=utf-8")
     @ResponseBody
     public String inituser(@RequestParam String userId) {
@@ -116,28 +155,35 @@ public class UserController {
         }
     }
 
+    /**
+     * 新增用户
+     * @param userName
+     * @param password
+     * @param Character
+     * @return
+     */
     @RequestMapping("/addNewUser")
     @ResponseBody
-    public String addNewUser(String userName, String password, String Character) {
+    public boolean addNewUser(String userName, String password, String Character) {
         boolean isAdd = false;
         if (Character.equals("教师")) {
             Integer role = 2;
             isAdd = userService.addUser(userName, password, role);
             if (isAdd) {
-                return "新增成功";
+                return true;
             } else {
-                return "新增失败";
+                return false;
             }
         } else if (Character.equals("经理")) {
             Integer role = 3;
             isAdd = userService.addUser(userName, password, role);
             if (isAdd) {
-                return "新增成功";
+                return true;
             } else {
-                return "新增失败";
+                return false;
             }
-        } else {
-            return "新增失败";
+        }else {
+            return false;
         }
     }
 
@@ -153,47 +199,6 @@ public class UserController {
         }
 
     }
-
-
-
-    @RequestMapping("/editUser")
-    @ModelAttribute
-    public String editUser(Model model, @RequestParam("userId") String userId) {
-        List<User> list = userService.getUserById(Integer.parseInt(userId));
-        String userName = null;
-        String password = null;
-        String Character = null;
-        for (User u : list) {
-            userName = u.getUserName();
-            password = u.getPassword();
-            if (u.getRole() == 2) {
-                Character = "教师";
-            } else if (u.getRole() == 3) {
-                Character = "经理";
-            }
-        }
-        model.addAttribute("userId", userId);
-        model.addAttribute("userName", userName);
-        model.addAttribute("password", password);
-        model.addAttribute("Character", Character);
-        return "editUser";
-
-
-    }
-
-    @RequestMapping("/editAdmin")
-    @ModelAttribute
-    public String editAdmin(Model model, @RequestParam("userId") String userId) {
-        List<User> list = userService.getUserById(Integer.parseInt(userId));
-        String password = null;
-        for (User u : list) {
-            password = u.getPassword();
-        }
-        model.addAttribute("userId", userId);
-        model.addAttribute("password", password);
-        return "editAdmin";
-    }
-
     @RequestMapping("/delUserById")
     @ResponseBody
     public String delUserById(String userIds) {
