@@ -5,7 +5,7 @@
 个 个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IMassessDao">
     <sql id="BaseSql">
-        select maId,studentId,evaluate,assess,state from massess
+        select maId,studentId,evaluate,assess,state,tState from massess
     </sql>
 
     <select id="getMassess" resultType="Massess">
@@ -47,6 +47,44 @@
     <select id="getAllMassessList" resultType="map">
         select studentId,date_format(hiredate,'%Y-%m-%d') hiredate,tState from student
         where managerId=#{managerId}
+    </select>
+
+    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName,String departmentId,String jobId);-->
+    <select id="getMStudentPaging" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
+        from ((student s left join job j on s.jobId=j.jobId)
+        left join department d on s.departmentId=d.departmentId)
+        left join clazz c on s.classId=c.classId
+        <where>
+            <if test="studentName != null and studentName != ''">
+                s.studentName like '%' #{studentName} '%'
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and s.jobId=#{jobId}
+            </if>
+            <if test="managerId != null and managerId != ''">
+                and s.managerId=#{managerId}
+            </if>
+        </where>
+        order by s.studentId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<Student> getAllStudent();-->
+    <select id="getAllMStudent" resultType="Student">
+        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,tState,remarks
+        from student
+        <where>
+            <if test="studentName != null and studentName != ''">
+                studentName like '%' #{studentName} '%'
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and jobId=#{jobId}
+            </if>
+            <if test="managerId != null and managerId != ''">
+                and managerId=#{managerId}
+            </if>
+        </where>
     </select>
 
     <select id="getMassessList" resultType="map">

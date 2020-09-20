@@ -137,19 +137,19 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="newsList.jsp" target="mainFrame">学员跟踪表</a>
+                <li class="layui-nav-item layui-this">
+                    <a href="getStudentTracking" target="mainFrame">学员跟踪表</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="studentList" target="mainFrame">学员信息</a>
+                    <a href="mStudentList" target="mainFrame">学员信息</a>
                 </li>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;" target="mainFrame">学员评分</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="massessList" target="mainFrame">转正评分</a></dd>
-                        <dd><a href="massessList1" target="mainFrame">一年评分</a></dd>
-                        <dd><a href="massessList2" target="mainFrame">两年评分</a></dd>
-                        <dd><a href="massessList3" target="mainFrame">三年评分</a></dd>
+                        <dd><a href="markList" target="mainFrame">转正评分</a></dd>
+                        <dd><a href="markList1" target="mainFrame">一年评分</a></dd>
+                        <dd><a href="markList2" target="mainFrame">两年评分</a></dd>
+                        <dd><a href="markList3" target="mainFrame">三年评分</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -192,7 +192,7 @@
             <%
                 if (user.getRole() == 3){
             %>
-            <iframe name="mainFrame" src="getStudentList"></iframe>
+            <iframe name="mainFrame" src="getStudentTracking"></iframe>
             <%
                 }
             %>

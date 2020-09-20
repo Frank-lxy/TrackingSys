@@ -2,14 +2,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: admin
-  Date: 2020/9/12
-  Time: 10:42
+  Date: 2020/9/17
+  Time: 14:22
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>经理评价页面</title>
+    <title>学员跟踪表</title>
     <link href="../../static/layui/css/layui.css" rel="stylesheet">
     <script src="../../static/layui/layui.js"></script>
     <style>
@@ -27,11 +27,11 @@
 </div>
 <script type="text/html" id="toolbarDemo">
     <div style="float: left">
-        <h2>评分列表</h2>
+        <h2>金桥学员跟踪表</h2>
     </div>
     <div align="right">
         <div class="layui-input-inline">
-            <input type="text" name="" required  placeholder="请输入学生姓名"  autocomplete="off" id ="filter" class="layui-input" >
+            <input type="text" name="" required  placeholder="请输入学生姓名" id ="filter" class="layui-input" >
         </div>
         <div class="layui-input-inline">
             <button class="layui-btn layui-btn-sm" lay-event="query">查询</button>
@@ -45,11 +45,11 @@
             layer = layui.layer,
             laydate = layui.laydate;
         var $ = layui.jquery;
-        var tState = ${requestScope.tState};
+        var managerId = ${requestScope.managerId};
         table.render({
             elem: '#demo'
             ,toolbar: '#toolbarDemo'
-            , url: '/getAllMassess?tState='+tState //数据接口
+            , url: '/getMassessList?managerId='+ managerId //数据接口
             ,page: true //开启分页
             ,height: 'full-102'
             ,limit:8
@@ -60,33 +60,43 @@
                 , {field: 'studentId', title: '学生编号',align: 'center',hide:true}
                 , {field: 'tState', title: '状态',align: 'center',hide:true}
                 , {field: 'studentName', title: '学生姓名',align: 'center'}
-                , {field: 'departmentName', title: '部门名称',align: 'center'}
-                , {field: 'jobName', title: '职务',align: 'center'}
-                , {field: 'hiredate', title: '入职时间',align: 'center'}
-                ,{field: 'evaluate', title: '整体分数',align:"center",templet: function (data) {
-                        if (data.evaluate == null){
-                            return '<div style="color: red">待评分</div>'
+                , {field: 'sex', title: '性别',align: 'center'}
+                , {field: 'graduate', title: '学校',align: 'center'}
+                , {field: 'nation', title: '籍贯',align: 'center'}
+                ,{field: 'sassess', title: '学校评价',align:"center",templet: function (data) {
+                        if (data.sassess == null){
+                            return '<div style="color: red">未评分</div>'
                         }else{
-                            return data.evaluate
+                            return data.sassess
                         }
                     }}
-                ,{field: 'assess', title: '评价',align:"center",templet: function (data) {
-                        if (data.assess == null){
-                            return '<div  style="color: red">待评价</div>'
+                ,{field: 'massess1', title: '转正评价',align:"center",templet: function (data) {
+                        if (data.massess1 == null){
+                            return '<div style="color: red">未评分</div>'
                         }else{
-                            return data.assess
+                            return data.massess1
                         }
                     }}
-                , {fixed:'right',field: 'state', title: '操作', width: '20%' ,align: 'center',
-                     templet: function (data) {
-                        if (data.state == 1){
-                            return '<a class="layui-btn layui-btn-xs layui-btn-disabled">已评价</a>' +
-                                    '<a class="layui-btn layui-btn-xs" lay-event="detail">修改</a>'
+                ,{field: 'massess2', title: '一年评价',align:"center",templet: function (data) {
+                        if (data.massess2 == null){
+                            return '<div style="color: red">未评分</div>'
                         }else{
-                            return '<a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="assess" id="assess">评&nbsp;&nbsp;&nbsp;价</a>' +
-                                    '<a class="layui-btn layui-btn-xs layui-btn-disabled">修改</a>'
+                            return data.massess2
                         }
-
+                    }}
+                ,{field: 'massess3', title: '两年评价',align:"center",templet: function (data) {
+                        if (data.massess3 == null){
+                            return '<div style="color: red">未评分</div>'
+                        }else{
+                            return data.massess3
+                        }
+                    }}
+                ,{field: 'massess4', title: '三年评价',align:"center",templet: function (data) {
+                        if (data.massess4 == null){
+                            return '<div style="color: red">未评分</div>'
+                        }else{
+                            return data.massess4
+                        }
                     }}
             ]],
         });
@@ -98,10 +108,10 @@
                 var studentId = data.studentId;
                 layer.open({
                     type:2,//1：弹出隐藏div 2：弹出完整jsp页面
-                    title:'经理评分',
+                    title:'评分',
                     shadeClose:true,//点击遮罩关闭弹窗
                     content:'/addMassessPage?studentId='+studentId,
-                    area:['500px','400px'],
+                    area:['600px','500px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -115,7 +125,7 @@
                     title:'评分修改',
                     shadeClose:true,//点击遮罩关闭弹窗
                     content:'/getMassessById?maId=' + maId,
-                    area:['500px','400px'],
+                    area:['600px','500px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -148,4 +158,3 @@
 
 </body>
 </html>
-

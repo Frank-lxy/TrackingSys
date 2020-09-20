@@ -1,16 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2020/9/12
-  Time: 22:48
+  User: admin
+  Date: 2020/9/17
+  Time: 9:38
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>学员基本信息</title>
-    <link href="../../static/layui/css/layui.css" rel="stylesheet" >
+    <title>学员基本信息管理</title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
     <script src="../../static/layui/layui.js"></script>
     <style>
         .layui-table-tool-self{
@@ -37,20 +37,9 @@
         <h2>学员基本信息</h2>
     </div>
     <div align="right">
-
         <div class="layui-input-inline">
             <input type="text" id="filter" placeholder="请输入学员姓名" autocomplete="off" class="layui-input">
         </div>
-
-        <div class="layui-input-inline">
-            <select name="departmentId" id="departmentId" lay-filter="receive" lay-search="">
-                <option value="">请选择部门</option>
-                <c:forEach var="departmentList" items="${sessionScope.departmentList}">
-                    <option value="${departmentList.departmentId}" name="departmentId">${departmentList.departmentName}</option>
-                </c:forEach>
-            </select>
-        </div>
-
         <div class="layui-input-inline">
             <select name="jobId" id="jobId" lay-filter="receive" lay-search="">
                 <option value="">请选择职务</option>
@@ -59,7 +48,6 @@
                 </c:forEach>
             </select>
         </div>
-
         <div class="layui-input-inline">
             <button class="layui-btn layui-btn-sm" lay-event="query">查询</button>
         </div>
@@ -80,14 +68,15 @@
         var table = layui.table
             ,layer = layui.layer
             ,laypage = layui.laypage
-            ,form = layui.form
-            ,$ = layui.jquery;
+            ,form = layui.form;
+        var $ = layui.jquery;
+        var managerId = ${requestScope.managerId};
         //第一个实例
         table.render({
             elem: '#demo'
             ,toolbar: '#toolbarDemo'//添加工具栏
-            ,url: '/getAllStudentByTid' //数据接口
-            ,height: 'full-32'
+            ,url: '/getAllMStudent?managerId='+ managerId //数据接口
+            ,height: 'full-60'
             ,page:true //开启分页
             ,limit:8   //每页显示几条数据
             ,limits:[8,10,15,20]
@@ -97,13 +86,11 @@
                 ,{field: 'studentId', title: '学员编号', hide:true}
                 ,{field: 'studentName', title: '姓名', width:'8%',align:"center"}
                 ,{field: 'sex', title: '性别',align:"center", width:'7%', templet: '#sexTpl', sort:true}
-                ,{field: 'clazz', title: '班期',align:"center",sort:true}
-                ,{field: 'graduate', title: '毕业院校',align:"center"}
-                ,{field: 'major', title: '专业',align:"center"}
-                ,{field: 'phone', title: '联系方式',align:"center"}
-                ,{field: 'departmentName', title: '部门',align:"center", hide:true}
-                ,{field: 'jobName', title: '职位',align:"center", hide:true}
-                ,{title:'操作', toolbar:'#barDemo',align:'center', width:'7%'}
+                ,{field: 'graduate', title: '毕业院校',align:"center", width:'13%'}
+                ,{field: 'major', title: '专业',align:"center", width:'13%', hide:true}
+                ,{field: 'clazz', title: '班期',align:"center"}
+                ,{field: 'jobName', title: '职位',align:"center"}
+                ,{title:'操作', toolbar:'#barDemo',align:'center', width:100}
             ]]
         });
         //监听事件，监听lay-filter为test的元素的工具栏
@@ -111,12 +98,10 @@
             switch(obj.event){
                 case 'query':
                     var filter = $("#filter").val();
-                    var departmentId = $("#departmentId option:selected").val();
                     var jobId = $("#jobId option:selected").val();
                     table.reload("demo",{
                         where:{
                             studentName:filter,
-                            departmentId:departmentId,
                             jobId:jobId
                         }, //where对应过滤条件
                         page:{
@@ -124,7 +109,6 @@
                         }
                     });
                     $("#filter").val(filter);
-                    $("#departmentId").val(departmentId);
                     $("#jobId").val(jobId);
                     break;
             }
@@ -132,7 +116,7 @@
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            if (obj.event === 'search'){
+         if (obj.event === 'search'){
                 //获取要编辑的编号
                 var studentId = data.studentId;
                 //根据编号获取信息
@@ -152,4 +136,5 @@
     });
 </script>
 </body>
+
 </html>

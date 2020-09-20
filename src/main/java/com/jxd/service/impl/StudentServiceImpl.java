@@ -32,13 +32,13 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<Student> getStudentListByClassIdPaging(Integer classId,Integer count, Integer limit) {
-        return studentDao.getStudentListByClassIdPaging(classId, count, limit);
+    public List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,Integer count, Integer limit) {
+        return studentDao.getStudentListByClassIdPaging(classId, managerId,count, limit);
     }
 
     @Override
-    public List<Student> getStudentListByClassId(Integer classId) {
-        return studentDao.getStudentListByClassId(classId);
+    public List<Student> getStudentListByClassId(Integer classId,Integer managerId) {
+        return studentDao.getStudentListByClassId(classId,managerId);
     }
 
     @Override

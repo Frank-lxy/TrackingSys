@@ -31,13 +31,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">整体评分</label>
             <div class="layui-input-inline">
-                <input id="evaluate" type="text" name="evaluate" required  lay-verify="required" autocomplete="off" class="layui-input"value="${requestScope.massess.evaluate}">
+                <input id="evaluate" type="text" name="evaluate" autocomplete="off" class="layui-input"value="${requestScope.massess.evaluate}">
+                <div id="evaluateDiv" style="padding:2px;height: 5px"></div>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">评价</label>
             <div class="layui-input-block">
                 <textarea id="assess" name="assess" placeholder="请输入内容" class="layui-textarea" rows="5" cols="40">${requestScope.massess.assess}</textarea>
+                <div id="assessDiv" style="padding:2px;height: 5px"></div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -50,27 +52,69 @@
 <script>
     layui.use(['laydate','form'], function(){
         var $ = layui.jquery;
+        //表单验证
+        $("#evaluate").blur(function () {
+            $(this).prop("class","layui-input");//每次触发时先清空一下red类选择器
+            $("#evaluateDiv").html("");//清空div
+            var evaluate = $(this).val();
+            if (evaluate==''){
+                $(this).prop("class","layui-input red");
+                $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
+            }else if (isNaN(evaluate) || evaluate < 0 || evaluate >5){
+                $(this).prop("class","layui-input red");
+                $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字(0-5)</span>")
+            }
+        });
+        //表单验证
+        $("#assess").blur(function () {
+            $(this).prop("class","layui-textarea ");//每次触发时先清空一下red类选择器
+            $("#assessDiv").html("");//清空div
+            var assess = $(this).val();
+            if (assess==''){
+                $(this).prop("class","layui-textarea red");
+                $("#assessDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
+            }
+        });
         $("#editMassess").click(function () {
-            $.ajax({
-                url:"editMassess",
-                type:"post",
-                data:{
-                    evaluate:$("#evaluate").val(),
-                    assess:$("#assess").val(),
-                    maId:$("#maId").val()
-                },
-                dataType:"text",//服务器响应数据的类型
-                success:function (data) {
-                    if(data){
-                        layer.msg(data);
-                        setTimeout("close()",1000)
+            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) && $("#evaluate").val() > 0 && $("#evaluate").val() < 5 ) {
+
+                $.ajax({
+                    url: "editMassess",
+                    type: "post",
+                    data: {
+                        evaluate: $("#evaluate").val(),
+                        assess: $("#assess").val(),
+                        maId: $("#maId").val()
+                    },
+                    dataType: "text",//服务器响应数据的类型
+                    success: function (data) {
+                        if (data) {
+                            layer.msg(data);
+                            setTimeout("close()", 1000)
+                        }
+                    },
+                    error: function () {
+                        layer.msg("执行失败")
+                        setTimeout("close()", 1000)
                     }
-                },
-                error:function () {
-                    layer.msg("执行失败")
-                    setTimeout("close()",1000)
+                })
+            }else {
+                // layer.msg("请正确填写信息")
+                var evaluate = $("#evaluate").val();
+                if (evaluate==''){
+                    $("#evaluate").prop("class","layui-input red");
+                    $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
+                }else if (isNaN(evaluate)){
+                    $(this).prop("class","layui-input red");
+                    $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字</span>")
                 }
-            })
+
+                var assess = $("#assess").val();
+                if (assess==''){
+                    $("#assess").prop("class","layui-textarea red");
+                    $("#assessDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>评价不能为空</span>")
+                }
+            }
         })
     });
     //关闭当前层

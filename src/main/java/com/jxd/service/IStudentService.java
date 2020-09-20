@@ -1,7 +1,6 @@
 package com.jxd.service;
 
 import com.jxd.model.*;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -26,14 +25,14 @@ public interface IStudentService {
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassIdPaging(Integer classId,Integer count,Integer limit);
+    List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,Integer count,Integer limit);
 
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassId(Integer classId);
+    List<Student> getStudentListByClassId(Integer classId,Integer managerId);
 
     /**
      * 根据班级id获取课程列表
@@ -149,9 +148,9 @@ public interface IStudentService {
     List<Student> getAllStudent(String studentName,String departmentId,String jobId);
 
     /**
-     * 根据学员编号获取学员信息
-     * @param studentId 学员id
-     * @return 学员列表
+     * 根据学生编号获得学生信息
+     * @param studentId 学生编号
+     * @return map集合
      */
     Map<String, Object> getStuInfoById(Integer studentId);
 }
