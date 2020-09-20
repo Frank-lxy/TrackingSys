@@ -25,14 +25,14 @@ public interface IStudentService {
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,Integer count,Integer limit);
+    List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,String studentName,Integer count,Integer limit);
 
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassId(Integer classId,Integer managerId);
+    List<Student> getStudentListByClassId(Integer classId,Integer managerId,String studentName);
 
     /**
      * 根据班级id获取课程列表

@@ -38,7 +38,6 @@
         <div class="layui-input-inline">
             <input type="text" id="studentName" name="studentName" placeholder="请输入姓名" class="layui-input">
         </div>
-
         <div class="layui-input-inline">
             <select name="classId" id="classId">
                 <option value="">请选择期次</option>

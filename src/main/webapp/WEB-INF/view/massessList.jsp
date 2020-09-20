@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<div align="center">
+<div align="center" style="margin: 0px 10px">
     <table class="layui-hide" id="demo" lay-filter="test"></table>
 </div>
 <script type="text/html" id="toolbarDemo">
@@ -51,7 +51,7 @@
             ,toolbar: '#toolbarDemo'
             , url: '/getAllMassess?tState='+tState //数据接口
             ,page: true //开启分页
-            ,height: 'full-102'
+            ,height: 'full-32'
             ,limit:8
             ,limits:[8,10,15,20]
             , cols: [[ //表头

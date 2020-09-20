@@ -46,6 +46,9 @@
     </div>
     <div align="right">
         <div class="layui-input-inline">
+            <input type="text" id="studentName" name="studentName" placeholder="请输入姓名" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
             <%--班期下拉列表--%>
             <select name="classId" id="classId" lay-filter="receive" lay-search="">
                 <c:forEach var="clazzList" items="${sessionScope.clazzList}">
@@ -84,8 +87,8 @@
                 table.render({
                     elem: '#demo'
                     ,toolbar: '#toolbarDemo'    //头工具栏
-                    ,height: 'full-102'
-                    ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId     //数据接口
+                    ,height: 'full-32'
+                    ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId      //数据接口
                     ,page: true  //分页
                     ,limit: 8   //每页显示几条数据
                     ,limits: [8,16,24,32]
@@ -114,7 +117,8 @@
         table.on('toolbar(test)', function(obj){    //obj指按钮
             if (obj.event == 'query'){
                 //获取当前选中的下拉菜单的value值
-                var clazzId = $("#classId option:selected").val();
+                var clazzId = $("#classId").val();
+                var studentName=$("#studentName").val();
                 var managerId = ${requestScope.managerId};
                 $.ajax({
                     url:"/getCourseByClassId",
@@ -134,8 +138,8 @@
                         var tableIns = table.render({
                             elem: '#demo'
                             ,toolbar: '#toolbarDemo'    //头工具栏
-                            ,height: 'full-102'
-                            ,url: '/getStudentListByClassId?managerId=' + managerId        //数据接口
+                            ,height: 'full-32'
+                            ,url: '/getStudentListByClassId'         //数据接口
                             ,page: true  //分页
                             ,limit: 8   //每页显示几条数据
                             ,limits: [8,16,24,32]
@@ -145,7 +149,8 @@
                         //重载表格数据
                         tableIns.reload({//demo对应table的id
                             where:{ //where代表过滤条件
-                                classId:clazzId
+                                classId:clazzId,
+                                studentName:studentName
                             },
                             page:{
                                 curr:1
@@ -165,8 +170,8 @@
                                 ,{field: 'mevaluate4', title: '三年评价', align:"center", rowspan:2}
                             ],head]
                         });
-
-                        //在页面上保留查询条件
+                        //保留查询条件
+                        $("#studentName").val(studentName);
                         $("#classId").val(clazzId);
                     },
                     error:function () {

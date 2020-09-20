@@ -27,7 +27,7 @@
     </style>
 </head>
 <body id="body">
-<div align="center"><table id="demo" lay-filter="test"></table>
+<div align="center"     style="margin: 0px 10px"><table id="demo" lay-filter="test"></table>
     <div id="demoDiv" style="margin-top: -10px"></div>
 </div>
 <script type="text/html" id="toolbarDemo">
@@ -74,7 +74,7 @@
                 table.render({
                     elem: '#demo'
                     ,toolbar: '#toolbarDemo'
-                    ,height: 'full-102'
+                    ,height: 'full-32'
                     ,url: '/getAllMarkInfo?tState='+tState//数据接口
                     ,page: true //分页
                     ,limit: 8//每页显示几条数据

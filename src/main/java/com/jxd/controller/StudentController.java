@@ -43,13 +43,13 @@ public class StudentController {
 
     @RequestMapping("/getStudentListByClassId")
     @ResponseBody
-    public JSON getStudentListByClassId(Integer classId,Integer managerId,Integer limit,Integer page){
+    public JSON getStudentListByClassId(Integer classId,Integer managerId,String studentName,Integer limit,Integer page){
         List<Map<String,Object>> studentList = new ArrayList<>();
         int count = (page - 1) * limit;
         //获取该班级的所有学员
-        List<Student> list = studentService.getStudentListByClassId(classId,managerId);
+        List<Student> list = studentService.getStudentListByClassId(classId,managerId,studentName);
         //分页获取该班级的所有学员
-        List<Student> list1 = studentService.getStudentListByClassIdPaging(classId,managerId,count,limit);
+        List<Student> list1 = studentService.getStudentListByClassIdPaging(classId,managerId,studentName,count,limit);
         //获取该班期课程列表
         List<Map<String,Object>> courseList = scoreService.getAllCourseByClassId(classId);
         //获取经理评价的评价阶段
@@ -83,7 +83,7 @@ public class StudentController {
                     }
                 }
             }else {
-                for (int i = 0;i < scores.size(); i++){
+                for (int i = 0;i < scores.size()-1; i++){
                     if (scores.get(i).get("score") == null){
                         map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                     }else {
@@ -179,11 +179,11 @@ public class StudentController {
         }else {
             model.addAttribute("managerId",manager.getManagerId());
         }
+        model.addAttribute("clazzId",clazzList.get(0).getClassId());
         model.addAttribute("clazzList",clazzList);
         model.addAttribute("managerList",managerList);
         model.addAttribute("departmentList",departmentList);
         model.addAttribute("jobList",jobList);
-        model.addAttribute("clazzId",clazzList.get(0).getClassId());
         return "studentTracking";
     }
 
