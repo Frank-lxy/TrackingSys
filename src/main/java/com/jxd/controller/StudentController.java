@@ -36,18 +36,20 @@ public class StudentController {
     IScoreService scoreService;
     @Autowired
     ISassessService sassessService;
+    @Autowired
+    IMassessService massessService;
+    @Autowired
+    IMarkService markService;
 
     @RequestMapping("/getStudentListByClassId")
     @ResponseBody
-    public JSON getStudentListByClassId(Integer classId,Integer limit,Integer page){
-
+    public JSON getStudentListByClassId(Integer classId,Integer managerId,Integer limit,Integer page){
         List<Map<String,Object>> studentList = new ArrayList<>();
-
         int count = (page - 1) * limit;
         //获取该班级的所有学员
-        List<Student> list = studentService.getStudentListByClassId(classId);
+        List<Student> list = studentService.getStudentListByClassId(classId,managerId);
         //分页获取该班级的所有学员
-        List<Student> list1 = studentService.getStudentListByClassIdPaging(classId,count,limit);
+        List<Student> list1 = studentService.getStudentListByClassIdPaging(classId,managerId,count,limit);
         //获取该班期课程列表
         List<Map<String,Object>> courseList = scoreService.getAllCourseByClassId(classId);
         //获取经理评价的评价阶段
@@ -108,7 +110,7 @@ public class StudentController {
                     if (massesses.get(i).getEvaluate() == null){
                         map.put("mevaluate" + (i + 1),"待评分");
                     }else {
-                        map.put("mevaluate" + (i + 1),scores.get(i).get("score"));
+                        map.put("mevaluate" + (i + 1),massesses.get(i).getEvaluate());
                     }
                 }
             }else {
@@ -134,7 +136,6 @@ public class StudentController {
         jsonObject.put("msg","");
         jsonObject.put("count",list.size());//一共有多少条数据
         jsonObject.put("data",jsonArray);
-
         return jsonObject;
     }
 
@@ -146,19 +147,43 @@ public class StudentController {
         return list;
     }
 
+    @RequestMapping("/allDetailed")
+    public String allDetailed(Integer studentId, Model model){
+//        Sassess sassess = sassessService.getSassessByStuId(studentId);
+//        model.addAttribute("sassess",sassess);
+//        model.addAttribute("studentId",studentId);
+        Massess massess1 = massessService.getMassess(studentId,1);
+        model.addAttribute("massess1",massess1);
+        Massess massess2 = massessService.getMassess(studentId,2);
+        model.addAttribute("massess2",massess2);
+        Massess massess3 = massessService.getMassess(studentId,3);
+        model.addAttribute("massess3",massess3);
+        Massess massess4 = massessService.getMassess(studentId,4);
+        model.addAttribute("massess4",massess4);
+        model.addAttribute("studentId",studentId);
+        return "allDetailed";
+    }
+
     @RequestMapping(value = "/getStudentTracking",produces = "text/html;charset=utf-8")
-    public String getStudentTracking(Model model){
+    public String getStudentTracking(HttpServletRequest request,Model model){
         //获取各个下拉列表的值，并存入session
         List<Clazz> clazzList = studentService.getClazzList();
         List<User> managerList = studentService.getManagerList();
         List<Department> departmentList = departmentService.getAllDepartment(null);
         List<Job> jobList = jobService.getAllJob(null);
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        Manager manager = markService.getDepatermentId(user.getUserId());
+        if (manager==null){
+            model.addAttribute("managerId",0);
+        }else {
+            model.addAttribute("managerId",manager.getManagerId());
+        }
         model.addAttribute("clazzList",clazzList);
         model.addAttribute("managerList",managerList);
         model.addAttribute("departmentList",departmentList);
         model.addAttribute("jobList",jobList);
-
-        model.addAttribute("clazzId",clazzList.get(9).getClassId());
+        model.addAttribute("clazzId",clazzList.get(0).getClassId());
         return "studentTracking";
     }
 
@@ -340,4 +365,19 @@ public class StudentController {
         return "tStudentList";
     }
 
+
+    @RequestMapping("/mStudentList")
+    public String mStudentList(HttpServletRequest request,Model model){
+        List<Clazz> clazzList = studentService.getClazzList();
+        List<User> managerList = studentService.getManagerList();
+        List<Job> jobList = jobService.getAllJob(null);
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        Manager manager = markService.getDepatermentId(user.getUserId());
+        model.addAttribute("clazzList",clazzList);
+        model.addAttribute("managerList",managerList);
+        model.addAttribute("jobList",jobList);
+        model.addAttribute("managerId",manager.getManagerId());
+        return "mStudentList";
+    }
 }

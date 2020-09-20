@@ -76,4 +76,15 @@ public class MassessServiceImpl implements IMassessService {
     public Massess getMassess(Integer studentId, Integer tState) {
         return massessDao.getMassess(studentId,tState);
     }
+
+    @Override
+    public List<Student> getAllMStudent(String studentName,String jobId, Integer managerId) {
+        return massessDao.getAllMStudent(studentName,jobId,managerId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMStudentPaging(Integer count, Integer pageSize, String studentName, String jobId, Integer managerId) {
+        return massessDao.getMStudentPaging(count,pageSize,studentName,jobId,managerId);
+    }
+
 }

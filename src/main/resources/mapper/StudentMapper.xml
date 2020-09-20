@@ -17,7 +17,14 @@
     <!--List<Student> getStudentListByClassIdPaging(Integer classId,Integer count,Integer limit);-->
     <select id="getStudentListByClassIdPaging" resultType="Student">
         <include refid="BaseSql"></include>
-        where classId=#{classId}
+        <where>
+            <if test="classId != null and classId != ''">
+                classId=#{classId}
+            </if>
+            <if test="managerId != null and managerId != ''and managerId != '0'">
+                and managerId=#{managerId}
+            </if>
+        </where>
         order by studentId desc
         limit #{count},#{limit}
     </select>
@@ -25,7 +32,14 @@
     <!--List<Student> getStudentListByClassId(Integer classId);-->
     <select id="getStudentListByClassId" resultType="Student">
         <include refid="BaseSql"></include>
-        where classId=#{classId}
+        <where>
+            <if test="classId != null and classId != ''">
+                classId=#{classId}
+            </if>
+            <if test="managerId != null and managerId != ''and managerId != '0'">
+                 and managerId=#{managerId}
+            </if>
+        </where>
         order by studentId desc
     </select>
 
@@ -85,8 +99,11 @@
 
     <!--Map<String,Object> getStuInfoById(Integer studentId);-->
     <select id="getStuInfoById" resultType="Map">
-        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz
+        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,
+        d.departmentId departmentId,d.departmentName departmentName,j.jobName jobName,st.tState tState
         from student st left join clazz c on st.classId=c.classId
+        right join department d on d.departmentId=st.departmentId
+        right join job j on j.jobId=st.jobId
         where studentId=#{studentId}
     </select>
 

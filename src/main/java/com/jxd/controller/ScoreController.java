@@ -65,6 +65,7 @@ public class ScoreController {
         //根据老师姓名查找班期
         List<Clazz> clazzes = scoreService.getClazzListByTchName(user.getUserName());
         //最新班期
+
         Clazz clazz = clazzes.get(0);
         model.addAttribute("clazzes",clazzes);
         model.addAttribute("clazz",clazz);

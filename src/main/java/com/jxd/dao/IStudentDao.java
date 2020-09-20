@@ -28,14 +28,14 @@ public interface IStudentDao {
      * @param classId 班级id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("count") Integer count,@Param("limit") Integer limit);
+    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("count") Integer count,@Param("limit") Integer limit);
 
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassId(Integer classId);
+    List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId);
 
     /**
      * 根据班级id获取课程列表
@@ -151,9 +151,10 @@ public interface IStudentDao {
     List<Student> getAllStudent(@Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId);
 
     /**
-     * 根据学员编号获取学员信息
-     * @param studentId 学员id
-     * @return 学员列表
+     * 根据学生编号获得学生信息
+     * @param studentId 学生编号
+     * @return map集合
      */
-    Map<String, Object> getStuInfoById(Integer studentId);
+   Map<String, Object> getStuInfoById(Integer studentId);
+
 }

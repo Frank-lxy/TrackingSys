@@ -5,7 +5,30 @@ public class Manager {
     private String departmentName;
     private String managerName;
     private String birthday;
-private Integer userId;
+    private Integer departmentId;
+    private Integer userId;
+    private String sex;
+    private String phoneNumber;
+    private String homeTown;
+    private String idCardNum;
+    private String photo;
+
+    public Manager() {
+    }
+
+    public Manager(Integer managerId, String departmentName, String managerName, String birthday, Integer departmentId, Integer userId, String sex, String phoneNumber, String homeTown, String idCardNum, String photo) {
+        this.managerId = managerId;
+        this.departmentName = departmentName;
+        this.managerName = managerName;
+        this.birthday = birthday;
+        this.departmentId = departmentId;
+        this.userId = userId;
+        this.sex = sex;
+        this.phoneNumber = phoneNumber;
+        this.homeTown = homeTown;
+        this.idCardNum = idCardNum;
+        this.photo = photo;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -51,6 +74,14 @@ private Integer userId;
         this.photo = photo;
     }
 
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
     public String getHomeTown() {
         return homeTown;
     }
@@ -67,22 +98,12 @@ private Integer userId;
         this.birthday = birthday;
     }
 
-    private String sex;
-    private String phoneNumber;
-    private String homeTown;
-    private String idCardNum;
-    private String photo;
-
-
     public String getPhoto() {
         return photo;
     }
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public Manager() {
     }
 
     public Integer getManagerId() {

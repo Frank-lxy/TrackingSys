@@ -1,3 +1,4 @@
+<%@ page import="com.jxd.model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -63,6 +64,7 @@
         var $ = layui.jquery;
         //获取最新班期的班期id
         var classId = ${requestScope.clazzId};
+        var managerId = ${requestScope.managerId};
         //定义一个表头二级菜单内容的数组
         var head =[];
         //获取表格数据
@@ -70,7 +72,8 @@
             url:"/getCourseByClassId",
             type:"get",
             data:{
-                classId:classId
+                classId:classId,
+                managerId:managerId
             },
             success:function (data) {
                 //执行成功，获取最新班期课程，并将课程名添加到表头二级菜单中
@@ -82,10 +85,10 @@
                     elem: '#demo'
                     ,toolbar: '#toolbarDemo'    //头工具栏
                     ,height: 'full-102'
-                    ,url: '/getStudentListByClassId?classId=' + classId     //数据接口
+                    ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId     //数据接口
                     ,page: true  //分页
-                    ,limit: 4   //每页显示几条数据
-                    ,limits: [4,8,16,24,32]
+                    ,limit: 8   //每页显示几条数据
+                    ,limits: [8,16,24,32]
                     ,cols: [[ //表头
                         {type:'numbers',title:'序号',rowspan:2}
                         ,{field: 'studentId', title: '学生编号', hide:true, rowspan:2}
@@ -112,12 +115,13 @@
             if (obj.event == 'query'){
                 //获取当前选中的下拉菜单的value值
                 var clazzId = $("#classId option:selected").val();
-
+                var managerId = ${requestScope.managerId};
                 $.ajax({
                     url:"/getCourseByClassId",
                     type:"get",
                     data:{
-                        classId:clazzId
+                        classId:clazzId,
+                        managerId:managerId
                     },
                     success:function (data) {
                         //将表头二级菜单内容置空
@@ -131,17 +135,17 @@
                             elem: '#demo'
                             ,toolbar: '#toolbarDemo'    //头工具栏
                             ,height: 'full-102'
-                            ,url: '/getStudentListByClassId'     //数据接口
+                            ,url: '/getStudentListByClassId?managerId=' + managerId        //数据接口
                             ,page: true  //分页
-                            ,limit: 4   //每页显示几条数据
-                            ,limits: [4,8,16,24,32]
+                            ,limit: 8   //每页显示几条数据
+                            ,limits: [8,16,24,32]
                             ,cols: []
                         });
 
                         //重载表格数据
                         tableIns.reload({//demo对应table的id
                             where:{ //where代表过滤条件
-                                classId:clazzId,
+                                classId:clazzId
                             },
                             page:{
                                 curr:1
@@ -161,36 +165,37 @@
                                 ,{field: 'mevaluate4', title: '三年评价', align:"center", rowspan:2}
                             ],head]
                         });
+
+                        //在页面上保留查询条件
+                        $("#classId").val(clazzId);
                     },
                     error:function () {
                         layer.msg("执行失败")
                     }
                 });
-
-                //在页面上保留查询条件
-                $("#classId").val(clazzId);
             }
         });
 
         //监听行单击事件，单击行弹出详细的学员评价表
         table.on('row(test)', function(obj){
             var data = obj.data;
-
-            /*layer.alert(JSON.stringify(data), {
-                title: '当前行数据：'
-            });*/
-
             //获取要编辑的编号
             var studentId = data.studentId;
-            //根据编号获取信息
-            layer.open({
-                type: 2,//弹出完整jsp，type=1弹出底层div
-                title: "学员成长跟踪表",
-                content: "sassessDetailed?studentId=" + studentId,
-                shadeClose: true,//点击遮罩，关闭弹框
-                area: ['1035px','470px'],
-            });
-
+            <%
+              User user = (User)session.getAttribute("user");
+              if (user.getRole() == 1){
+            %>
+                location.href =  "sassessDetailed?studentId=" + studentId ;
+            <%
+             }
+            %>
+            <%
+            if (user.getRole() == 3){
+            %>
+                 location.href =  "allDetailed?studentId=" + studentId ;
+            <%
+             }
+            %>
             //标注选中样式
             obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
         });

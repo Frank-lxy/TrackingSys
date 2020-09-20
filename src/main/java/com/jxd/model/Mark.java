@@ -4,24 +4,24 @@ public class Mark {
     private Integer markId;//评分表
     private Integer studentId;//学员id
     private Integer assessItemId;//评分项id
-    private Integer stageId;//阶段id
+    private Integer tState;//阶段id
     private Double mark;//评分
 
     public Mark() {
     }
 
-    public Mark(Integer studentId, Integer assessItemId, Integer stageId, Double mark) {
+    public Mark(Integer studentId, Integer assessItemId, Integer tState, Double mark) {
         this.studentId = studentId;
         this.assessItemId = assessItemId;
-        this.stageId = stageId;
+        this.tState = tState;
         this.mark = mark;
     }
 
-    public Mark(Integer markId, Integer studentId, Integer assessItemId, Integer stageId, Double mark) {
+    public Mark(Integer markId, Integer studentId, Integer assessItemId, Integer tState, Double mark) {
         this.markId = markId;
         this.studentId = studentId;
         this.assessItemId = assessItemId;
-        this.stageId = stageId;
+        this.tState = tState;
         this.mark = mark;
     }
 
@@ -49,12 +49,12 @@ public class Mark {
         this.assessItemId = assessItemId;
     }
 
-    public Integer getStageId() {
-        return stageId;
+    public Integer gettState() {
+        return tState;
     }
 
-    public void setStageId(Integer stageId) {
-        this.stageId = stageId;
+    public void settState(Integer tState) {
+        this.tState = tState;
     }
 
     public Double getMark() {

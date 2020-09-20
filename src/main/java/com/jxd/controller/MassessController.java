@@ -1,9 +1,12 @@
 package com.jxd.controller;
 
+import com.jxd.model.Manager;
 import com.jxd.model.Massess;
 import com.jxd.model.Student;
 import com.jxd.model.User;
+import com.jxd.service.IMarkService;
 import com.jxd.service.IMassessService;
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author : Li xinYu
@@ -29,27 +30,53 @@ import java.util.Map;
 @Controller
 public class MassessController {
     @Autowired
-    IMassessService massessService;;
+    IMassessService massessService;
+    @Autowired
+    IMarkService markService;
 
-    @RequestMapping("massessList")
+    @RequestMapping("/massessList")
     public String massessList(Model model){
-        model.addAttribute("tState",0);
-        return "massessList";
-    }
-    @RequestMapping("massessList1")
-    public String massessList1(Model model){
         model.addAttribute("tState",1);
         return "massessList";
     }
-    @RequestMapping("massessList2")
-    public String massessList2(Model model){
+    @RequestMapping("/massessList1")
+    public String massessList1(Model model){
         model.addAttribute("tState",2);
         return "massessList";
     }
-    @RequestMapping("massessList3")
-    public String massessList3(Model model){
+    @RequestMapping("/massessList2")
+    public String massessList2(Model model){
         model.addAttribute("tState",3);
         return "massessList";
+    }
+    @RequestMapping("/massessList3")
+    public String massessList3(Model model){
+        model.addAttribute("tState",4);
+        return "massessList";
+    }
+
+    @RequestMapping(value = "/getAllMStudent",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public JSON getMAllStudent(HttpServletRequest request,Integer managerId){
+        //过滤条件
+        String studentName = request.getParameter("studentName");
+        String jobId = request.getParameter("jobId");
+        //获取所有课程
+        List<Student> list = massessService.getAllMStudent(studentName,jobId,managerId);
+        //获取分页数据
+        int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
+        int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
+        int count = (pageIndex - 1) * pageSize;
+        //获取分页课程
+        List<Map<String,Object>> list1 = massessService.getMStudentPaging(count,pageSize,studentName,jobId,managerId);
+        //将数组转换为json数据
+        JSONArray jsonArray = JSONArray.fromObject(list1);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("msg","");
+        jsonObject.put("count",list.size());//一共有多少条数据
+        jsonObject.put("data",jsonArray);
+        return jsonObject;
     }
 
     @RequestMapping(value = "/editMassess",produces = "text/html;charset=utf-8")
@@ -81,9 +108,9 @@ public class MassessController {
         boolean isAdd1 = massessService.addMassessNone(massess.getStudentId(),massess.gettState()+1);
 
         if(isAdd&&isDel&&isAdd1){
-            return "添加成功";
+            return "评价成功";
         }else {
-            return "添加失败";
+            return "评价失败";
         }
     }
 
@@ -101,10 +128,10 @@ public class MassessController {
         String studentName = request.getParameter("studentName");
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        Integer managerId = user.getUserId();
+        Manager manager = markService.getDepatermentId(user.getUserId());
+        Integer managerId = manager.getManagerId();
         //获取所有学生
         List<Map<String,Object>> list = massessService.getAllMassessList(managerId);
-
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         /*天数差*/
         for (Map map : list){
@@ -116,7 +143,7 @@ public class MassessController {
             int days = (int) ((to1 - from1) / (1000 * 60 * 60 * 24));
             if (days>90&&days<100){//转正
                 Integer studentId = (Integer)map.get("studentId");
-                Integer state = 0;
+                Integer state = 1;
                 massessService.editMassessState(studentId,state);
                 Massess massess = massessService.getMassess(studentId,state);
                 if (massess==null){
@@ -124,15 +151,15 @@ public class MassessController {
                 }
             }else if (days>365&&days<375){//一年
                 Integer studentId = (Integer)map.get("studentId");
-                Integer state = 1;
+                Integer state = 2;
                 massessService.editMassessState(studentId,state);
             }else if(days>730&&days<740){//两年
                 Integer studentId = (Integer)map.get("studentId");
-                Integer state = 2;
+                Integer state = 3;
                 massessService.editMassessState(studentId,state);
             }else if(days>1095&&days<1195){//三年
                 Integer studentId = (Integer)map.get("studentId");
-                Integer state = 3;
+                Integer state = 4;
                 massessService.editMassessState(studentId,state);
             }else {
 
@@ -144,9 +171,7 @@ public class MassessController {
         Integer pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         Integer pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
         Integer count = (pageIndex - 1) * pageSize;
-
         List<Map<String,Object>> list1 = massessService.getMassessLists(count,pageSize,studentName,managerId,tState);
-
         //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list1.toArray());
         JSONObject jsonObject = new JSONObject();
@@ -156,7 +181,4 @@ public class MassessController {
         jsonObject.put("data",jsonArray);
         return jsonObject;
     }
-
-
-
 }

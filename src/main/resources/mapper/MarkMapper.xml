@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
+个 个mapper 相当于一个dao 接口的实现类 -->
+<mapper namespace="com.jxd.dao.IMarkDao">
+    <sql id="BaseSql">
+        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,remarks from student
+    </sql>
+
+    <!--    Manager getDepatermentId(Integer userId);-->
+    <select id="getDepatermentId" resultType="Manager">
+        select m.managerId managerId,m.managerName managerName,m.departmentName departmentName,d.departmentId departmentId
+        from manager m left join department d on m.departmentName=d.departmentName
+        where userId=#{userId}
+    </select>
+
+
+    <!--    boolean editMark(Mark mark);-->
+    <update id="editMark">
+        update mark set mark=#{mark}
+        where studentId=#{studentId} and assessItemId=#{assessItemId} and tState=#{tState}
+    </update>
+    <!--    boolean addMark(Mark mark);-->
+    <insert id="addMark" >
+        insert into mark(studentId,assessItemId,mark,tState)
+        values (#{studentId},#{assessItemId},#{mark},#{tState})
+    </insert>
+    <!--    boolean addMarkNone(Integer studentId,Integer tState);-->
+    <insert id="addMarkNone" >
+        insert into mark(studentId,tState) values (#{studentId},#{tState})
+    </insert>
+
+    <!--    Mark getMark(Integer studentId, Integer tState);-->
+    <select id="getMark" resultType="Mark">
+        select markId,studentId,tState,assessItemId,mark from mark
+        where studentId=#{studentId} and tState=#{tState} and assessItemId=#{assessItemId}
+    </select>
+
+    <!--   List<Map<String,Object>> getMarkByStuId(Integer studentId,Integer departmentId);-->
+    <select id="getMarkByStuId" resultType="Map">
+        select a.assessItemId assessItemId,a.assessItemName assessItemName,m.mark mark
+        from ((assessitem a left join itemsel i on a.assessItemId = i.assessItemId ) left join mark m on a.assessItemId=m.assessItemId)
+        where m.studentId=#{studentId} and i.departmentId=#{departmentId} and m.tState=#{tState}
+    </select>
+
+    <!--    List<Map<String,Object>> getAllAssessItemByDeptId(Integer departmentId);-->
+    <select id="getAllAssessItemByDeptId" resultType="Map">
+        select a.assessItemId assessItemId,i.departmentId departmentId,a.assessItemName assessItemName
+        from assessitem a right join itemsel i on a.assessItemId = i.assessItemId  where i.departmentId=#{departmentId}
+    </select>
+
+    <!--    List<Student> getStudentPaging(Integer departmentId,Integer count, Integer pageSize, String studentName);-->
+    <select id="getStudentPaging" resultType="Student">
+        select studentId, studentName, managerId,tState,departmentId
+        from student
+        <where>
+            <if test="studentName != null and studentName != ''">
+               and studentName like '%' #{studentName} '%'
+            </if>
+            <if test="managerId != null and managerId != ''">
+                and managerId = #{managerId}
+            </if>
+            <if test="tState != null and tState != ''">
+                and tState = #{tState}
+            </if>
+        </where>
+        order by studentId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--    List<Student> getAllStudent(Integer departmentId);-->
+    <select id="getAllStudent" resultType="Student">
+        select studentId, studentName, managerId,tState,departmentId
+        from student
+        <where>
+            <if test="studentName != null and studentName != ''">
+                and studentName like '%' #{studentName} '%'
+            </if>
+            <if test="managerId != null and managerId != ''">
+                and managerId = #{managerId}
+            </if>
+            <if test="tState != null and tState != ''">
+                and tState = #{tState}
+            </if>
+        </where>
+    </select>
+
+</mapper>
