@@ -101,21 +101,21 @@
                 ,{field: 'major', title: '专业',align:"center", width:'13%', hide:true}
                 ,{field: 'clazz', title: '班期',align:"center", templet:function (data) {
                         if (data.clazz == null){
-                            return '未上课'
+                            return '<div style="color:#9c9c9c">未上课</div>'
                         }else {
                             return data.clazz
                         }
                     }}
                 ,{field: 'departmentName', title: '部门',align:"center", templet:function (data) {
                         if (data.departmentName == null){
-                            return '未入职'
+                            return '<div style="color:#9c9c9c">未入职</div>'
                         }else {
                             return data.departmentName
                         }
                     }}
                 ,{field: 'jobName', title: '职位',align:"center", templet:function (data) {
                         if (data.jobName == null){
-                            return '未入职'
+                            return '<div style="color:#9c9c9c">未入职</div>'
                         }else {
                             return data.jobName
                         }

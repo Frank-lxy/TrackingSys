@@ -1,15 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: xzh
-  Date: 2020/9/14
-  Time: 14:58
+  Date: 2020/9/20
+  Time: 13:26
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>选课管理</title>
+    <title>修改班期信息</title>
     <style>
         .layui-table-tool-self {
             display: none;
@@ -22,6 +24,13 @@
 <form style="display: flex; justify-content: center">
     <div class="layui-form">
         <div class="layui-inline">
+            <div class="layui-form-item" style="display: none">
+                <label class="layui-form-label">班期编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="classId" required lay-verify="required" value="${classId}" autocomplete="off"
+                           class="layui-input" id="classId" >
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">班期</label>
                 <div class="layui-input-block">
@@ -33,7 +42,7 @@
                 <label class="layui-form-label">授课教师</label>
                 <div class="layui-input-block">
                     <select name="teacherName" lay-verify="required" id="teacherName" required>
-                        <option value="">请选择授课教师</option>
+                        <option value="${teacher}">${teacher}</option>
                         <c:forEach var="teacherName" items="${teacherName}">
                             <option value="${teacherName}">${teacherName}</option>
                         </c:forEach>
@@ -43,11 +52,21 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">课程</label>
                 <div class="layui-input-block">
-                    <c:forEach var="courseName" items="${courseName}">
-                        <input type="checkbox" class="courseName" title="${courseName}" id="courseName"
-                               value="${courseName}"  lay-filter="hope" type="checkbox"
-                               name="courseName" >
-                    </c:forEach>
+
+                        <c:set var="CN" value="${CN}"></c:set>
+                        <c:set var="course" value="${course}"></c:set>
+                            <c:forEach var="checkCourseName" items="${checkCourseName}">
+                        <input type="checkbox" class="courseName" title="${checkCourseName}" id="courseName"
+                               value="${checkCourseName}"  lay-filter="hope" type="checkbox"
+                               name="courseName"checked >
+                            </c:forEach>
+
+
+                            <c:forEach var="courseName" items="${courseName}">
+                            <input type="checkbox" class="courseName" title="${courseName}" id="courseName"
+                                   value="${courseName}"  lay-filter="hope" type="checkbox"
+                                   name="courseName" >
+                            </c:forEach>
                 </div>
             </div>
 
@@ -56,7 +75,8 @@
                     <button class="layui-btn" id="addNewClazz" lay-submit lay-filter="formDemo">提交</button>
                 </div>
             </div>
-        </div>
+</div>
+
     </div>
 </form>
 <script>
@@ -76,7 +96,7 @@
             }
         });
         form.on('submit(formDemo)', function(){
-        // $("#addNewClazz").click(function(){
+            // $("#addNewClazz").click(function(){
             //将页面全部复选框选中的值拼接到一个数组中
             $('input[type=checkbox]:checked').each(function() {
                 arr.push($(this).val());
@@ -92,9 +112,10 @@
             } else {
                 var courseName=arr.join(",");
                 $.ajax({
-                    url: "/addNewClazz",//要请求的后台资源
+                    url: "/editTheClazz",//要请求的后台资源
                     type: "post",//ajax请求类型
                     data: {
+                        classId: $("#classId").val(),
                         clazz: $("#clazz").val(),//多个值的话以逗号分隔开
                         teacherName: $("#teacherName").val(),
                         courseName: courseName,
@@ -102,7 +123,7 @@
                     dataType: "text",//服务器返回数据的类型
                     success: function (data) {
                         if (data) {
-                            layer.msg('新增成功');
+                            layer.msg('修改成功');
                             parent.location.href="clazzList";
                         }
                     },

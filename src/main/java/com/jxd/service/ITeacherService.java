@@ -10,6 +10,7 @@ public interface ITeacherService {
     List<Teacher> getAllTeacherByPage( Integer count,  Integer page);
     List<Teacher>getTeachers( String teacherName);
     boolean addTeacher(Teacher teacher);
+    boolean addATeacher(String teacherName,Integer userId);
     boolean delTeacherById(Integer teacherId);
     List<Teacher>getAllTeacherById(Integer teacherId);
     boolean updateTeacher( Teacher teacher);

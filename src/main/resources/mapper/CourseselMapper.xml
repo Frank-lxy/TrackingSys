@@ -7,4 +7,10 @@
 <insert id="addCoursesel">
     insert into coursesel(courseId,classId) values (#{courseId},#{classId})
 </insert>
+    <select id="getCourseIdById" resultType="com.jxd.model.Coursesel">
+        select courseId from coursesel where classId=#{classId}
+    </select>
+    <update id="updateCoursesel">
+        update coursesel set courseId=#{courseId} where classId=#{classId}
+    </update>
 </mapper>

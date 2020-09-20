@@ -294,46 +294,49 @@
 
         /*上传照片*/
         $("#photo").change(function () {
+            var filesLength = document.querySelector('#photo').files.length;
             var path = $("#filePath").val();
             var isDel = '';
-            if(path != null && path != ''){
-                $.ajax({
-                    url:"delFile",
-                    type:"post",
-                    data:{
-                        path:path
-                    },
-                    success:function (data) {
-                        isDel = data;
-                    },
-                    error:function (data) {
-                        isDel = "删除失败";
-                    }
-                });
-            }
-            if ("删除失败" != isDel){
-                //使用FormData实现ajax的文件提交
-                var formData = new FormData($("#uploadForm")[0]);
-                $.ajax({
-                    url:"uploadFile",
-                    type:"post",
-                    data:formData,
-                    cache:false,//是否缓存
-                    //即告诉服务器，从浏览器提交过来的数据采用默认的数据格式
-                    contentType:false,
-                    //设定为false可避免jQuery对formData的默认处理
-                    processData:false,
-                    success:function (data) {
-                        var img = "<img src='../../" + data + "'>";
-                        $("#uploadDiv").html(img);
-                        $("#filePath").val(data);
-                    },
-                    error:function (data) {
-                        layer.msg("执行失败")
-                    }
-                })
-            }else {
-                layer.msg("重传失败")
+            if (filesLength != 0){
+                if(path != null && path != ''){
+                    $.ajax({
+                        url:"delFile",
+                        type:"post",
+                        data:{
+                            path:path
+                        },
+                        success:function (data) {
+                            isDel = data;
+                        },
+                        error:function (data) {
+                            isDel = "删除失败";
+                        }
+                    });
+                }
+                if ("删除失败" != isDel){
+                    //使用FormData实现ajax的文件提交
+                    var formData = new FormData($("#uploadForm")[0]);
+                    $.ajax({
+                        url:"uploadFile",
+                        type:"post",
+                        data:formData,
+                        cache:false,//是否缓存
+                        //即告诉服务器，从浏览器提交过来的数据采用默认的数据格式
+                        contentType:false,
+                        //设定为false可避免jQuery对formData的默认处理
+                        processData:false,
+                        success:function (data) {
+                            var img = "<img src='../../" + data + "'>";
+                            $("#uploadDiv").html(img);
+                            $("#filePath").val(data);
+                        },
+                        error:function (data) {
+                            layer.msg("执行失败")
+                        }
+                    })
+                }else {
+                    layer.msg("重传失败")
+                }
             }
         });
         /*点击提交按钮*/
@@ -356,7 +359,7 @@
                 jobId = $("#jobId").val(),
                 hiredate = $("#hiredate").val(),
                 remarks = $("#remarks").val();
-            if (studentName != '' && nation != '' && birthday != '' && homeTown != '' && phone != '' && graduate != '' && major != '' && identityNum != ''){
+            if (studentName != '' && nation != '' && birthday != '' && homeTown != '' && phone != '' && graduate != '' && major != '' && (identityNum.length == 15 || identityNum.length == 18)){
                 $.ajax({
                     url:"editStudent",
                     type:"post",

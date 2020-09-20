@@ -46,7 +46,7 @@
         <div class="layui-input-inline">
             <button class="layui-btn layui-btn-sm"  lay-event="query">查询</button>
             <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-            <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+<%--            <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>--%>
         </div>
     </div>
 
@@ -69,8 +69,8 @@
             , url: '/getAllUser' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
-                  {type: 'checkbox'}
-                , {type: 'numbers', title: '序号', width:'15%', sort:true}
+                  // {type: 'checkbox'}
+                 {type: 'numbers', title: '序号', width:'15%', sort:true}
                 , {field: 'userId', title: '用户id', hide: true}
                 , {field: 'userName', title: '用户名',align:"center"}
                 , {field: 'password', title: '密码',align:"center"}
@@ -102,7 +102,7 @@
                         title:'新增用户',
                         content:'addUser',
                         shadeClose:true,//点击遮罩关闭弹窗
-                        area:['380px','460px'],
+                        area:['380px','320px'],
                     });
                     break;
                 case 'delete':

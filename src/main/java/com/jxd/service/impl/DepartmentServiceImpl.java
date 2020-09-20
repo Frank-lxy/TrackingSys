@@ -26,6 +26,11 @@ public class DepartmentServiceImpl implements IDepartmentService {
     }
 
     @Override
+    public List<Department> getAllDep() {
+        return departmentDao.getAllDep();
+    }
+
+    @Override
     public Department getDepartmentById(Integer departmentId) {
         return departmentDao.getDepartmentById(departmentId);
     }

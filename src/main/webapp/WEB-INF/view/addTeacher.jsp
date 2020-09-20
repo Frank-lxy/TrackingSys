@@ -92,8 +92,6 @@
                         <input type="text" name="birthday" id="birthday" required lay-verify="date"
                                placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>籍贯：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="homeTown" id="homeTown" required lay-verify="required"
@@ -107,8 +105,6 @@
                                lay-reqtext="联系电话不能为空"
                                autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                    <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="idCardNum" id="idCardNum" required lay-verify="required"

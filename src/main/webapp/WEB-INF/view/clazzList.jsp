@@ -29,7 +29,9 @@
 <div align="center" style="margin: 0px 10px">
     <table id="demo" lay-filter="test"></table>
 </div>
-
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>&nbsp;
+</script>
 <script type="text/html" id="toolbarDemo">
     <div align="right">
         <div class="layui-input-inline">
@@ -68,6 +70,7 @@
                 ,{field: 'courseId', title: '课程号', hide:true}
                 ,{field: 'clazz', title: '班期',align:"center"}
                 ,{field: 'teacherName', title: '教师姓名',align:"center"}
+                ,{title:'操作', toolbar:'#barDemo',align:'center', width:180, style:'background-color: #f8f8f8;'}
             ]]
         });
         table.on('toolbar(test)', function(obj){
@@ -94,12 +97,31 @@
                         title:'新增班期',
                         content:'addClazz',
                         shadeClose:true,//点击遮罩关闭弹窗
-                        area:['400px','460px'],
+                        area:['400px','380px'],
                     });
                     break;
 
             };
         });
+        table.on('tool(test)', function(obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                //获取要编辑的编号
+                var classId = data.classId;
+                //根据编号获取信息
+                layer.open({
+                    type: 2,//弹出完整jsp，type=1弹出底层div
+                    title: "编辑班期信息",
+                    content: "editClazz?classId=" + classId,
+                    shadeClose: true,//点击遮罩，关闭弹框
+                    area:['400px','380px'],
+                    end: function () {
+                        //刷新当前页
+                        $(".layui-laypage-btn").click();
+                    }
+                });
+            }
+        })
     });
 </script>
 </body>

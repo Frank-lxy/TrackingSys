@@ -172,25 +172,28 @@
         /*上传照片*/
         $("#photo").change(function () {
             //使用FormData实现ajax的文件提交
-            var formData = new FormData($("#uploadForm")[0]);
-            $.ajax({
-                url:"uploadFile",
-                type:"post",
-                data:formData,
-                cache:false,//是否缓存
-                //即告诉服务器，从浏览器提交过来的数据采用默认的数据格式
-                contentType:false,
-                //设定为false可避免jQuery对formData的默认处理
-                processData:false,
-                success:function (data) {
-                    var img = "<img src='../../" + data + "'>";
-                    $("#uploadDiv").html(img);
-                    $("#filePath").val(data);
-                },
-                error:function (data) {
-                    alert("执行失败")
-                }
-            })
+            var newFormData = new FormData($("#uploadForm")[0]);
+            var filesLength = document.querySelector('#photo').files.length;
+            if (filesLength != 0){
+                $.ajax({
+                    url:"uploadFile",
+                    type:"post",
+                    data:newFormData,
+                    cache:false,//是否缓存
+                    //即告诉服务器，从浏览器提交过来的数据采用默认的数据格式
+                    contentType:false,
+                    //设定为false可避免jQuery对formData的默认处理
+                    processData:false,
+                    success:function (data) {
+                        var img = "<img src='../../" + data + "'>";
+                        $("#uploadDiv").html(img);
+                        $("#filePath").val(data);
+                    },
+                    error:function (data) {
+                        alert("执行失败")
+                    }
+                })
+            }
         });
         /*点击提交按钮*/
         $("#addCourse").click(function () {

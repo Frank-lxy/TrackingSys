@@ -57,7 +57,8 @@
                     <%
                         }else {
                     %>
-                    <span style="align-content: center">未上传学员照片</span>
+                    <%--<span style="align-content: center">未上传学员照片</span>--%>
+                    <img src="../../static/img/photo.png">
                     <%
                         }
                     %>

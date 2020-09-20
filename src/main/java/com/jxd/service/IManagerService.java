@@ -14,6 +14,7 @@ List<Manager>getAllManager();
     boolean updateUserId(Integer userId,Integer managerId);
     List<Manager>getAllManagerById(Integer managerId);
     boolean updateManager(Manager manager);
+    boolean addAManager(String managerName,Integer userId);
     List<Manager>getMaxId();
     List<Manager>getManagerById(Integer managerId);
 }

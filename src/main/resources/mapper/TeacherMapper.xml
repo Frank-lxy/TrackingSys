@@ -34,6 +34,10 @@
         insert into teacher(teacherName, birthday, idCardNum, phoneNumber, sex, homeTown,photo)
         values (#{teacherName},#{birthday},#{idCardNum},#{phoneNumber},#{sex},#{homeTown},#{photo})
     </insert>
+    <insert id="addATeacher">
+        insert into teacher(teacherName,userId)
+        values (#{teacherName},#{userId})
+    </insert>
     <delete id="delTeacherById">
         delete from teacher where teacherId=#{teacherId}
     </delete>

@@ -3,6 +3,8 @@ package com.jxd.controller;
 
 import com.jxd.model.User;
 import com.jxd.model.UserInfo;
+import com.jxd.service.IManagerService;
+import com.jxd.service.ITeacherService;
 import com.jxd.service.IUserService;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -20,7 +22,10 @@ import java.util.List;
 public class UserController {
     @Autowired
     IUserService userService;
-
+@Autowired
+    IManagerService managerService;
+@Autowired
+    ITeacherService teacherService;
     @RequestMapping("/userList")
     public String studentList(Model model) {
 
@@ -170,6 +175,12 @@ public class UserController {
             Integer role = 2;
             isAdd = userService.addUser(userName, password, role);
             if (isAdd) {
+                List<User> list = userService.getMaxUserId();
+                for (User u : list) {
+
+                    boolean addTeacher = teacherService.addATeacher(userName,u.getUserId());
+
+                }
                 return true;
             } else {
                 return false;
@@ -178,6 +189,12 @@ public class UserController {
             Integer role = 3;
             isAdd = userService.addUser(userName, password, role);
             if (isAdd) {
+                List<User> list = userService.getMaxUserId();
+                for (User u : list) {
+
+                        boolean addManager = managerService.addAManager(userName,u.getUserId());
+
+                }
                 return true;
             } else {
                 return false;
@@ -211,6 +228,7 @@ public class UserController {
         }
         System.out.println(isdel);
         if (isdel) {
+
             return "删除成功";
         } else {
             return "删除失败";

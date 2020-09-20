@@ -119,7 +119,7 @@
                         title:"新增经理",
                         content:'addManager',
                         shadeClose:true,//点击遮罩，关闭弹框
-                        area:['950px','480px']
+                        area:['950px','350px']
                     });
                     break;
                 case 'delete':
@@ -173,7 +173,7 @@
                     title: "编辑经理信息",
                     content: "editManager?managerId=" + managerId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['950px', '545px'],
+                    area:['950px','350px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -188,7 +188,7 @@
                     title: "经理详细信息",
                     content: "managerDetail?managerId=" + managerId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['1000px', '430px'],
+                    area:['950px','410px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

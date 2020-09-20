@@ -31,8 +31,12 @@
     <select id="getAllClazzByName" resultType="Clazz">
         SELECT classId FROM clazz WHERE clazz=#{clazz}
     </select>
+    <select id="getAllClazzById" resultType="Clazz">
+        SELECT classId,clazz,teacherName FROM clazz WHERE classId=#{classId}
+    </select>
     <update id="updateClazz">
         update clazz set clazz=#{clazz},teacherName=#{teacherName}
+        where classId=#{classId}
     </update>
     <delete id="delClazz">
         delete  form clazz where classId=#{classId}

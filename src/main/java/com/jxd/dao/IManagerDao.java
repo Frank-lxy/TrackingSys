@@ -11,6 +11,7 @@ public interface IManagerDao {
     List<Manager> getAllManagerByPage(@Param("count") Integer count, @Param("page") Integer page);
     List<Manager>getManagers(@Param("managerName") String managerName, @Param("departmentName") String departmentName);
     boolean addManager(Manager manager);
+    boolean addAManager(@Param("managerName")String managerName,@Param("userId")Integer userId);
     boolean delManagerById(Integer managerId);
     List<Manager>getAllManagerById(Integer managerId);
     boolean updateManager( Manager manager);

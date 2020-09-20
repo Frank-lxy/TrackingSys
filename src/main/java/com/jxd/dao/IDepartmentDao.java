@@ -16,6 +16,11 @@ public interface IDepartmentDao {
     boolean editDepartment(Department department);
 
     /**
+     * 获取全部的部门
+     * @return
+     */
+    List<Department> getAllDep();
+    /**
      * 根据课程id查询部门信息
      * @param departmentId 部门id
      * @return 部门信息

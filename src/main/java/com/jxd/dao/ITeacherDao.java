@@ -10,6 +10,7 @@ public interface ITeacherDao {
     List<Teacher> getAllTeacherByPage(@Param("count") Integer count, @Param("page") Integer page);
     List<Teacher>getTeachers(@Param("teacherName") String teacherName);
     boolean addTeacher(Teacher teacher);
+    boolean addATeacher(@Param("teacherName")String teacherName,@Param("userId")Integer userId);
     boolean delTeacherById(Integer teacherId);
     List<Teacher>getAllTeacherById(Integer teacherId);
     boolean updateTeacher( Teacher teacher);

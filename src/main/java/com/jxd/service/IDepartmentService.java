@@ -13,6 +13,7 @@ public interface IDepartmentService {
      * @return 是否编辑成功
      */
     boolean editDepartment(Department department);
+    List<Department> getAllDep();
 
     /**
      * 根据课程id查询部门信息

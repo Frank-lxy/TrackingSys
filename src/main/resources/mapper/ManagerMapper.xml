@@ -37,6 +37,10 @@
         insert into manager(managerName, departmentName, birthday, idCardNum, phoneNumber, sex, homeTown,photo)
         values (#{managerName},#{departmentName},#{birthday},#{idCardNum},#{phoneNumber},#{sex},#{homeTown},#{photo})
     </insert>
+    <insert id="addAManager">
+        insert into manager(managerName,userId)
+        values (#{managerName},#{userId})
+    </insert>
     <delete id="delManagerById">
         delete from manager where managerId=#{managerId}
     </delete>

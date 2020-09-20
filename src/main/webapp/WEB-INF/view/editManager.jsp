@@ -75,6 +75,10 @@
                             <input type="radio" name="sex" value="男">男
                             <input type="radio" name="sex" value="女" checked>女
                         </c:if>
+                        <c:if test="${sex==''||sex==null}">
+                            <input type="radio" name="sex" value="男" checked>男
+                            <input type="radio" name="sex" value="女">女
+                        </c:if>
                     </div>
                 </div>
                 <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
@@ -88,9 +92,9 @@
                             <input type="hidden" id="filePath" value="${photo}">
                             <div class="showPhoto" id="uploadDiv">
                                 <c:if test="${photo == '' || photo == null}">
-                                    <span style="align-content: center">学员照片</span>
+                                    <span style="align-content: center">教师照片</span>
                                 </c:if>
-                                <c:if test="${photo != '' || photo != null}">
+                                <c:if test="${photo != null}">
                                     <img src="../../${photo}">
                                 </c:if>
                             </div>
@@ -102,8 +106,6 @@
                     <div class="layui-input-inline">
                         <input type="text" name="birthday" id="birthday" value="${birthday}" required lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>部门：</label>
                     <div class="layui-input-inline">
                         <select name="departmentName" lay-verify="" id="departmentName">
@@ -119,22 +121,21 @@
                     <div class="layui-input-inline">
                         <input type="text" name="homeTown" id="homeTown" value="${homeTown}" required lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input">
                     </div>
-
-
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="phoneNumber" id="phoneNumber" value="${phoneNumber}" required  lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                    <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="idCardNum" id="idCardNum" value="${idCardNum}" required lay-verify="required" lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-
+                <div style="float: left">
                 <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0px">
                     <button id="addCourse" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
+                </div>
                 </div>
             </div>
         </div>

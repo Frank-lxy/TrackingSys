@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: xzh
@@ -112,7 +113,7 @@
                         </div>
                     </div>
                     <div style="margin-left: 0px">
-                        <label class="layui-form-label" style="margin-left: 0px"></label>
+                        <label class="layui-form-label" style="margin-left: 0px">照片</label>
                         <div class="layui-input-inline">
                             <input type="hidden" id="filePath" value="${photo}" readonly>
                             <div class="showPhoto" id="uploadDiv" readonly>

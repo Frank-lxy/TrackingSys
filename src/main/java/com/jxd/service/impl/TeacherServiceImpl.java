@@ -33,6 +33,11 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
+    public boolean addATeacher(String teacherName,Integer userId) {
+        return teacherDao.addATeacher(teacherName,userId);
+    }
+
+    @Override
     public boolean delTeacherById(Integer teacherId) {
         return teacherDao.delTeacherById(teacherId);
     }

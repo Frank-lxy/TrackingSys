@@ -53,6 +53,11 @@ public class ManagerServiceImpl implements IManagerService {
         return managerDao.updateManager(manager);
     }
 
+    @Override
+    public boolean addAManager(String managerName,Integer userId) {
+        return managerDao.addAManager(managerName,userId);
+    }
+
 
     @Override
     public List<Manager> getMaxId() {

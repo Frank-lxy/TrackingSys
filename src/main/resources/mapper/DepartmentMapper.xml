@@ -61,7 +61,9 @@
         </where>
         order by departmentId desc
     </select>
-
+<select id="getAllDep" resultType="com.jxd.model.Department">
+    <include refid="BaseSql"></include>
+</select>
     <sql id="BaseSql">
         select departmentId,departmentName from department
     </sql>

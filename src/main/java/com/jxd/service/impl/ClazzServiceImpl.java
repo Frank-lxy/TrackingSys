@@ -20,6 +20,11 @@ public class ClazzServiceImpl implements IClazzService {
     }
 
     @Override
+    public List<Clazz> getAllClazzById(Integer classId) {
+        return clazzDao.getAllClazzById(classId);
+    }
+
+    @Override
     public List<Clazz> getClazz(String clazz, String teacherName) {
         return clazzDao.getClazz(clazz,teacherName);
     }
@@ -29,9 +34,11 @@ public class ClazzServiceImpl implements IClazzService {
         return clazzDao.getAllClazzByPage(count,page);
     }
 
+
+
     @Override
-    public boolean updateClazz(String clazz, String teacherName) {
-        return clazzDao.updateClazz(clazz,teacherName);
+    public boolean updateClazz(String clazz, String teacherName, Integer classId) {
+        return clazzDao.updateClazz(clazz,teacherName,classId);
     }
 
     @Override

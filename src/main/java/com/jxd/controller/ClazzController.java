@@ -1,9 +1,6 @@
 package com.jxd.controller;
 
-import com.jxd.model.Clazz;
-import com.jxd.model.Course;
-import com.jxd.model.Student;
-import com.jxd.model.User;
+import com.jxd.model.*;
 import com.jxd.service.*;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -97,7 +94,7 @@ public class ClazzController {
             String s = u.getUserName();
             list3.add(s);
         }
-        List<Course> list2 = courseService.getAllCourse();
+        List<Course> list2 = courseService.getAllCourse(null);
         for (Course c : list2) {
             String s = c.getCourseName();
             list4.add(s);
@@ -108,7 +105,54 @@ public class ClazzController {
         model.addAttribute("clazz", str2);
         return "addClazz";
     }
-
+    @RequestMapping("/editClazz")
+    @ModelAttribute
+    public String editClazz(Model model,String classId) {
+        List<Clazz> list = clazzService.getAllClazzById(Integer.parseInt(classId));//获取ID最大的班期
+        String num = null;
+        String str1 = "";
+        String str2="";
+        String str3="";
+        String str4="";
+        String str5="";
+        List<Coursesel> list5 = new ArrayList<>();
+        List<String> list6 = new ArrayList<>();
+        for (Clazz s : list) {
+            str1 = s.getClazz();
+            str3=s.getTeacherName();
+        }
+list5=courseselService.getCourseIdById(Integer.parseInt(classId));
+        for (Coursesel c:list5){
+            Integer s=c.getCourseId();
+            Course courseName=courseService.getCourseById(s);
+            str2+=courseName.getCourseName();
+            list6.add(courseName.getCourseName());
+        }
+        List<User> list1 = new ArrayList<>();
+        List<String> list3 = new ArrayList<>();
+        List<String> list4 = new ArrayList<>();
+        list1 = userService.getAllTeachers();
+        for (User u : list1) {
+            String s = u.getUserName();
+            list3.add(s);
+        }
+        List<Course> list2 = courseService.getAllCourse(null);
+        for (Course c : list2) {
+            String s = c.getCourseName();
+if (!str2.contains(c.getCourseName())){
+    list4.add(c.getCourseName());
+}
+        }
+        model.addAttribute("classId",classId);
+        model.addAttribute("courseName", list4);
+        model.addAttribute("checkCourseName", list6);
+        model.addAttribute("teacherName", list3);
+        model.addAttribute("clazz", str1);
+        model.addAttribute("course", str2);
+        model.addAttribute("teacher", str3);
+        model.addAttribute("CN", str4);
+        return "editClazz";
+    }
     /**
      * 新增一个新的期次
      * @param clazz
@@ -147,7 +191,32 @@ public class ClazzController {
             return "新增失败";
         }
     }
-
+    @RequestMapping("/editTheClazz")
+    @ResponseBody
+    public String editTheClazz(String classId,String clazz, String courseName, String teacherName) {
+        String []arr=courseName.split(",");
+        List<String> list1 = new ArrayList<>();
+        Integer courseId = null;
+        boolean updateCoursesel = false;
+        boolean updateClazz = clazzService.updateClazz(clazz, teacherName,Integer.parseInt(classId));
+        if (updateClazz) {
+            for (int i = 0; i < arr.length; i++) {
+                String s = arr[i];
+                List<Course> list2 = courseService.getCourseIdByName(s);
+                for (Course c : list2) {
+                    courseId = c.getCourseId();
+                }
+                updateCoursesel = courseselService.updateCoursesel(courseId, Integer.parseInt(classId));
+            }
+        } else {
+            return "修改班期失败";
+        }
+        if (updateClazz && updateCoursesel) {
+            return "修改成功";
+        } else {
+            return "修改失败";
+        }
+    }
     @RequestMapping(value = "/getClazz", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getClazz(String clazz,String teacherName) {

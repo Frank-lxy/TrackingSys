@@ -83,4 +83,8 @@ public class UserServiceImpl implements IUserService {
     public List<User> getMaxUserId() {
         return userDao.getMaxUserId();
     }
+    @Override
+    public boolean editPwdById(User user) {
+        return userDao.editPwdById(user);
+    }
 }

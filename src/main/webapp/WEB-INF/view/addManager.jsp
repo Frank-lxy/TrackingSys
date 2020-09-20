@@ -92,8 +92,6 @@
                         <input type="text" name="birthday" id="birthday" required lay-verify="date"
                                placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>部门：</label>
                     <div class="layui-input-inline">
                         <select name="departmentName" lay-verify="" id="departmentName">
@@ -110,19 +108,20 @@
                         <input type="text" name="homeTown" id="homeTown" required lay-verify="required"
                                lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="phoneNumber" id="phoneNumber" required lay-verify="phone" lay-reqtext="联系电话不能为空"
                                autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="idCardNum" id="idCardNum" required lay-verify="required"
                                lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                <div style="float: left">
                 <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 20px">
                     <button id="addManager" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
                 </div>

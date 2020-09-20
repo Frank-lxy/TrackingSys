@@ -84,7 +84,12 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="studentList" target="mainFrame">用户管理</a>
+                    <a href="javascript:;" target="mainFrame">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="teacherList" target="mainFrame">教师信息管理</a></dd>
+                        <dd><a href="managerList" target="mainFrame">经理信息管理</a></dd>
+                        <dd><a href="userList" target="mainFrame">账号管理</a></dd>
+                    </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="getCourseList" target="mainFrame">课程管理</a>
@@ -93,7 +98,7 @@
                     <a href="getAssessItemList" target="mainFrame">评价项管理</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="userList.jsp" target="mainFrame">班期管理</a>
+                    <a href="clazzList" target="mainFrame">班期管理</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="getDepartmentList" target="mainFrame">部门管理</a>

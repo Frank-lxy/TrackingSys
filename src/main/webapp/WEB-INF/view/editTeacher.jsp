@@ -84,6 +84,10 @@
                             <input type="radio" name="sex" value="男">男
                             <input type="radio" name="sex" value="女" checked>女
                         </c:if>
+                        <c:if test="${sex==''||sex==null}">
+                            <input type="radio" name="sex" value="男" checked>男
+                            <input type="radio" name="sex" value="女">女
+                        </c:if>
                     </div>
                 </div>
                 <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
@@ -97,9 +101,9 @@
                             <input type="hidden" id="filePath" value="${photo}">
                             <div class="showPhoto" id="uploadDiv">
                                 <c:if test="${photo == '' || photo == null}">
-                                    <span style="align-content: center">学员照片</span>
+                                    <span style="align-content: center">教师照片</span>
                                 </c:if>
-                                <c:if test="${photo != '' || photo != null}">
+                                <c:if test="${photo!= null}">
                                     <img src="../../${photo}">
                                 </c:if>
                             </div>
@@ -112,8 +116,6 @@
                         <input type="text" name="birthday" id="birthday" value="${birthday}" required lay-verify="date"
                                placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>籍贯：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="homeTown" id="homeTown" value="${homeTown}" required

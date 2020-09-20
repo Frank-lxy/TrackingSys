@@ -72,12 +72,12 @@ public class StudentController {
             //添加学校课程评分
             if(scores.size() == 0){
                 for (int i = 0;i < courseList.size(); i++){
-                    map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                    map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
             }else if (scores.size() == courseList.size()){
                 for (int i = 0;i < scores.size(); i++){
                     if (scores.get(i).get("score") == null){
-                        map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                        map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                     }else {
                         map.put(courseList.get(i).get("courseId").toString(),scores.get(i).get("score"));
                     }
@@ -85,30 +85,30 @@ public class StudentController {
             }else {
                 for (int i = 0;i < scores.size(); i++){
                     if (scores.get(i).get("score") == null){
-                        map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                        map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                     }else {
                         map.put(courseList.get(i).get("courseId").toString(),scores.get(i).get("score"));
                     }
                 }
                 for (int i = scores.size(); i < courseList.size(); i++){
-                    map.put(courseList.get(i).get("courseId").toString(),"待评分");
+                    map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
             }
             //添加学校整体评价评分
             if (sassess == null){
-                map.put("sevaluate","待评分");
+                map.put("sevaluate","<div style=\"color:#9c9c9c\">待评分</div>");
             }else {
                 map.put("sevaluate",sassess.getEvaluate());
             }
             //添加项目经理整体评价评分
             if(massesses.size() == 0){
                 for (int i = 0;i < tStateList.size(); i++){
-                    map.put("mevaluate" + (i + 1),"待评价");
+                    map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
             }else if (massesses.size() == tStateList.size()){
                 for (int i = 0;i < massesses.size(); i++){
                     if (massesses.get(i).getEvaluate() == null){
-                        map.put("mevaluate" + (i + 1),"待评分");
+                        map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
                     }else {
                         map.put("mevaluate" + (i + 1),massesses.get(i).getEvaluate());
                     }
@@ -116,13 +116,13 @@ public class StudentController {
             }else {
                 for (int i = 0;i < massesses.size(); i++){
                     if (massesses.get(i).getEvaluate() == null){
-                        map.put("mevaluate" + (i + 1),"待评分");
+                        map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
                     }else {
                         map.put("mevaluate" + (i + 1),massesses.get(i).getEvaluate());
                     }
                 }
                 for (int i = massesses.size(); i < tStateList.size(); i++){
-                    map.put("mevaluate" + (i + 1),"待评分");
+                    map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
             }
             //把map添加到list中
