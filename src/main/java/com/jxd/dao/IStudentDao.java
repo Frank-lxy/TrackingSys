@@ -28,14 +28,14 @@ public interface IStudentDao {
      * @param classId 班级id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("count") Integer count,@Param("limit") Integer limit);
+    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName") String studentName,@Param("count") Integer count,@Param("limit") Integer limit);
 
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId);
+    List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName")String studentName);
 
     /**
      * 根据班级id获取课程列表

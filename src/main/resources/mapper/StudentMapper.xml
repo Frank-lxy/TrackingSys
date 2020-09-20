@@ -18,12 +18,16 @@
     <select id="getStudentListByClassIdPaging" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
+            <if test="studentName != null and studentName != ''">
+               studentName like '%' #{studentName} '%'
+            </if>
             <if test="classId != null and classId != ''">
-                classId=#{classId}
+                and  classId=#{classId}
             </if>
             <if test="managerId != null and managerId != ''and managerId != '0'">
                 and managerId=#{managerId}
             </if>
+
         </where>
         order by studentId desc
         limit #{count},#{limit}
@@ -33,12 +37,16 @@
     <select id="getStudentListByClassId" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
+            <if test="studentName != null and studentName != ''">
+                 studentName like '%' #{studentName} '%'
+            </if>
             <if test="classId != null and classId != ''">
-                classId=#{classId}
+                and  classId=#{classId}
             </if>
             <if test="managerId != null and managerId != ''and managerId != '0'">
                  and managerId=#{managerId}
             </if>
+
         </where>
         order by studentId desc
     </select>
@@ -81,7 +89,7 @@
         left join clazz c on s.classId=c.classId
         <where>
             <if test="studentName != null and studentName != ''">
-                s.studentName like '%' #{studentName} '%'
+            s.studentName like '%' #{studentName} '%'
             </if>
             <if test="departmentId != null and departmentId != ''">
                 and s.departmentId=#{departmentId}
@@ -146,7 +154,7 @@
     <select id="getClazzList" resultType="Clazz">
         select classId,clazz,teacherName
         from clazz
-        order by classId desc
+        order by classId
     </select>
 
     <!--List<User> getManagerList();-->
