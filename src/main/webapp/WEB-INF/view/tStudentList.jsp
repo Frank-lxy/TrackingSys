@@ -103,7 +103,7 @@
                 ,{field: 'phone', title: '联系方式',align:"center"}
                 ,{field: 'departmentName', title: '部门',align:"center", hide:true}
                 ,{field: 'jobName', title: '职位',align:"center", hide:true}
-                ,{title:'操作', toolbar:'#barDemo',align:'center', width:'7%'}
+                ,{title:'操作', toolbar:'#barDemo',align:'center',width:'7%'}
             ]]
         });
         //监听事件，监听lay-filter为test的元素的工具栏

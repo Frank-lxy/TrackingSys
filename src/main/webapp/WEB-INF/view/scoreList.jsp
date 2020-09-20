@@ -106,7 +106,7 @@
                 ,field = obj.field; //得到字段
             var oldScore = $(this).prev().text();// 单元格编辑之前的值
             var preScore = $(this).parent().prev().children().text();//得到编辑的单元格之前的值
-            if(preScore == '' || preScore == '待评分' || preScore ==null){//前一项课程是否已打分
+            if(preScore == '' || preScore == undefined || preScore ==null){//前一项课程是否已打分
                 $(this).val(oldScore);
                 layer.msg("当前课程还未开始，不能进行打分")
                 return;
@@ -143,21 +143,59 @@
                 case 'query':
                     var studentName=$("#studentName").val();
                     var classId = $("#clazzId option:selected").val();
-                    table.reload("demo",{//demo对应table的id
-                        url:"getAllScoreInfo?classId=" + classId,
-                        where:{
-                            studentName:studentName,
-                        },//where代表过滤条件
-                        page:{
-                            curr:1
-                        }
-                    });
 
-                    $("#studentName").val(studentName);//在页面上保留查询条件
-                    $("#clazzId option").each(function() { // 遍历所有option，如果option内容为classId，就设置起selected属性为true
-                        if($(this).val()==classId){
-                            $(this).prop("selected",true);
-                        }});
+                    var head =[];
+                    $.ajax({
+                        url:"getAllCourseByClassId",
+                        type:"get",
+                        data:{
+                            classId:classId
+                        },
+                        success:function (data) {
+                            $.each(data,function (index,value) {
+                                head.push( {field:value.courseId, title:value.courseName,align:"center",edit: 'text'})
+                            })
+                            var tavleIns = table.render({
+                                elem: '#demo'
+                                ,toolbar: '#toolbarDemo'
+                                ,height: 'full-32'
+                                ,url: '/getAllScoreInfo?classId='+classId//数据接口
+                                ,page: true
+                                ,limit: 8
+                                ,limits: [8,16,24,32]
+                                ,cols:[]
+
+                            });
+
+                            table.reload("demo",{//demo对应table的id
+                                where:{
+                                    studentName:studentName,
+                                },//where代表过滤条件
+                                page:{
+                                    curr:1
+                                },cols: [[
+                                    {type:'numbers',title:'序号',rowspan:2}
+                                    ,{field: 'studentId', title: '学生编号',align:"center",hide:true,rowspan:2}
+                                    ,{field: 'studentName', title: '姓名',align:"center",rowspan:2}
+                                    ,{field: 'sex', title: '性别',align:"center",hide:true,rowspan:2}
+                                    ,{field: 'graduate', title: '学校',align:"center",rowspan:2,hide:true}
+                                    ,{field: 'homeTown', title: '籍贯',align:"center",rowspan:2,hide:true}
+                                    ,{title: '培训期间测试成绩',align:"center",colspan:head.length}
+                                    ,{title:'操作',align:'center', toolbar: '#barDemo',width:90,rowspan:2}
+                                ],head]
+                            });
+
+
+                            $("#studentName").val(studentName);//在页面上保留查询条件
+                            $("#clazzId option").each(function() { // 遍历所有option，如果option内容为classId，就设置起selected属性为true
+                                if($(this).val()==classId){
+                                    $(this).prop("selected",true);
+                                }});
+                        },
+                        error:function () {
+                            layer.msg("执行失败")
+                        }
+                    })
                     break;
             };
         });
