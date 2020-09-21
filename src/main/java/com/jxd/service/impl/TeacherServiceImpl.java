@@ -58,6 +58,11 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
+    public Teacher getUserIdByTeaId(Integer teacherId) {
+        return teacherDao.getUserIdByTeaId(teacherId);
+    }
+
+    @Override
     public List<Teacher> getMaxId() {
         return teacherDao.getMaxId();
     }

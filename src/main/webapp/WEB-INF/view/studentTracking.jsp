@@ -175,7 +175,7 @@
                         });
                         //保留查询条件
                         $("#studentName").val(studentName);
-                        $("#classId").val(clazzId);
+                        $("#classId").val(classId);
                     },
                     error:function () {
                         layer.msg("执行失败")

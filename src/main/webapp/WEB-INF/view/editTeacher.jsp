@@ -17,42 +17,39 @@
             margin-left: 65px;
             min-height: 30px;
         }
-
         .layui-form-label {
             width: auto;
             min-width: 80px;
             padding: 9px 5px;
             margin-left: 10px;
         }
-
         .layui-form-item .layui-input-inline {
             margin-bottom: 20px;
         }
-
         .layui-form-select dl {
             max-height: 190px;
         }
-
         .layui-form-radio {
             line-height: 20px;
             margin: 3px 0 3px 0;
             padding-right: 0;
             padding-left: 20px;
         }
-
-        img {
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
+        img{
             height: 170px;
         }
-
-        .showPhoto {
+        .showPhoto{
             border: solid 1px #eaeaea;
             margin: 15px 15px 10px 0;
             height: 170px;
             width: 110px;
         }
-
-        #checkDiv1 {
-            color: #9F9F9F;
+        .layui-laydate-main{
+            height: 265px !important;
         }
     </style>
 </head>
@@ -63,17 +60,37 @@
             <div class="layui-form-item">
                 <div>
                     <div style="display: none">
-                        <label class="layui-form-label">经理编号：</label>
+                        <label class="layui-form-label">教师编号：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="teacherId" id="teacherId" value="${teacherId}" class="layui-input"
-                                   readonly>
+                            <input type="text" name="teacherId" id="teacherId" value="${teacherId}" class="layui-input" readonly>
                         </div>
                     </div>
                     <label class="layui-form-label"><span style="color: red">*</span>姓名：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="teacherName" id="teacherName" value="${teacherName}" required
-                               lay-verify="required" lay-reqtext="姓名不能为空" autocomplete="off" class="layui-input">
+                        <input type="text" name="teacherName" id="teacherName" value="${teacherName}" required  lay-verify="required" lay-reqtext="姓名不能为空" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
+                    <div style="margin-left: 0px">
+                        <label class="layui-form-label" style="margin-left: 0px">照片：</label>
+                        <div class="layui-input-inline">
+                            <form id="uploadForm" method="post" enctype="multipart/form-data">
+                                <input type="file" id="photo" name="photo" style="display: none">
+                                <button type="button" class="layui-btn" id="updatePhoto">重传</button>
+                            </form>
+                            <input type="hidden" id="filePath" value="${photo}">
+                            <div class="showPhoto" id="uploadDiv">
+                                <c:if test="${photo == '' || photo == null}">
+                                    <span style="align-content: center">教师照片未上传</span>
+                                </c:if>
+                                <c:if test="${photo != null}">
+                                    <img src="../../${photo}">
+                                </c:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
                     <div class="layui-input-inline">
                         <c:if test="${sex=='男'}">
@@ -90,53 +107,28 @@
                         </c:if>
                     </div>
                 </div>
-                <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
-                    <div style="margin-left: 0px">
-                        <label class="layui-form-label" style="margin-left: 0px">照片：</label>
-                        <div class="layui-input-inline">
-                            <form id="uploadForm" method="post" enctype="multipart/form-data">
-                                <input type="file" id="photo" name="photo" style="display: none">
-                                <button type="button" class="layui-btn" id="updatePhoto">重传</button>
-                            </form>
-                            <input type="hidden" id="filePath" value="${photo}">
-                            <div class="showPhoto" id="uploadDiv">
-                                <c:if test="${photo == '' || photo == null}">
-                                    <span style="align-content: center">教师照片</span>
-                                </c:if>
-                                <c:if test="${photo!= null}">
-                                    <img src="../../${photo}">
-                                </c:if>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>出生年月：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="birthday" id="birthday" value="${birthday}" required lay-verify="date"
-                               placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                        <input type="text" name="birthday" id="birthday" value="${birthday}" required lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>籍贯：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="homeTown" id="homeTown" value="${homeTown}" required
-                               lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input">
+                        <input type="text" name="homeTown" id="homeTown" value="${homeTown}" required lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input">
                     </div>
-
-
                 </div>
                 <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="phoneNumber" id="phoneNumber" value="${phoneNumber}" required
-                               lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
+                        <input type="text" name="phoneNumber" id="phoneNumber" value="${phoneNumber}" required  lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input">
                     </div>
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="idCardNum" id="idCardNum" value="${idCardNum}" required
-                               lay-verify="required" lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input">
+                        <input type="text" name="idCardNum" id="idCardNum" value="${idCardNum}" required lay-verify="required" lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-
                 <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0px">
                     <button id="addCourse" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
                 </div>
@@ -226,8 +218,10 @@
                 homeTown = $("#homeTown").val(),
                 phoneNumber = $("#phoneNumber").val(),
                 idCardNum = $("#idCardNum").val(),
-                photo = $("#filePath").val()
-            if (teacherName != '' && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != '') {
+                reg = /^\d{14}(\d|X|x)$|^\d{17}(\d|X|x)$/,
+                photo = $("#filePath").val(),
+                testId=reg.test(idCardNum)
+            if (teacherName != '' && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != ''&&testId==true) {
                 $.ajax({
                     url: "editTheTeacher",
                     type: "post",

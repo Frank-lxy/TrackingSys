@@ -20,8 +20,8 @@ public class ClazzServiceImpl implements IClazzService {
     }
 
     @Override
-    public Clazz getClazzByClassId(Integer classId) {
-        return clazzDao.getClazzByClassId(classId);
+    public Clazz getClazzById(Integer classId) {
+        return clazzDao.getClazzById(classId);
     }
 
     @Override
@@ -84,5 +84,10 @@ public class ClazzServiceImpl implements IClazzService {
     @Override
     public List<User> getAllTeacher() {
         return clazzDao.getAllTeacher();
+    }
+
+    @Override
+    public Clazz getClazzByClassId(Integer classId) {
+        return clazzDao.getClazzByClassId(classId);
     }
 }

@@ -67,8 +67,14 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean updateUserPwd(Integer userId, String password) {
-        return userDao.updateUser(userId,password);
+        return userDao.updateUserPwd(userId,password);
     }
+
+    @Override
+    public boolean updateUserName(String userName, Integer userId) {
+        return userDao.updateUserName(userName,userId);
+    }
+
     @Override
     public boolean updateAdmin(Integer userId, String password) {
         return userDao.updateAdmin(userId,password);

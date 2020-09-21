@@ -24,6 +24,11 @@ public class ManagerServiceImpl implements IManagerService {
     }
 
     @Override
+    public Manager getUserIdByManId(Integer managerId) {
+        return managerDao.getUserIdByManId(managerId);
+    }
+
+    @Override
     public List<Manager> getManagers(String managerName, String departmentName) {
         return managerDao.getManagers(managerName,departmentName);
     }
@@ -36,6 +41,11 @@ public class ManagerServiceImpl implements IManagerService {
     @Override
     public boolean delManagerById(Integer managerId) {
         return managerDao.delManagerById(managerId);
+    }
+
+    @Override
+    public List<Manager> getAllManagerById(Integer managerId) {
+        return managerDao.getAllManagerById(managerId);
     }
 
     @Override

@@ -4,18 +4,18 @@
 <mapper namespace="com.jxd.dao.IUserDao">
 
     <!--User getUser(User user);-->
-    <select id="getUser" resultType="User">
+    <select id="getUser" resultType="com.jxd.model.User">
         select userId,userName,password,role from user where userName=#{userName} and password=#{password}
     </select>
 
-    <select id="getAllUser" resultType="User">
+    <select id="getAllUser" resultType="com.jxd.model.User">
         select userId,userName,password,role from user
     </select>
-    <select id="getUserById" resultType="User">
+    <select id="getUserById" resultType="com.jxd.model.User">
         select userId,userName,password,role from user
         where userId=#{userId}
     </select>
-    <select id="getAllUserByPage" resultType="User">
+    <select id="getAllUserByPage" resultType="com.jxd.model.User">
         select userId,userName,password,role from user order by userId desc
         limit #{pageIndex},#{pageSize}
     </select>
@@ -24,6 +24,10 @@
     </insert>
     <update id="updateUser">
         update user set password=#{password}
+        where userId=#{userId}
+    </update>
+    <update id="updateUserName">
+        update user set userName=#{userName}
         where userId=#{userId}
     </update>
     <update id="updateAdmin">
@@ -41,13 +45,13 @@
             </if>
         </where>
     </select>
-    <select id="getAllTeachers" resultType="User">
+    <select id="getAllTeachers" resultType="com.jxd.model.User">
        SELECT userName from user where role=2
     </select>
-    <delete id="deleteById" parameterType="User">
+    <delete id="deleteById" >
  delete from user where userId = #{userId}
  </delete>
-    <select id="getMaxUserId" resultType="User">
+    <select id="getMaxUserId" resultType="com.jxd.model.User">
         select userId from user where userId=(SELECT MAX(userId)from user)
     </select>
 </mapper>

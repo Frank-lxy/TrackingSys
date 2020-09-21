@@ -176,9 +176,8 @@ public class UserController {
             if (isAdd) {
                 List<User> list = userService.getMaxUserId();
                 for (User u : list) {
-
+                    //在教师表中新增一条数据
                     boolean addTeacher = teacherService.addATeacher(userName,u.getUserId());
-
                 }
                 return true;
             } else {

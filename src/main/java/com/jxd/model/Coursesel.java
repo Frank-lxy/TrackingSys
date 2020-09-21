@@ -4,6 +4,8 @@ public class Coursesel {
     private Integer courseId;//课程id
     private Integer classId;//班期id
 
+
+
     public Coursesel() {
     }
 

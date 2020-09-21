@@ -65,4 +65,5 @@ public interface IScoreService {
      * @return
      */
     boolean editScore(Score score);
+
 }

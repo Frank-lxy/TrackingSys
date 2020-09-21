@@ -57,7 +57,7 @@
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="search">查看</a>&nbsp;
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>&nbsp;
+    <a class="layui-btn  layui-btn-xs" lay-event="edit">修改</a>&nbsp;
 </script>
 <script type="text/html" id="sexTpl">
     {{#  if(d.sex === '女'){ }}
@@ -110,7 +110,7 @@
                             curr: 1
                         }
                     });
-                    $("#ManagerName").val(ManagerName);
+                    $("#managerName").val(managerName);
                     $("#departmentName").val(departmentName);
                     break;
                 case 'add':
@@ -119,7 +119,7 @@
                         title:"新增经理",
                         content:'addManager',
                         shadeClose:true,//点击遮罩，关闭弹框
-                        area:['950px','350px']
+                        area:['650px','490px']
                     });
                     break;
                 case 'delete':
@@ -129,7 +129,7 @@
                     if (data.length<1){
                         layer.msg("请选择要删除的数据")
                     } else{
-                        layer.confirm('真的删除行么', function(index) {
+                        layer.confirm('真的删除行么',{icon:2,title:'删除'}, function(index) {
                             var managerIds = "";
                             for (var i = 0; i < data.length; i++) {
                                 managerIds += data[i].managerId + ",";
@@ -173,7 +173,7 @@
                     title: "编辑经理信息",
                     content: "editManager?managerId=" + managerId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area:['950px','350px'],
+                    area:['650px','490px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -188,7 +188,7 @@
                     title: "经理详细信息",
                     content: "managerDetail?managerId=" + managerId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area:['950px','410px'],
+                    area:['650px','490px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

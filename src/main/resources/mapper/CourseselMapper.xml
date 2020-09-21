@@ -11,6 +11,12 @@
         select courseId from coursesel where classId=#{classId}
     </select>
     <update id="updateCoursesel">
-        update coursesel set courseId=#{courseId} where classId=#{classId}
+        update coursesel set courseId=#{courseId} and classId=#{classId} where courseselId=#{courseselId}
     </update>
+    <select id="getCourseselIdById" resultType="com.jxd.model.Coursesel">
+        select courseselId from coursesel where classId=#{classId} and courseId=#{courseId}
+    </select>
+    <delete id="delCourseselById">
+        delete from coursesel where classId=#{classId}
+    </delete>
 </mapper>

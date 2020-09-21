@@ -9,7 +9,7 @@
     </update>
 
     <!--Course getCourseById(Integer courseId);-->
-    <select id="getCourseById" resultType="Course">
+    <select id="getCourseById" resultType="com.jxd.model.Course">
         select courseId,courseName
         from course where courseId=#{courseId}
     </select>
@@ -21,7 +21,7 @@
     </insert>
 
     <!--Course getCourseByName(String courseName);-->
-    <select id="getCourseByName" resultType="Course">
+    <select id="getCourseByName" resultType="com.jxd.model.Course">
         <include refid="BaseSql"></include>
         where courseName=#{courseName}
     </select>
@@ -32,7 +32,7 @@
     </delete>
 
     <!--List<Course> getCoursePaging(Integer count, Integer pageSize, String courseName);-->
-    <select id="getCoursePaging" resultType="Course">
+    <select id="getCoursePaging" resultType="com.jxd.model.Course">
         <include refid="BaseSql"></include>
         <where>
             <if test="courseName != null and courseName != ''">
@@ -44,7 +44,7 @@
     </select>
 
     <!--List<Course> getAllCourse(String courseName);-->
-    <select id="getAllCourse" resultType="Course">
+    <select id="getAllCourse" resultType="com.jxd.model.Course">
         <include refid="BaseSql"></include>
         <where>
             <if test="courseName != null and courseName != ''">
@@ -52,7 +52,7 @@
             </if>
         </where>
     </select>
-<select id="getCourseIdByName" resultType="Course">
+<select id="getCourseIdByName" resultType="com.jxd.model.Course">
     <include refid="BaseSql"></include>
     where courseName=#{courseName}
 </select>

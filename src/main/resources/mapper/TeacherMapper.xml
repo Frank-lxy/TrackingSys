@@ -7,10 +7,10 @@
     <sql id="BaseSql">
         select teacherId,teacherName,sex,phoneNumber,hometown,idCardNum,photo,birthday,userId from teacher
     </sql>
-    <select id="getAllTeacher" resultType="Teacher">
+    <select id="getAllTeacher" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
     </select>
-    <select id="getAllTeacherById" resultType="Teacher">
+    <select id="getAllTeacherById" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
         where teacherId=#{teacherId}
     </select>
@@ -18,7 +18,7 @@
         update teacher set teacherName=#{teacherName}, birthday=#{birthday}, idCardNum=#{idCardNum}, phoneNumber=#{phoneNumber}, sex=#{sex}, homeTown=#{homeTown},photo=#{photo}
         where teacherId=#{teacherId}
     </update>
-    <select id="getAllTeacherByPage" resultType="Teacher">
+    <select id="getAllTeacherByPage" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
         limit #{count}, #{page}
     </select>
@@ -41,7 +41,7 @@
     <delete id="delTeacherById">
         delete from teacher where teacherId=#{teacherId}
     </delete>
-    <select id="getTeacherById" resultType="Teacher">
+    <select id="getTeacherById" resultType="com.jxd.model.Teacher">
         select userId from teacher
         where teacherId=#{teacherId}
     </select>
@@ -49,7 +49,11 @@
         update teacher set userId=#{userId}
         where teacherId=#{teacherId}
     </update>
-    <select id="getMaxId" resultType="Teacher">
+    <select id="getUserIdByTeaId" resultType="com.jxd.model.Teacher">
+        <include refid="BaseSql"></include>
+        where  teacherId=#{teacherId}
+    </select>
+    <select id="getMaxId" resultType="com.jxd.model.Teacher">
         select teacherId from teacher where teacherId=(SELECT MAX(teacherId)from teacher)
     </select>
 </mapper>

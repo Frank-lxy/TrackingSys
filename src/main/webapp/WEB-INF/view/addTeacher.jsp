@@ -40,6 +40,11 @@
             padding-left: 20px;
         }
 
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
+
         img {
             height: 170px;
         }
@@ -67,11 +72,6 @@
                         <input type="text" name="teacherName" id="teacherName" required lay-verify="required"
                                lay-reqtext="姓名不能为空" autocomplete="off" class="layui-input">
                     </div>
-                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="sex" value="男" checked>男
-                        <input type="radio" name="sex" value="女">女
-                    </div>
                 </div>
                 <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
                     <div style="margin-left: 0px">
@@ -87,11 +87,20 @@
                     </div>
                 </div>
                 <div style="float: left">
+                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="sex" value="男" checked>男
+                        <input type="radio" name="sex" value="女">女
+                    </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>出生年月：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="birthday" id="birthday" required lay-verify="date"
                                placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>籍贯：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="homeTown" id="homeTown" required lay-verify="required"
@@ -126,7 +135,7 @@
             , laydate = layui.laydate
             ,date = new Date();
         $ = layui.jquery;
-
+        var idCard;
         //监听出生日期
         laydate.render({
             elem: '#birthday',
@@ -178,8 +187,11 @@
                 homeTown = $("#homeTown").val(),
                 phoneNumber = $("#phoneNumber").val(),
                 idCardNum = $("#idCardNum").val(),
-                photo = $("#filePath").val()
-            if (teacherName != '' && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != '') {
+                reg = /^\d{14}(\d|X|x)$|^\d{17}(\d|X|x)$/,
+                photo = $("#filePath").val(),
+                testId=reg.test(idCardNum)
+            if (teacherName != '' && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != '' && testId==true) {
+
                 $.ajax({
                     url: "addNewTeacher",
                     type: "post",

@@ -65,60 +65,22 @@
                     <div style="display: none">
                         <label class="layui-form-label">经理编号：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="teacherId" id="teacherId" value="${teacherId}" class="layui-input"
-                                   readonly>
+                            <input type="text" name="teacherId" id="teacherId" value="${teacherId}" class="layui-input" readonly>
                         </div>
                     </div>
                     <label class="layui-form-label"><span style="color: red">*</span>姓名：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="teacherName" id="teacherName" value="${teacherName}" required
-                               lay-verify="required" lay-reqtext="姓名不能为空" autocomplete="off" class="layui-input"
-                               readonly>
+                        <input type="text" name="teacherName" id="teacherName" value="${teacherName}" required  lay-verify="required" lay-reqtext="姓名不能为空" autocomplete="off" class="layui-input" readonly>
                     </div>
                 </div>
-                <div style="float: left">
-                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="sex" id="sex" value="${sex}" required lay-verify="required"
-                               lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input" readonly>
-                    </div>
-                </div>
-                <div style="float: left">
-                    <label class="layui-form-label"><span style="color: red">*</span>出生年月：</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="birthday" id="birthday" value="${birthday}" required lay-verify="date"
-                               placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" readonly>
-                    </div>
-                </div>
-                    <div style="float: left">
-                        <label class="layui-form-label"><span style="color: red">*</span>籍贯：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="homeTown" id="homeTown" value="${homeTown}" required
-                                   lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input"
-                                   readonly>
-                        </div>
-                    </div>
-                    <div style="float: left">
-                        <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="phoneNumber" id="phoneNumber" value="${phoneNumber}" required
-                                   lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input"
-                                   readonly>
-                        </div>
-                        <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="idCardNum" id="idCardNum" value="${idCardNum}" required
-                                   lay-verify="required" lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input"
-                                   readonly>
-                        </div>
-                    </div>
+                <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
                     <div style="margin-left: 0px">
-                        <label class="layui-form-label" style="margin-left: 0px">照片</label>
+                        <label class="layui-form-label" style="margin-left: 0px">照片：</label>
                         <div class="layui-input-inline">
                             <input type="hidden" id="filePath" value="${photo}" readonly>
                             <div class="showPhoto" id="uploadDiv" readonly>
                                 <c:if test="${photo == '' || photo == null}">
-                                    <span style="align-content: center">教师照片</span>
+                                    <span style="align-content: center">教师照片未上传</span>
                                 </c:if>
                                 <c:if test="${photo != '' || photo != null}">
                                     <img src="../../${photo}">
@@ -127,9 +89,40 @@
                         </div>
                     </div>
                 </div>
+                <div style="float: left">
+                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="sex" id="sex" value="${sex}" required lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+                <div style="float: left">
+                    <label class="layui-form-label"><span style="color: red">*</span>出生年月：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="birthday" id="birthday" value="${birthday}" required lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div style="float: left">
+                        <label class="layui-form-label"><span style="color: red">*</span>籍贯：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="homeTown" id="homeTown" value="${homeTown}" required lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input" readonly>
+                        </div>
+                    </div>
+                    <div style="float: left">
+                        <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="phoneNumber" id="phoneNumber" value="${phoneNumber}" required  lay-verify="phone" lay-reqtext="联系电话不能为空" autocomplete="off" class="layui-input" readonly>
+                        </div>
+                        <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="idCardNum" id="idCardNum" value="${idCardNum}" required lay-verify="required" lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input" readonly>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

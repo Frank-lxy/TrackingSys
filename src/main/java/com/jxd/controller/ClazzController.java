@@ -29,6 +29,12 @@ public class ClazzController {
     @Autowired
     ICourseselService courseselService;
 
+    /**
+     * 获取全部的班期信息
+     * @param limit
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "/getAllClazz", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getAllClazz(String limit, String page) {
@@ -52,6 +58,11 @@ public class ClazzController {
         return jsonObject;
     }
 
+    /**
+     * 跳转到classList页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/clazzList")
 @ModelAttribute
     public String clazzList(Model model) {
@@ -105,10 +116,17 @@ public class ClazzController {
         model.addAttribute("clazz", str2);
         return "addClazz";
     }
+
+    /**
+     * 跳转到修改班期信息页面
+     * @param model
+     * @param classId
+     * @return
+     */
     @RequestMapping("/editClazz")
     @ModelAttribute
     public String editClazz(Model model,String classId) {
-        Clazz clazz = clazzService.getClazzByClassId(Integer.parseInt(classId));//获取ID最大的班期
+        Clazz list = clazzService.getClazzById(Integer.parseInt(classId));//获取ID最大的班期
         String num = null;
         String str1 = "";
         String str2="";
@@ -117,9 +135,11 @@ public class ClazzController {
         String str5="";
         List<Coursesel> list5 = new ArrayList<>();
         List<String> list6 = new ArrayList<>();
-        str1 = clazz.getClazz();
-        str3 = clazz.getTeacherName();
-        list5=courseselService.getCourseIdById(Integer.parseInt(classId));
+
+            str1 = list.getClazz();
+            str3=list.getTeacherName();
+
+list5=courseselService.getCourseIdById(Integer.parseInt(classId));//通过classId查询出已经选了的课程
         for (Coursesel c:list5){
             Integer s=c.getCourseId();
             Course courseName=courseService.getCourseById(s);
@@ -177,8 +197,9 @@ if (!str2.contains(c.getCourseName())){
                 List<Course> list2 = courseService.getCourseIdByName(s);
                 for (Course c : list2) {
                     courseId = c.getCourseId();
+                    addCoursesel = courseselService.addCoursesel(courseId, classId);
                 }
-                addCoursesel = courseselService.addCoursesel(courseId, classId);
+
             }
         } else {
             return "新增班期失败";
@@ -189,22 +210,36 @@ if (!str2.contains(c.getCourseName())){
             return "新增失败";
         }
     }
+
+    /**
+     * 修改班期信息
+     * @param classId
+     * @param clazz
+     * @param courseName
+     * @param teacherName
+     * @return
+     */
     @RequestMapping("/editTheClazz")
     @ResponseBody
     public String editTheClazz(String classId,String clazz, String courseName, String teacherName) {
         String []arr=courseName.split(",");
         List<String> list1 = new ArrayList<>();
+        List<Coursesel>list4=new ArrayList<>();
+        list4=courseselService.getCourseIdById(Integer.parseInt(classId));
+        String str="";
+        String str1="";
         Integer courseId = null;
         boolean updateCoursesel = false;
         boolean updateClazz = clazzService.updateClazz(clazz, teacherName,Integer.parseInt(classId));
         if (updateClazz) {
+            boolean delcss=courseselService.delCourseselById(Integer.parseInt(classId));
             for (int i = 0; i < arr.length; i++) {
                 String s = arr[i];
                 List<Course> list2 = courseService.getCourseIdByName(s);
                 for (Course c : list2) {
                     courseId = c.getCourseId();
+                    updateCoursesel = courseselService.addCoursesel(courseId, Integer.parseInt(classId));
                 }
-                updateCoursesel = courseselService.updateCoursesel(courseId, Integer.parseInt(classId));
             }
         } else {
             return "修改班期失败";
@@ -215,6 +250,13 @@ if (!str2.contains(c.getCourseName())){
             return "修改失败";
         }
     }
+
+    /**
+     * 过滤，查询
+     * @param clazz
+     * @param teacherName
+     * @return
+     */
     @RequestMapping(value = "/getClazz", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getClazz(String clazz,String teacherName) {

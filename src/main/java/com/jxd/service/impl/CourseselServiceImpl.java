@@ -27,7 +27,17 @@ public class CourseselServiceImpl implements ICourseselService {
     }
 
     @Override
-    public boolean updateCoursesel(Integer courseId, Integer classId) {
-        return courseselDao.updateCoursesel(courseId,classId);
+    public Coursesel getCourseselIdById(Integer courseId, Integer classId) {
+        return courseselDao.getCourseselIdById(courseId,classId);
+    }
+
+    @Override
+    public boolean updateCoursesel(Integer courseId, Integer classId,Integer courseselId) {
+        return courseselDao.updateCoursesel(courseId,classId,courseselId);
+    }
+
+    @Override
+    public boolean delCourseselById(Integer classId) {
+        return courseselDao.delCourseselById(classId);
     }
 }

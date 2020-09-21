@@ -34,6 +34,11 @@ public class ManagerController {
     @Autowired
     IUserService userService;
 
+    /**
+     * 跳转到managerList页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/managerList")
     @ModelAttribute
     public String managerList(Model model) {
@@ -59,6 +64,13 @@ public class ManagerController {
         model.addAttribute("departmentName", list1);
         return "addManager";
     }
+
+    /**
+     * 跳转到经理的编辑页面
+     * @param model
+     * @param managerId
+     * @return
+     */
     @RequestMapping("/editManager")
     @ModelAttribute
     public String editManager(Model model,String managerId) {
@@ -102,6 +114,13 @@ public class ManagerController {
         model.addAttribute("departmentName", list12);
         return "editManager";
     }
+
+    /**
+     * 跳转到经理详情页面
+     * @param model
+     * @param managerId
+     * @return
+     */
     @RequestMapping("/managerDetail")
     @ModelAttribute
     public String managerDetail(Model model,String managerId) {
@@ -145,17 +164,30 @@ public class ManagerController {
         model.addAttribute("departmentName", list12);
         return "managerDetail";
     }
+
+    /**
+     * 新增一个经理
+     * @param managerName
+     * @param departmentName
+     * @param birthday
+     * @param idCardNum
+     * @param phoneNumber
+     * @param sex
+     * @param homeTown
+     * @param photo
+     * @return
+     */
     @RequestMapping(value = "/addNewManager",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String addNewManager(String managerName, String departmentName, String birthday, String idCardNum, String phoneNumber, String sex, String homeTown, String photo) {
         Manager manager = new Manager(managerName, departmentName, birthday, idCardNum, phoneNumber, sex, homeTown, photo);
         Integer mid = null;
-        boolean isAdd = managerService.addManager(manager);
+        boolean isAdd = managerService.addManager(manager);//新增方法
         List<Manager> list1 = managerService.getMaxId();
         if (isAdd) {
             Integer role = 3;
             String pwd = "123456";
-            boolean addUser = userService.addUser(managerName, pwd, role);
+            boolean addUser = userService.addUser(managerName, pwd, role);//在user中新增一条数据
             List<User> list = userService.getMaxUserId();
             for (User u : list) {
                 for (Manager m : list1) {
@@ -167,6 +199,20 @@ public class ManagerController {
             return "新增失败";
         }
     }
+
+    /**
+     * 修改经理信息
+     * @param managerId
+     * @param managerName
+     * @param departmentName
+     * @param birthday
+     * @param idCardNum
+     * @param phoneNumber
+     * @param sex
+     * @param homeTown
+     * @param photo
+     * @return
+     */
     @RequestMapping(value = "/editTheManager",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String editTheManager(String managerId,String managerName, String departmentName, String birthday, String idCardNum, String phoneNumber, String sex, String homeTown, String photo) {
@@ -174,13 +220,23 @@ public class ManagerController {
         Manager manager = new Manager(managerId1,managerName, departmentName, birthday, idCardNum, phoneNumber, sex, homeTown, photo);
         boolean isUpdate = managerService.updateManager(manager);
         if (isUpdate) {
-
+            //获取managerId对应的UserId
+Manager man=managerService.getUserIdByManId(Integer.parseInt(managerId));
+boolean isUpdateUser=userService.updateUserName(managerName,man.getUserId());
 
             return "修改成功";
+
         } else {
             return "修改失败";
         }
     }
+
+    /**
+     * 获取全部的经理信息
+     * @param limit
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "/getAllManager", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getAllManager(String limit, String page) {
@@ -204,6 +260,11 @@ public class ManagerController {
         return jsonObject;
     }
 
+    /**
+     * 通过id删除经理
+     * @param managerIds
+     * @return
+     */
     @RequestMapping(value = "/delManagerById",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String delManagerById(String managerIds) {
@@ -228,6 +289,12 @@ public class ManagerController {
         }
     }
 
+    /**
+     *
+     * @param managerName
+     * @param departmentName
+     * @return
+     */
     @RequestMapping(value = "/getManagers", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getManagers(String managerName, String departmentName) {

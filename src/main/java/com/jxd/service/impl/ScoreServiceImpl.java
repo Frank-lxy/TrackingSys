@@ -61,4 +61,6 @@ public class ScoreServiceImpl implements IScoreService {
     public boolean editScore(Score score) {
         return scoreDao.editScore(score);
     }
+
+
 }

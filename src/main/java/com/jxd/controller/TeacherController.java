@@ -29,11 +29,23 @@ public class TeacherController {
         return "teacherList";
     }
 
+    /**
+     * 跳转到新增教师页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/addTeacher")
     @ModelAttribute
     public String addManager(Model model) {
         return "addTeacher";
     }
+
+    /**
+     * 跳转到编辑教师页面
+     * @param model
+     * @param teacherId
+     * @return
+     */
     @RequestMapping("/editTeacher")
     @ModelAttribute
     public String editTeacher(Model model,String teacherId) {
@@ -95,6 +107,13 @@ public class TeacherController {
         model.addAttribute("sex", s10);
         return "editTeacher";
     }
+
+    /**
+     * 跳转到教师详情页面
+     * @param model
+     * @param teacherId
+     * @return
+     */
     @RequestMapping("/teacherDetail")
     @ModelAttribute
     public String teacherDetail(Model model,String teacherId) {
@@ -109,6 +128,7 @@ public class TeacherController {
         String s8="";
         String s9="";
         String s10="";
+        //遍历出list中的数据
         for (Teacher m:list){
             s1= String.valueOf(m.getTeacherId());
 
@@ -156,6 +176,18 @@ public class TeacherController {
         model.addAttribute("sex", s10);
         return "teacherDetail";
     }
+
+    /**
+     * 新增教师
+     * @param teacherName
+     * @param birthday
+     * @param idCardNum
+     * @param phoneNumber
+     * @param sex
+     * @param homeTown
+     * @param photo
+     * @return
+     */
     @RequestMapping(value = "/addNewTeacher",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String addNewTeacher(String teacherName, String birthday, String idCardNum, String phoneNumber, String sex, String homeTown, String photo) {
@@ -165,8 +197,9 @@ public class TeacherController {
         List<Teacher> list1 = teacherService.getMaxId();
         if (isAdd) {
             Integer role = 2;
-            String pwd = "123456";
+            String pwd = "123456";//user中新增一条信息
             boolean addUser = userService.addUser(teacherName, pwd, role);
+            //取出新增的数据的userId
             List<User> list = userService.getMaxUserId();
             for (User u : list) {
                 for (Teacher m : list1) {
@@ -178,6 +211,19 @@ public class TeacherController {
             return "新增失败";
         }
     }
+
+    /**
+     * 编辑教师
+     * @param teacherId
+     * @param teacherName
+     * @param birthday
+     * @param idCardNum
+     * @param phoneNumber
+     * @param sex
+     * @param homeTown
+     * @param photo
+     * @return
+     */
     @RequestMapping(value = "/editTheTeacher",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String editTheTeacher(String teacherId,String teacherName, String birthday, String idCardNum, String phoneNumber, String sex, String homeTown, String photo) {
@@ -185,13 +231,20 @@ public class TeacherController {
         Teacher teacher = new Teacher(teacherId1,teacherName, birthday, idCardNum, phoneNumber, sex, homeTown, photo);
         boolean isUpdate = teacherService.updateTeacher(teacher);
         if (isUpdate) {
-
-
+Teacher tea=teacherService.getUserIdByTeaId(Integer.parseInt(teacherId));
+boolean updateUser=userService.updateUserName(teacherName,tea.getUserId());//更新user表中的教师姓名
             return "修改成功";
         } else {
             return "修改失败";
         }
     }
+
+    /**
+     * 获取全部的教师信息
+     * @param limit
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "/getAllTeacher", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getAllTeacher(String limit, String page) {
@@ -215,6 +268,11 @@ public class TeacherController {
         return jsonObject;
     }
 
+    /**
+     * 通过教师id删除教师
+     * @param teacherIds
+     * @return
+     */
     @RequestMapping(value = "/delTeacherById",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String delTeacherById(String teacherIds) {
@@ -239,6 +297,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     * 查询筛选后的教师信息
+     * @param teacherName
+     * @return
+     */
     @RequestMapping(value = "/getTeachers", produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getTeachers(String teacherName) {

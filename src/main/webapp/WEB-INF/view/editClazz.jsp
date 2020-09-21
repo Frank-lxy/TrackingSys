@@ -13,8 +13,43 @@
 <head>
     <title>修改班期信息</title>
     <style>
-        .layui-table-tool-self {
-            display: none;
+        .layui-input-block {
+            margin-left: 65px;
+            min-height: 30px;
+        }
+        .layui-form-label {
+            width: auto;
+            min-width: 80px;
+            padding: 9px 5px;
+            margin-left: 10px;
+        }
+        .layui-form-item .layui-input-inline {
+            margin-bottom: 20px;
+        }
+        .layui-form-select dl {
+            max-height: 190px;
+        }
+        .layui-form-radio {
+            line-height: 20px;
+            margin: 3px 0 3px 0;
+            padding-right: 0;
+            padding-left: 20px;
+        }
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
+        img{
+            height: 170px;
+        }
+        .showPhoto{
+            border: solid 1px #eaeaea;
+            margin: 15px 15px 10px 0;
+            height: 170px;
+            width: 110px;
+        }
+        .layui-laydate-main{
+            height: 265px !important;
         }
     </style>
     <link rel="stylesheet" href="../../static/layui/css/layui.css">
@@ -26,22 +61,22 @@
         <div class="layui-inline">
             <div class="layui-form-item" style="display: none">
                 <label class="layui-form-label">班期编号</label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" name="classId" required lay-verify="required" value="${classId}" autocomplete="off"
                            class="layui-input" id="classId" >
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div style="float: left">
                 <label class="layui-form-label">班期</label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" name="clazz" required lay-verify="required" value="${clazz}" autocomplete="off"
                            class="layui-input" id="clazz" readonly>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div style="float: left">
                 <label class="layui-form-label">授课教师</label>
-                <div class="layui-input-block">
-                    <select name="teacherName" lay-verify="required" id="teacherName" required>
+                <div class="layui-input-inline">
+                    <select name="teacherName" lay-verify="required" id="teacherName" required lay-search>
                         <option value="${teacher}">${teacher}</option>
                         <c:forEach var="teacherName" items="${teacherName}">
                             <option value="${teacherName}">${teacherName}</option>
@@ -51,8 +86,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">课程</label>
-                <div class="layui-input-block">
-
+                <div class="layui-input-inline">
                         <c:set var="CN" value="${CN}"></c:set>
                         <c:set var="course" value="${course}"></c:set>
                             <c:forEach var="checkCourseName" items="${checkCourseName}">
@@ -60,8 +94,6 @@
                                value="${checkCourseName}"  lay-filter="hope" type="checkbox"
                                name="courseName"checked >
                             </c:forEach>
-
-
                             <c:forEach var="courseName" items="${courseName}">
                             <input type="checkbox" class="courseName" title="${courseName}" id="courseName"
                                    value="${courseName}"  lay-filter="hope" type="checkbox"
@@ -71,8 +103,8 @@
             </div>
 
             <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" id="addNewClazz" lay-submit lay-filter="formDemo">提交</button>
+                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 10px">
+                <button class="layui-btn" id="addNewClazz" lay-submit lay-filter="formDemo">提交</button>
                 </div>
             </div>
 </div>

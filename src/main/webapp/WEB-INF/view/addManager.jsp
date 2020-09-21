@@ -17,41 +17,38 @@
             margin-left: 65px;
             min-height: 30px;
         }
-
         .layui-form-label {
             width: auto;
             min-width: 80px;
             padding: 9px 5px;
             margin-left: 10px;
         }
-
         .layui-form-item .layui-input-inline {
             margin-bottom: 20px;
         }
-
         .layui-form-select dl {
             max-height: 190px;
         }
-
         .layui-form-radio {
             line-height: 20px;
             margin: 3px 0 3px 0;
             padding-right: 0;
             padding-left: 20px;
         }
-
-        img {
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
+        img{
             height: 170px;
         }
-
-        .showPhoto {
+        .showPhoto{
             border: solid 1px #eaeaea;
             margin: 15px 15px 10px 0;
             height: 170px;
             width: 110px;
         }
-
-        .layui-laydate-main {
+        .layui-laydate-main{
             height: 265px !important;
         }
     </style>
@@ -66,11 +63,6 @@
                     <div class="layui-input-inline">
                         <input type="text" name="managerName" id="managerName" required lay-verify="required"
                                lay-reqtext="姓名不能为空" autocomplete="off" class="layui-input">
-                    </div>
-                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="sex" value="男" checked>男
-                        <input type="radio" name="sex" value="女">女
                     </div>
                 </div>
                 <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
@@ -87,14 +79,23 @@
                     </div>
                 </div>
                 <div style="float: left">
+                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="sex" value="男" checked>男
+                        <input type="radio" name="sex" value="女">女
+                    </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>出生年月：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="birthday" id="birthday" required lay-verify="date"
                                placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>部门：</label>
                     <div class="layui-input-inline">
-                        <select name="departmentName" lay-verify="" id="departmentName">
+                        <select name="departmentName" lay-verify="" id="departmentName" lay-search>
                             <option value="">请选择部门</option>
                             <c:forEach var="departmentName" items="${departmentName}">
                                 <option value="${departmentName}">${departmentName}</option>
@@ -108,20 +109,19 @@
                         <input type="text" name="homeTown" id="homeTown" required lay-verify="required"
                                lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>联系电话：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="phoneNumber" id="phoneNumber" required lay-verify="phone" lay-reqtext="联系电话不能为空"
                                autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>身份证号：</label>
                     <div class="layui-input-inline">
                         <input type="text" name="idCardNum" id="idCardNum" required lay-verify="required"
                                lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div style="float: left">
                 <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 20px">
                     <button id="addManager" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
                 </div>
@@ -190,8 +190,10 @@
                 phoneNumber = $("#phoneNumber").val(),
                 idCardNum = $("#idCardNum").val(),
                 departmentName=$("#departmentName").val(),
-                photo = $("#filePath").val()
-            if (managerName != ''  && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != '') {
+                reg = /^\d{14}(\d|X|x)$|^\d{17}(\d|X|x)$/,
+                photo = $("#filePath").val(),
+                testId=reg.test(idCardNum)
+            if (managerName != ''  && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != ''&&testId==true) {
                 $.ajax({
                     url: "addNewManager",
                     type: "post",

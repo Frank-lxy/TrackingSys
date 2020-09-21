@@ -16,6 +16,7 @@ public interface IScoreDao {
      * @param classId 课程id
      * @return 课程集合
      */
+
     List<Map<String,Object>> getAllCourseByClassId(Integer classId);
 
     /**
@@ -71,4 +72,5 @@ public interface IScoreDao {
      * @return 是否修改成功
      */
     boolean editScore(Score score);
+
 }

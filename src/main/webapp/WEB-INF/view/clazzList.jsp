@@ -23,6 +23,9 @@
             padding: 5px;
             text-align: center;
         }
+        .lui{
+            background-color: #f8f8f8;'
+        }
     </style>
 </head>
 <body>
@@ -30,7 +33,7 @@
     <table id="demo" lay-filter="test"></table>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>&nbsp;
+    <a class="layui-btn  layui-btn-xs" lay-event="edit">修改</a>&nbsp;
 </script>
 <script type="text/html" id="toolbarDemo">
     <div align="right">
@@ -90,6 +93,8 @@
                             curr: 1 //重新从第 1 页开始
                         }
                     });
+                    $("#clazz").val(clazz);
+                    $("#teacherName").val(teacherName);
                     break;
                 case 'add':
                     layer.open({
@@ -97,7 +102,7 @@
                         title:'新增班期',
                         content:'addClazz',
                         shadeClose:true,//点击遮罩关闭弹窗
-                        area:['400px','380px'],
+                        area:['400px','430px'],
                     });
                     break;
 
@@ -114,7 +119,7 @@
                     title: "编辑班期信息",
                     content: "editClazz?classId=" + classId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area:['400px','380px'],
+                    area:['400px','430px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
