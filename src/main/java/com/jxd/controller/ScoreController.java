@@ -1,7 +1,6 @@
 package com.jxd.controller;
 
 import com.jxd.model.*;
-import com.jxd.service.IClazzService;
 import com.jxd.service.ISassessService;
 import com.jxd.service.IScoreService;
 import com.jxd.service.IStudentService;
@@ -28,7 +27,7 @@ import java.util.Map;
  * @Version:1.0
  */
 @Controller
-@SessionAttributes({"clazzes"})
+@SessionAttributes({"clazzes","clazzIdOfStu"})
 public class ScoreController {
     @Autowired
     private IScoreService scoreService;
@@ -36,8 +35,6 @@ public class ScoreController {
     private ISassessService sassessService;
     @Autowired
     private IStudentService studentService;
-    @Autowired
-    private IClazzService clazzService;
 
     @RequestMapping(value = "/addOrEditScore",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
@@ -67,8 +64,8 @@ public class ScoreController {
         User user = (User) session.getAttribute("user");
         //根据老师姓名查找班期
         List<Clazz> clazzes = scoreService.getClazzListByTchName(user.getUserName());
-        //最新班期
 
+        //最新班期
         Clazz clazz = clazzes.get(0);
         model.addAttribute("clazzes",clazzes);
         model.addAttribute("clazz",clazz);
@@ -80,6 +77,10 @@ public class ScoreController {
         Sassess sassess = sassessService.getSassessByStuId(studentId);
         model.addAttribute("sassess",sassess);
         model.addAttribute("studentId",studentId);
+
+        //根据学生id查找学生信息
+        Map<String,Object> stu = studentService.getStuInfoById(studentId);
+        model.addAttribute("clazzIdOfStu",(Integer) stu.get("classId"));
         return "sassessDetailed";
     }
 
@@ -137,23 +138,25 @@ public class ScoreController {
 
     @RequestMapping(value = "/getDetailInfoById",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public JSON  getDetailInfoById(Integer studentId, HttpSession session){
+    public JSON  getDetailInfoById(Integer studentId, HttpSession session,Model model){
         //存放封装的学生和成绩信息
         List<Map<String,Object>> list = new ArrayList<>();
+        //评价人
+        User user = (User) session.getAttribute("user");
         //学生评价
         Sassess sassess = sassessService.getSassessByStuId(studentId);
         //根据学生id查找学生信息
         Map<String,Object> stu = studentService.getStuInfoById(studentId);
-        //评价人名称
-        String teacherName = clazzService.getClazzByClassId((Integer)stu.get("classId")).getTeacherName();
-
         //学生的各科成绩
         List<Map<String,Object>> scores = scoreService.getScoreByStuId((Integer) stu.get("studentId"),(Integer) stu.get("classId"));
+
+        Integer clazzIdOfStu = (Integer) stu.get("classId");
+        model.addAttribute("clazzIdOfStu",clazzIdOfStu);
         //把每个学生信息和他的各科成绩存储在map中
         Map<String,Object> map = new HashMap<>();
         map.put("school","学习评价");
         map.put("clazz",stu.get("clazz"));
-        map.put("teacher",teacherName);
+        map.put("teacher",user.getUserName());
         for (Map score:scores){
             if(score.get("score") == null){
                 map.put(  Integer.toString((Integer)score.get("courseId")),"");

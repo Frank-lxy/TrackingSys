@@ -83,7 +83,7 @@
             }
         });
         $("#addMassess").click(function () {
-            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) && $("#evaluate").val() > 0 && $("#evaluate").val() < 5 ){
+            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) && $("#evaluate").val() > 0 && $("#evaluate").val() <= 5 ){
                 $.ajax({
                     url:"addMassess",
                     type:"post",

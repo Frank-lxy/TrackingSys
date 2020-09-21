@@ -50,7 +50,7 @@
         var layer = layui.layer;
         var $ = layui.jquery;
         var head =[];//存放每一个期次的课程
-        var classId=1;
+        var classId=${sessionScope.clazzIdOfStu};
         var studentId = ${requestScope.studentId}
         //获取老师所教期次课程
         $.ajax({

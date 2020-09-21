@@ -43,9 +43,8 @@
 
         <div class="layui-input-inline">
             <select name="classId" id="clazzId" lay-filter="receive" lay-search="">
-                <option value="">请选择期次</option>
                 <c:forEach var="clazz" items="${sessionScope.clazzes}">
-                    <option value="${clazz.classId}">${clazz.classId}${clazz.clazz}</option>
+                    <option value="${clazz.classId}">${clazz.clazz}</option>
                 </c:forEach>
             </select>
         </div>

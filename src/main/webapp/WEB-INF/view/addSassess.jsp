@@ -117,8 +117,8 @@
                     $("#evaluate").prop("class","layui-input red");
                     $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>评价不能为空</span>")
                 }else if (isNaN(evaluate) || evaluate < 0 || evaluate >5){
-                    $(this).prop("class","layui-input red");
-                    $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字</span>")
+                    $("#evaluate").prop("class","layui-input red");
+                    $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字(0-5)</span>")
                 }
 
                 var assess = $("#assess").val();

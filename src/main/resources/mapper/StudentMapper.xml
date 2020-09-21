@@ -107,11 +107,8 @@
 
     <!--Map<String,Object> getStuInfoById(Integer studentId);-->
     <select id="getStuInfoById" resultType="Map">
-        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,
-        d.departmentId departmentId,d.departmentName departmentName,j.jobName jobName,st.tState tState,st.managerId managerId
+        select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz
         from student st left join clazz c on st.classId=c.classId
-        right join department d on d.departmentId=st.departmentId
-        right join job j on j.jobId=st.jobId
         where studentId=#{studentId}
     </select>
 
