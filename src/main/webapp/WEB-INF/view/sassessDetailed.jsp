@@ -43,7 +43,7 @@
     $(function () {
         var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.sassess.assess}</td></tr>")
         $("#demoDiv").append(obj)
-    })
+    });
 
     layui.use(['table',"layer"], function(){
         var table = layui.table;

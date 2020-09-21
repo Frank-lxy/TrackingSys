@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
-个 个mapper 相当于一个dao 接口的实现类 -->
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IManagerDao">
     <sql id="BaseSql">
         select managerId,managerName,sex,departmentName,phoneNumber,hometown,idCardNum,photo,birthday,userId from manager
     </sql>
+
     <select id="getAllManager" resultType="Manager">
         <include refid="BaseSql"></include>
     </select>
-    <select id="getAllManagerById" resultType="Manager">
+
+    <select id="getManagerByManagerId" resultType="Manager">
         <include refid="BaseSql"></include>
         where managerId=#{managerId}
     </select>
+
     <update id="updateManager">
         update manager set managerName=#{managerName}, departmentName=#{departmentName}, birthday=#{birthday}, idCardNum=#{idCardNum}, phoneNumber=#{phoneNumber}, sex=#{sex}, homeTown=#{homeTown},photo=#{photo}
         where managerId=#{managerId}
     </update>
+
     <select id="getAllManagerByPage" resultType="Manager">
         <include refid="BaseSql"></include>
         limit #{count}, #{page}
     </select>
+
     <select id="getManagers" resultType="com.jxd.model.Manager">
         <include refid="BaseSql"></include>
         <where>
@@ -33,25 +37,31 @@
             </if>
         </where>
     </select>
+
     <insert id="addManager">
         insert into manager(managerName, departmentName, birthday, idCardNum, phoneNumber, sex, homeTown,photo)
         values (#{managerName},#{departmentName},#{birthday},#{idCardNum},#{phoneNumber},#{sex},#{homeTown},#{photo})
     </insert>
+
     <insert id="addAManager">
         insert into manager(managerName,userId)
         values (#{managerName},#{userId})
     </insert>
+
     <delete id="delManagerById">
         delete from manager where managerId=#{managerId}
     </delete>
+
     <select id="getManagerById" resultType="Manager">
         select userId from manager
         where managerId=#{managerId}
     </select>
+
     <update id="updateUserId">
         update manager set userId=#{userId}
         where managerId=#{managerId}
     </update>
+
     <select id="getMaxId" resultType="Manager">
         select managerId from manager where managerId=(SELECT MAX(managerId)from manager)
     </select>

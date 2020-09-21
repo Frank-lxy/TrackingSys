@@ -53,12 +53,11 @@
                         int index = photo.indexOf("files");
                         if (index != -1){
                     %>
-                    <img src="${map.photo}">
+                    <img src="${map.photo}" alt="学员照片">
                     <%
                         }else {
                     %>
-                    <span style="align-content: center">未上传学员照片</span>
-                    <%--<img src="../../static/img/photo.png">--%>
+                    <img src="../../static/img/photo.png" alt="学员照片">
                     <%
                         }
                     %>

@@ -44,8 +44,8 @@ public class ManagerServiceImpl implements IManagerService {
     }
 
     @Override
-    public List<Manager> getAllManagerById(Integer managerId) {
-        return managerDao.getAllManagerById(managerId);
+    public Manager getManagerByManagerId(Integer managerId) {
+        return managerDao.getManagerByManagerId(managerId);
     }
 
     @Override

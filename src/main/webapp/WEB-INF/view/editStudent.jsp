@@ -47,7 +47,6 @@
             height: 175px;
         }
         .showPhoto{
-            border: solid 1px #eaeaea;
             margin: 10px 15px 10px 0;
             height: 170px;
             width: 110px;
@@ -96,10 +95,10 @@
                             <input type="hidden" id="filePath" value="${student.photo}">
                             <div class="showPhoto" id="uploadDiv">
                                 <c:if test="${student.photo == '' || student.photo == null}">
-                                    <span style="align-content: center">学员照片</span>
+                                    <img src="../../static/img/photo.png" alt="学员照片">
                                 </c:if>
                                 <c:if test="${student.photo != '' && student.photo != null}">
-                                    <img src="../../${student.photo}">
+                                    <img src="../../${student.photo}" alt="学员照片">
                                 </c:if>
                             </div>
                         </div>
@@ -225,25 +224,25 @@
                     <div id="checkDiv1">
                         <label class="layui-form-label">项目经理：</label>
                         <div class="layui-input-inline">
-                            <select name="managerId" id="managerId1">
+                            <select name="managerId" id="managerId1" disabled>
                                 <option value="">未完成全部课程</option>
                             </select>
                         </div>
                         <label class="layui-form-label">部门：</label>
                         <div class="layui-input-inline">
-                            <select name="departmentId" id="departmentId1">
+                            <select name="departmentId" id="departmentId1" disabled>
                                 <option value="">未完成全部课程</option>
                             </select>
                         </div>
                         <label class="layui-form-label">职务：</label>
                         <div class="layui-input-inline">
-                            <select name="jobId" id="jobId1">
+                            <select name="jobId" id="jobId1" disabled>
                                 <option value="">未完成全部课程</option>
                             </select>
                         </div>
                         <label class="layui-form-label">入职日期：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="hiredate" id="hiredate1"  placeholder="未完成全部课程" autocomplete="off" class="layui-input" readonly>
+                            <input type="text" name="hiredate" id="hiredate1"  placeholder="未完成全部课程" autocomplete="off" class="layui-input"  disabled>
                         </div>
                     </div>
                     <%

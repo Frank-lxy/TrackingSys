@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
-个 个mapper 相当于一个dao 接口的实现类 -->
+<!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.ISassessDao">
     <sql id="BaseSql">
         select saId,studentId,classId,state,evaluate,assess from sassess
@@ -71,9 +70,4 @@
         set evaluate=#{evaluate},assess=#{assess}
         where saId=#{saId}
     </update>
-
-
-
-
-
 </mapper>

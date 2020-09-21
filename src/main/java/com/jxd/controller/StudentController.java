@@ -41,6 +41,24 @@ public class StudentController {
     @Autowired
     IMarkService markService;
 
+    @RequestMapping("/allStudentDetailed")
+    public String allStudentDetailed(Integer studentId, Model model){
+        Massess massess1 = massessService.getMassess(studentId,1);
+        model.addAttribute("massess1",massess1);
+
+        Massess massess2 = massessService.getMassess(studentId,2);
+        model.addAttribute("massess2",massess2);
+
+        Massess massess3 = massessService.getMassess(studentId,3);
+        model.addAttribute("massess3",massess3);
+
+        Massess massess4 = massessService.getMassess(studentId,4);
+        model.addAttribute("massess4",massess4);
+
+        model.addAttribute("studentId",studentId);
+        return "allStudentDetailed";
+    }
+
     @RequestMapping("/getStudentListByClassId")
     @ResponseBody
     public JSON getStudentListByClassId(Integer classId,Integer managerId,String studentName,Integer limit,Integer page){
@@ -83,7 +101,7 @@ public class StudentController {
                     }
                 }
             }else {
-                for (int i = 0;i < scores.size()-1; i++){
+                for (int i = 0;i < scores.size(); i++){
                     if (scores.get(i).get("score") == null){
                         map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                     }else {
@@ -147,23 +165,6 @@ public class StudentController {
         return list;
     }
 
-    @RequestMapping("/allDetailed")
-    public String allDetailed(Integer studentId, Model model){
-//        Sassess sassess = sassessService.getSassessByStuId(studentId);
-//        model.addAttribute("sassess",sassess);
-//        model.addAttribute("studentId",studentId);
-        Massess massess1 = massessService.getMassess(studentId,1);
-        model.addAttribute("massess1",massess1);
-        Massess massess2 = massessService.getMassess(studentId,2);
-        model.addAttribute("massess2",massess2);
-        Massess massess3 = massessService.getMassess(studentId,3);
-        model.addAttribute("massess3",massess3);
-        Massess massess4 = massessService.getMassess(studentId,4);
-        model.addAttribute("massess4",massess4);
-        model.addAttribute("studentId",studentId);
-        return "allDetailed";
-    }
-
     @RequestMapping(value = "/getStudentTracking",produces = "text/html;charset=utf-8")
     public String getStudentTracking(HttpServletRequest request,Model model){
         //获取各个下拉列表的值，并存入session
@@ -171,15 +172,21 @@ public class StudentController {
         List<User> managerList = studentService.getManagerList();
         List<Department> departmentList = departmentService.getAllDepartment(null);
         List<Job> jobList = jobService.getAllJob(null);
+
+        //获取session中的user
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        Manager manager = markService.getDepatermentId(user.getUserId());
-        if (manager==null){
-            model.addAttribute("managerId",0);
-        }else {
+
+        //存入经理id
+        if (user.getRole() == 3){//若登录用户是经理
+            Manager manager = markService.getDepatermentId(user.getUserId());
             model.addAttribute("managerId",manager.getManagerId());
+        }else {//若登录用户不是经理
+            model.addAttribute("managerId",0);
         }
+        //存入最新一期的班期id
         model.addAttribute("clazzId",clazzList.get(0).getClassId());
+
         model.addAttribute("clazzList",clazzList);
         model.addAttribute("managerList",managerList);
         model.addAttribute("departmentList",departmentList);
@@ -231,6 +238,7 @@ public class StudentController {
     @RequestMapping(value = "/addStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String addStudent(Student student){
+        //新增学员
         boolean isAdd = studentService.addStudent(student);
         if (isAdd){
             return "新增成功";
@@ -249,12 +257,14 @@ public class StudentController {
         if (!file.exists() || !file.isDirectory()){
             file.mkdir();
         }
+
         //获取原文件名
         String oldName = multipartFile.getOriginalFilename();
         //对原文件名进行处理
         String newName = UUID.randomUUID() + "_" + oldName;
         //根据保存路径和新名字生成一个文件对象
         File saveFile = new File(savePath,newName);
+
         try {
             //将springMVC接收到的文件对象转换为普通的文件对象
             multipartFile.transferTo(saveFile);
@@ -273,6 +283,7 @@ public class StudentController {
     @RequestMapping(value = "/deleteStudentById",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String deleteStudentById(Integer studentId){
+        //删除学员
         boolean isDelete = studentService.deleteStudentById(studentId);
         if (isDelete){
             return "删除成功";
@@ -284,6 +295,7 @@ public class StudentController {
     @RequestMapping(value = "deleteStudentBatch",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String deleteStudentBatch(String studentIds){
+        //批量删除学员
         boolean isDelete = studentService.deleteStudentBatch(studentIds);
         if (isDelete){
             return "删除成功";
@@ -294,6 +306,7 @@ public class StudentController {
 
     @RequestMapping(value = "/getStudentDetailedById",produces = "text/html;charset=utf-8")
     public String getStudentDetailedById(Integer studentId, Model model){
+        //根据学员id获取学员详细信息
         Map<String,Object> map = studentService.getStudentDetailedById(studentId);
         model.addAttribute("map",map);
         return "studentDetailed";
@@ -306,14 +319,16 @@ public class StudentController {
         String studentName = request.getParameter("studentName");
         String departmentId = request.getParameter("departmentId");
         String jobId = request.getParameter("jobId");
-        //获取所有课程
+
+        //获取过滤后的学员列表
         List<Student> list = studentService.getAllStudent(studentName,departmentId,jobId);
         //获取分页数据
         int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
-        int count = (pageIndex - 1) * pageSize;
-        //获取分页课程
+        int count = (pageIndex - 1) * pageSize;//需要跳过的条目数
+        //获取过滤后的分页学员列表
         List<Map<String,Object>> list1 = studentService.getStudentPaging(count,pageSize,studentName,departmentId,jobId);
+
         //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list1);
         JSONObject jsonObject = new JSONObject();
@@ -321,7 +336,23 @@ public class StudentController {
         jsonObject.put("msg","");
         jsonObject.put("count",list.size());//一共有多少条数据
         jsonObject.put("data",jsonArray);
+
         return jsonObject;
+    }
+
+    @RequestMapping("/getStudentList")
+    public String getStudentList(){
+        return "studentList";
+    }
+
+
+    @RequestMapping("/tStudentList")
+    public String tStudentList(Model model){
+        List<Department> departmentList = departmentService.getAllDepartment(null);
+        List<Job> jobList = jobService.getAllJob(null);
+        model.addAttribute("departmentList",departmentList);
+        model.addAttribute("jobList",jobList);
+        return "tStudentList";
     }
 
     @RequestMapping(value = "/getAllStudentByTid",produces = "application/json;charset=utf-8")
@@ -331,16 +362,21 @@ public class StudentController {
         String studentName = request.getParameter("studentName");
         String departmentId = request.getParameter("departmentId");
         String jobId = request.getParameter("jobId");
+
+        //获取登录的用户
         User user = (User) session.getAttribute("user");
+        //获取用户名称
         String teacherName = user.getUserName();
         //获取所有课程
         List<Student> list = studentService.getAllStudentByTid(studentName,departmentId,jobId,teacherName);
+
         //获取分页数据
         int pageSize = Integer.parseInt(request.getParameter("limit"));//获取一页显示几条
         int pageIndex = Integer.parseInt(request.getParameter("page"));//获取当前页
         int count = (pageIndex - 1) * pageSize;
         //获取分页课程
         List<Map<String,Object>> list1 = studentService.getAllStudentByTidPaging(count,pageSize,studentName,departmentId,jobId,teacherName);
+
         //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list1);
         JSONObject jsonObject = new JSONObject();
@@ -349,20 +385,6 @@ public class StudentController {
         jsonObject.put("count",list.size());//一共有多少条数据
         jsonObject.put("data",jsonArray);
         return jsonObject;
-    }
-
-    @RequestMapping("/getStudentList")
-    public String getStudentList(Model model){
-        return "studentList";
-    }
-
-    @RequestMapping("/tStudentList")
-    public String tStudentList(Model model){
-        List<Department> departmentList = departmentService.getAllDepartment(null);
-        List<Job> jobList = jobService.getAllJob(null);
-        model.addAttribute("departmentList",departmentList);
-        model.addAttribute("jobList",jobList);
-        return "tStudentList";
     }
 
 
@@ -379,5 +401,22 @@ public class StudentController {
         model.addAttribute("jobList",jobList);
         model.addAttribute("managerId",manager.getManagerId());
         return "mStudentList";
+    }
+
+    @RequestMapping("/allDetailed")
+    public String allDetailed(Integer studentId, Model model){
+//        Sassess sassess = sassessService.getSassessByStuId(studentId);
+//        model.addAttribute("sassess",sassess);
+//        model.addAttribute("studentId",studentId);
+        Massess massess1 = massessService.getMassess(studentId,1);
+        model.addAttribute("massess1",massess1);
+        Massess massess2 = massessService.getMassess(studentId,2);
+        model.addAttribute("massess2",massess2);
+        Massess massess3 = massessService.getMassess(studentId,3);
+        model.addAttribute("massess3",massess3);
+        Massess massess4 = massessService.getMassess(studentId,4);
+        model.addAttribute("massess4",massess4);
+        model.addAttribute("studentId",studentId);
+        return "allDetailed";
     }
 }

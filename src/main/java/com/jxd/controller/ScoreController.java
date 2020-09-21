@@ -1,6 +1,7 @@
 package com.jxd.controller;
 
 import com.jxd.model.*;
+import com.jxd.service.IClazzService;
 import com.jxd.service.ISassessService;
 import com.jxd.service.IScoreService;
 import com.jxd.service.IStudentService;
@@ -35,6 +36,8 @@ public class ScoreController {
     private ISassessService sassessService;
     @Autowired
     private IStudentService studentService;
+    @Autowired
+    private IClazzService clazzService;
 
     @RequestMapping(value = "/addOrEditScore",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
@@ -137,12 +140,12 @@ public class ScoreController {
     public JSON  getDetailInfoById(Integer studentId, HttpSession session){
         //存放封装的学生和成绩信息
         List<Map<String,Object>> list = new ArrayList<>();
-        //评价人
-        User user = (User) session.getAttribute("user");
         //学生评价
         Sassess sassess = sassessService.getSassessByStuId(studentId);
         //根据学生id查找学生信息
         Map<String,Object> stu = studentService.getStuInfoById(studentId);
+        //评价人名称
+        String teacherName = clazzService.getClazzByClassId((Integer)stu.get("classId")).getTeacherName();
 
         //学生的各科成绩
         List<Map<String,Object>> scores = scoreService.getScoreByStuId((Integer) stu.get("studentId"),(Integer) stu.get("classId"));
@@ -150,7 +153,7 @@ public class ScoreController {
         Map<String,Object> map = new HashMap<>();
         map.put("school","学习评价");
         map.put("clazz",stu.get("clazz"));
-        map.put("teacher",user.getUserName());
+        map.put("teacher",teacherName);
         for (Map score:scores){
             if(score.get("score") == null){
                 map.put(  Integer.toString((Integer)score.get("courseId")),"");

@@ -12,7 +12,7 @@ List<Manager>getAllManager();
     boolean addManager(Manager manager);
     boolean delManagerById(Integer managerId);
     boolean updateUserId(Integer userId,Integer managerId);
-    List<Manager>getAllManagerById(Integer managerId);
+    Manager getManagerByManagerId(Integer managerId);
     boolean updateManager(Manager manager);
     boolean addAManager(String managerName,Integer userId);
     List<Manager>getMaxId();

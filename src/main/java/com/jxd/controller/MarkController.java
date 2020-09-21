@@ -1,6 +1,7 @@
 package com.jxd.controller;
 
 import com.jxd.model.*;
+import com.jxd.service.IManagerService;
 import com.jxd.service.IMarkService;
 import com.jxd.service.IMassessService;
 import com.jxd.service.IStudentService;
@@ -34,6 +35,8 @@ public class MarkController {
     IMassessService massessService;
     @Autowired
     IStudentService studentService;
+    @Autowired
+    IManagerService managerService;
 
     @RequestMapping("/markList")
     public String markList(HttpServletRequest request,Model model){
@@ -195,11 +198,15 @@ public class MarkController {
     public JSON  getDetailById(Integer studentId,Integer tState, HttpSession session){
         //存放封装的员工和评分信息
         List<Map<String,Object>> list = new ArrayList<>();
-        //评价人
-        User user = (User) session.getAttribute("user");
         //员工评价
         Massess massess = massessService.getMassess(studentId,tState);
+        //根据学生id查找学生信息
         Map<String,Object> stu = studentService.getStuInfoById(studentId);
+        //评价人
+        Integer integer = (Integer)stu.get("managerId");
+        Manager m = managerService.getManagerByManagerId(integer);
+        String managerName = m.getManagerName();
+        //User user = (User) session.getAttribute("user");
         //每个员工的各评分项的成绩
         List<Map<String,Object>> marks = markService.getMarkByStuId((Integer) stu.get("studentId"),(Integer) stu.get("departmentId"),tState);
         //把每个员工信息和他的各评分项的成绩存储在map中
@@ -207,7 +214,8 @@ public class MarkController {
         map.put("project","工作评价");
         map.put("department",stu.get("departmentName"));
         map.put("job",stu.get("jobName"));
-        map.put("manager",user.getUserName());
+        //map.put("manager",user.getUserName());
+        map.put("manager",managerName);
         for (Map mark:marks){
             if(mark.get("mark")==null){
                 map.put(  Integer.toString((Integer)mark.get("assessItemId")),"待评价");

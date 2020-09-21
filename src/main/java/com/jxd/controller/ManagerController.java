@@ -62,8 +62,8 @@ public class ManagerController {
     @RequestMapping("/editManager")
     @ModelAttribute
     public String editManager(Model model,String managerId) {
-List<Manager>list=managerService.getAllManagerById(Integer.parseInt(managerId));
-String s1="";
+    Manager manager = managerService.getManagerByManagerId(Integer.parseInt(managerId));
+    String s1="";
         String s2="";
         String s3="";
         String s4="";
@@ -73,46 +73,16 @@ String s1="";
         String s8="";
         String s9="";
         String s10="";
-        for (Manager m:list){
-             s1= String.valueOf(m.getManagerId());
-
-        }
-        for (Manager m:list){
-             s2= String.valueOf(m.getUserId());
-
-        }
-        for (Manager m:list){
- s3=m.getManagerName();
-
-        }
-        for (Manager m:list){
-             s4=m.getDepartmentName();
-
-        }
-        for (Manager m:list){
-             s5=m.getBirthday();
-
-        }
-        for (Manager m:list){
-             s6=m.getHomeTown();
-
-        }
-        for (Manager m:list){
-             s7=m.getIdCardNum();
-
-        }
-        for (Manager m:list){
-             s8=m.getPhoneNumber();
-
-        }
-        for (Manager m:list){
-             s9=m.getPhoto();
-
-        }
-        for (Manager m:list){
-             s10=m.getSex();
-
-        }
+        s1 = String.valueOf(manager.getManagerId());
+        s2 = String.valueOf(manager.getUserId());
+        s3 = manager.getManagerName();
+        s4 = manager.getDepartmentName();
+        s5 = manager.getBirthday();
+        s6 = manager.getHomeTown();
+        s7 = manager.getIdCardNum();
+        s8 = manager.getPhoneNumber();
+        s9 = manager.getPhoto();
+        s10 = manager.getSex();
         List<Department> list11 = departmentService.getAllDep();
         List<String> list12 = new ArrayList<>();
         for (Department d : list11) {
@@ -135,7 +105,7 @@ String s1="";
     @RequestMapping("/managerDetail")
     @ModelAttribute
     public String managerDetail(Model model,String managerId) {
-        List<Manager>list=managerService.getAllManagerById(Integer.parseInt(managerId));
+        Manager manager = managerService.getManagerByManagerId(Integer.parseInt(managerId));
         String s1="";
         String s2="";
         String s3="";
@@ -146,46 +116,16 @@ String s1="";
         String s8="";
         String s9="";
         String s10="";
-        for (Manager m:list){
-            s1= String.valueOf(m.getManagerId());
-
-        }
-        for (Manager m:list){
-            s2= String.valueOf(m.getUserId());
-
-        }
-        for (Manager m:list){
-            s3=m.getManagerName();
-
-        }
-        for (Manager m:list){
-            s4=m.getDepartmentName();
-
-        }
-        for (Manager m:list){
-            s5=m.getBirthday();
-
-        }
-        for (Manager m:list){
-            s6=m.getHomeTown();
-
-        }
-        for (Manager m:list){
-            s7=m.getIdCardNum();
-
-        }
-        for (Manager m:list){
-            s8=m.getPhoneNumber();
-
-        }
-        for (Manager m:list){
-            s9=m.getPhoto();
-
-        }
-        for (Manager m:list){
-            s10=m.getSex();
-
-        }
+        s1 = String.valueOf(manager.getManagerId());
+        s2 = String.valueOf(manager.getUserId());
+        s3 = manager.getManagerName();
+        s4 = manager.getDepartmentName();
+        s5 = manager.getBirthday();
+        s6 = manager.getHomeTown();
+        s7 = manager.getIdCardNum();
+        s8 = manager.getPhoneNumber();
+        s9 = manager.getPhoto();
+        s10 = manager.getSex();
         List<Department> list11 = departmentService.getAllDep();
         List<String> list12 = new ArrayList<>();
         for (Department d : list11) {
