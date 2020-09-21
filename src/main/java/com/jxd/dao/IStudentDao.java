@@ -149,4 +149,11 @@ public interface IStudentDao {
      */
    Map<String, Object> getStuInfoById(Integer studentId);
 
+    /**
+     * 根据学生编号获得学生信息
+     * @param studentId 学生编号
+     * @return map集合
+     */
+    Map<String, Object> getStudentInfoById(Integer studentId);
+
 }

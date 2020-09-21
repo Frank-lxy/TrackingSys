@@ -123,11 +123,13 @@
                 //获取当前选中的下拉菜单的value值
                 var classId = $("#classId option:selected").val();
                 var studentName=$("#studentName").val();
+                var managerId = ${requestScope.managerId};
                 $.ajax({
                     url:"/getCourseByClassId",
                     type:"get",
                     data:{
-                        classId:classId
+                        classId:classId,
+                        managerId:managerId
                     },
                     success:function (data) {
                         //将表头二级菜单内容置空
@@ -140,8 +142,8 @@
                         var tableIns = table.render({
                             elem: '#demo'
                             ,toolbar: '#toolbarDemo'    //头工具栏
-                            ,height: 'full-102'
-                            ,url: '/getStudentListByClassId'         //数据接口
+                            ,height: 'full-32'
+                            ,url: '/getStudentListByClassId?managerId='+managerId         //数据接口
                             ,page: true  //分页
                             ,limit: 8   //每页显示几条数据
                             ,limits: [8,16,24,32]

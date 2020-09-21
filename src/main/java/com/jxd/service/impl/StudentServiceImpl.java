@@ -120,4 +120,9 @@ public class StudentServiceImpl implements IStudentService {
     public Map<String, Object> getStuInfoById(Integer studentId) {
         return studentDao.getStuInfoById(studentId);
     }
+
+    @Override
+    public Map<String, Object> getStudentInfoById(Integer studentId) {
+        return studentDao.getStudentInfoById(studentId);
+    }
 }

@@ -93,7 +93,7 @@
         var tState = 1;
         var studentId = ${requestScope.studentId}
         //存放每一个期次的课程
-        var departmentId=1;
+        var departmentId=${requestScope.departmentId};
         //获取老师所教期次课程
         var head =[];
         $.ajax({
@@ -140,7 +140,7 @@
         var tState = 2;
         var studentId = ${requestScope.studentId}
         //存放每一个期次的课程
-        var departmentId=1;
+        var departmentId=${requestScope.departmentId};
         //获取老师所教期次课程
         var head =[];
         $.ajax({
@@ -187,7 +187,7 @@
         var tState = 3;
         var studentId = ${requestScope.studentId}
         //存放每一个期次的课程
-        var departmentId=1;
+        var departmentId=${requestScope.departmentId};
         //获取老师所教期次课程
         var head =[];
         $.ajax({
@@ -234,7 +234,7 @@
         var tState = 4;
         var studentId = ${requestScope.studentId}
         //存放每一个期次的课程
-        var departmentId=1;
+        var departmentId=${requestScope.departmentId};
         //获取老师所教期次课程
         var head =[];
         $.ajax({

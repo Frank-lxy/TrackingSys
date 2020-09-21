@@ -174,6 +174,24 @@ public class StudentController {
         return list;
     }
 
+    @RequestMapping("/allDetailed")
+    public String allDetailed(HttpServletRequest request,Integer studentId, Model model){
+        Massess massess1 = massessService.getMassess(studentId,1);
+        model.addAttribute("massess1",massess1);
+        Massess massess2 = massessService.getMassess(studentId,2);
+        model.addAttribute("massess2",massess2);
+        Massess massess3 = massessService.getMassess(studentId,3);
+        model.addAttribute("massess3",massess3);
+        Massess massess4 = massessService.getMassess(studentId,4);
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        Manager manager = markService.getDepatermentId(user.getUserId());
+        model.addAttribute("departmentId",manager.getDepartmentId());
+        model.addAttribute("massess4",massess4);
+        model.addAttribute("studentId",studentId);
+        return "allDetailed";
+    }
+
     @RequestMapping(value = "/getStudentTracking",produces = "text/html;charset=utf-8")
     public String getStudentTracking(HttpServletRequest request,Model model,Integer classId){
         //获取各个下拉列表的值，并存入session
@@ -244,7 +262,6 @@ public class StudentController {
         Student student = studentService.getStudentById(studentId);
         //根据学员编号获取学员当前状态
         String state = studentService.getStateByStudentId(studentId);
-
         model.addAttribute("student",student);
         model.addAttribute("state",state);
         return "editStudent";
@@ -418,23 +435,5 @@ public class StudentController {
         return "mStudentList";
     }
 
-    @RequestMapping("/allDetailed")
-    public String allDetailed(HttpServletRequest request,Integer studentId, Model model){
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        Manager manager = markService.getDepatermentId(user.getUserId());
-        model.addAttribute("departmentId",manager.getDepartmentId());
 
-        Massess massess1 = massessService.getMassess(studentId,1);
-        model.addAttribute("massess1",massess1);
-        Massess massess2 = massessService.getMassess(studentId,2);
-        model.addAttribute("massess2",massess2);
-        Massess massess3 = massessService.getMassess(studentId,3);
-        model.addAttribute("massess3",massess3);
-        Massess massess4 = massessService.getMassess(studentId,4);
-        model.addAttribute("massess4",massess4);
-
-        model.addAttribute("studentId",studentId);
-        return "allDetailed";
-    }
 }

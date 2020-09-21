@@ -76,7 +76,7 @@
             }
         });
         $("#editMassess").click(function () {
-            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) && $("#evaluate").val() > 0 && $("#evaluate").val() < 5 ) {
+            if ($("#evaluate").val()!='' && $("#assess").val()!='' && !isNaN($("#evaluate").val()) && $("#evaluate").val() > 0 && $("#evaluate").val() <= 5 ) {
 
                 $.ajax({
                     url: "editMassess",
@@ -105,7 +105,7 @@
                     $("#evaluate").prop("class","layui-input red");
                     $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>整体评分不能为空</span>")
                 }else if (isNaN(evaluate)){
-                    $(this).prop("class","layui-input red");
+                    $("#evaluate").prop("class","layui-input red");
                     $("#evaluateDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>请填写数字</span>")
                 }
 

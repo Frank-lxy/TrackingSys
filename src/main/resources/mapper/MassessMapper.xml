@@ -93,7 +93,7 @@
         left join department d on d.departmentId = s.departmentId)
         left join job j on j.jobId = s.jobId
         <where>
-            s.managerId=#{managerId} and m.tState = #{tState}
+            s.managerId=#{managerId} and s.tState = #{tState} and m.tState = #{tState}
             <if test="studentName != null and studentName != ''">
                 and s.studentName like '%' #{studentName} '%'
             </if>
