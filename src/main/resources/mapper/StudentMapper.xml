@@ -168,24 +168,6 @@
         delete from student where studentId=#{studentId}
     </delete>
 
-    <!--
-    boolean deleteSassessByStudentId(Integer studentId);
-    boolean deleteScoreByStudentId(Integer studentId);
-    boolean deleteMassessByStudentId(Integer studentId);
-    boolean deleteAssessItemByStudentId(Integer studentId);-->
-    <delete id="deleteSassessByStudentId">
-        delete from sassess where studentId=#{studentId}
-    </delete>
-    <delete id="deleteScoreByStudentId">
-        delete from score where studentId=#{studentId}
-    </delete>
-    <delete id="deleteMassessByStudentId">
-        delete from massess where studentId=#{studentId}
-    </delete>
-    <delete id="deleteAssessItemByStudentId">
-        delete from assessItem where studentId=#{studentId}
-    </delete>
-
     <!--boolean deleteStudentBatch(String studentIds);-->
     <delete id="deleteStudentBatch">
         delete from student where studentId in (${studentIds})
@@ -193,7 +175,7 @@
 
     <!--Map<String,Object> getStudentDetailedById(Integer studentId);-->
     <select id="getStudentDetailedById" resultType="Map">
-        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,s.departmentId departmentId,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
         from (student s left join clazz c on s.classId=c.classId)
         left join department d on s.departmentId=d.departmentId
         where studentId=#{studentId}

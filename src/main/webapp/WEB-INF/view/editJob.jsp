@@ -94,7 +94,8 @@
         });
     });
     var closeEdit = function () {
-        parent.location.reload();//刷新父页面
+        var index = parent.layer.getFrameIndex(window.name);//获取当前iframe层得索引
+        parent.layer.close(index);
     }
 </script>
 </body>

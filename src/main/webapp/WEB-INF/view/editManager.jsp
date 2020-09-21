@@ -146,13 +146,15 @@
         var layer = layui.layer
             ,form = layui.form
             ,upload = layui.upload
-            ,laydate = layui.laydate;
+            ,laydate = layui.laydate
+            ,date = new Date();
         $ = layui.jquery;
 
         //监听日期组件
         laydate.render({
             elem: '#birthday',
-            trigger: 'click'
+            trigger: 'click',
+            max: 'date'
         });
 
         //失去焦点时验证身份证号

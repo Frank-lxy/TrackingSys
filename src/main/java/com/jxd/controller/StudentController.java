@@ -43,15 +43,18 @@ public class StudentController {
 
     @RequestMapping("/allStudentDetailed")
     public String allStudentDetailed(Integer studentId, Model model){
+        Integer classId = studentService.getStudentById(studentId).getClassId();
+        model.addAttribute("classId",classId);
+
+        Integer departmentId = (Integer) studentService.getStudentDetailedById(studentId).get("departmentId");
+        model.addAttribute("departmentId",departmentId);
+
         Massess massess1 = massessService.getMassess(studentId,1);
         model.addAttribute("massess1",massess1);
-
         Massess massess2 = massessService.getMassess(studentId,2);
         model.addAttribute("massess2",massess2);
-
         Massess massess3 = massessService.getMassess(studentId,3);
         model.addAttribute("massess3",massess3);
-
         Massess massess4 = massessService.getMassess(studentId,4);
         model.addAttribute("massess4",massess4);
 
@@ -72,6 +75,7 @@ public class StudentController {
         List<Map<String,Object>> courseList = scoreService.getAllCourseByClassId(classId);
         //获取经理评价的评价阶段
         List<TState> tStateList = studentService.getTStateList();
+
         //把每一个学生的信息和对应评分进行封装
         for (Student student:list1){
             //获取该学生的学校各课程成绩
@@ -80,6 +84,7 @@ public class StudentController {
             Sassess sassess = sassessService.getSassessByStuId(student.getStudentId());
             //获取该学员的项目经理整体评价分数
             List<Massess> massesses = studentService.getMassessByStuId(student.getStudentId());
+
             //把每个学生信息和他的各科成绩存储在map中
             Map<String,Object> map = new HashMap<>();
             map.put("studentId",student.getStudentId());
@@ -87,6 +92,7 @@ public class StudentController {
             map.put("sex",student.getSex());
             map.put("graduate",student.getGraduate());
             map.put("homeTown",student.getHomeTown());
+
             //添加学校课程评分
             if(scores.size() == 0){
                 for (int i = 0;i < courseList.size(); i++){
@@ -112,12 +118,14 @@ public class StudentController {
                     map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
             }
+
             //添加学校整体评价评分
             if (sassess == null){
                 map.put("sevaluate","<div style=\"color:#9c9c9c\">待评分</div>");
             }else {
                 map.put("sevaluate",sassess.getEvaluate());
             }
+
             //添加项目经理整体评价评分
             if(massesses.size() == 0){
                 for (int i = 0;i < tStateList.size(); i++){
@@ -146,6 +154,7 @@ public class StudentController {
             //把map添加到list中
             studentList.add(map);
         }
+
         //转换为json数组
         JSONArray jsonArray = JSONArray.fromObject(studentList);
         //创建json对象，用于返回layui表格需要的数据
@@ -166,7 +175,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/getStudentTracking",produces = "text/html;charset=utf-8")
-    public String getStudentTracking(HttpServletRequest request,Model model){
+    public String getStudentTracking(HttpServletRequest request,Model model,Integer classId){
         //获取各个下拉列表的值，并存入session
         List<Clazz> clazzList = studentService.getClazzList();
         List<User> managerList = studentService.getManagerList();
@@ -184,8 +193,14 @@ public class StudentController {
         }else {//若登录用户不是经理
             model.addAttribute("managerId",0);
         }
-        //存入最新一期的班期id
-        model.addAttribute("clazzId",clazzList.get(0).getClassId());
+
+//        if (request.getAttribute("classId") != null&&request.getAttribute("classId")!= " "){
+        if (classId != null){
+            model.addAttribute("classId",classId);
+        }else {
+            //存入最新一期的班期id
+            model.addAttribute("classId",clazzList.get(0).getClassId());
+        }
 
         model.addAttribute("clazzList",clazzList);
         model.addAttribute("managerList",managerList);
@@ -404,10 +419,12 @@ public class StudentController {
     }
 
     @RequestMapping("/allDetailed")
-    public String allDetailed(Integer studentId, Model model){
-//        Sassess sassess = sassessService.getSassessByStuId(studentId);
-//        model.addAttribute("sassess",sassess);
-//        model.addAttribute("studentId",studentId);
+    public String allDetailed(HttpServletRequest request,Integer studentId, Model model){
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        Manager manager = markService.getDepatermentId(user.getUserId());
+        model.addAttribute("departmentId",manager.getDepartmentId());
+
         Massess massess1 = massessService.getMassess(studentId,1);
         model.addAttribute("massess1",massess1);
         Massess massess2 = massessService.getMassess(studentId,2);
@@ -416,6 +433,7 @@ public class StudentController {
         model.addAttribute("massess3",massess3);
         Massess massess4 = massessService.getMassess(studentId,4);
         model.addAttribute("massess4",massess4);
+
         model.addAttribute("studentId",studentId);
         return "allDetailed";
     }

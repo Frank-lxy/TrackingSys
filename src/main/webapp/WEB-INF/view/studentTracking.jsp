@@ -52,7 +52,12 @@
             <%--班期下拉列表--%>
             <select name="classId" id="classId" lay-filter="receive" lay-search="">
                 <c:forEach var="clazzList" items="${sessionScope.clazzList}">
-                    <option value="${clazzList.classId}" name="classId">${clazzList.clazz}</option>
+                    <c:if test="${clazzList.classId == requestScope.classId}">
+                        <option value="${clazzList.classId}" name="classId" selected>${clazzList.clazz}</option>
+                    </c:if>
+                    <c:if test="${clazzList.classId != requestScope.classId}">
+                        <option value="${clazzList.classId}" name="classId">${clazzList.clazz}</option>
+                    </c:if>
                 </c:forEach>
             </select>
         </div>
@@ -65,8 +70,8 @@
             layer = layui.layer,
             laypage = layui.laypage;
         var $ = layui.jquery;
-        //获取最新班期的班期id
-        var classId = ${requestScope.clazzId};
+        //获取班期id
+        var classId = ${requestScope.classId};
         var managerId = ${requestScope.managerId};
         //定义一个表头二级菜单内容的数组
         var head =[];
@@ -116,13 +121,13 @@
         table.on('toolbar(test)', function(obj){    //obj指按钮
             if (obj.event == 'query'){//点击查询按钮
                 //获取当前选中的下拉菜单的value值
-                var clazzId = $("#classId option:selected").val();
+                var classId = $("#classId option:selected").val();
                 var studentName=$("#studentName").val();
                 $.ajax({
                     url:"/getCourseByClassId",
                     type:"get",
                     data:{
-                        classId:clazzId
+                        classId:classId
                     },
                     success:function (data) {
                         //将表头二级菜单内容置空
@@ -146,7 +151,7 @@
                         //重载表格数据
                         tableIns.reload({//demo对应table的id
                             where:{ //where代表过滤条件
-                                classId:clazzId,
+                                classId:classId,
                                 studentName:studentName,
                                 managerId:managerId
                             },

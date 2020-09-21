@@ -112,14 +112,6 @@ public interface IStudentDao {
      * @return 是否删除成功
      */
     boolean deleteStudentById(Integer studentId);
-    //删除该学员的学校评价表内容
-    boolean deleteSassessByStudentId(Integer studentId);
-    //删除该学员的成绩表内容
-    boolean deleteScoreByStudentId(Integer studentId);
-    //删除该学员的工作评价表内容
-    boolean deleteMassessByStudentId(Integer studentId);
-    //删除该学员的评分表内容
-    boolean deleteAssessItemByStudentId(Integer studentId);
 
     /**
      * 根据id批量删除学员

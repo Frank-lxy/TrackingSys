@@ -265,17 +265,20 @@
         var layer = layui.layer
             ,form = layui.form
             ,upload = layui.upload
-            ,laydate = layui.laydate;
+            ,laydate = layui.laydate
+            ,date = new Date();
         $ = layui.jquery;
 
         //监听日期组件
         laydate.render({
             elem: '#birthday',
-            trigger: 'click'
+            trigger: 'click',
+            max: 'date'
         });
         laydate.render({
             elem: '#hiredate',
-            trigger: 'click'
+            trigger: 'click',
+            max: 'date'
         });
 
         //失去焦点时验证身份证号
@@ -396,7 +399,8 @@
         });
     });
     var closeAdd = function () {
-        parent.location.reload();//刷新父页面
+        var index = parent.layer.getFrameIndex(window.name);//获取当前iframe层得索引
+        parent.layer.close(index);
     };
 </script>
 </body>

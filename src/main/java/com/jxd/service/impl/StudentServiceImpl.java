@@ -87,26 +87,6 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public boolean deleteSassessByStudentId(Integer studentId) {
-        return studentDao.deleteSassessByStudentId(studentId);
-    }
-
-    @Override
-    public boolean deleteScoreByStudentId(Integer studentId) {
-        return studentDao.deleteScoreByStudentId(studentId);
-    }
-
-    @Override
-    public boolean deleteMassessByStudentId(Integer studentId) {
-        return studentDao.deleteMassessByStudentId(studentId);
-    }
-
-    @Override
-    public boolean deleteAssessItemByStudentId(Integer studentId) {
-        return studentDao.deleteAssessItemByStudentId(studentId);
-    }
-
-    @Override
     public boolean deleteStudentBatch(String studentIds) {
         return studentDao.deleteStudentBatch(studentIds);
     }
