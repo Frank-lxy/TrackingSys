@@ -46,10 +46,18 @@
     </div>
     <div align="right">
         <div class="layui-input-inline">
+            <input type="text" id="studentName" name="studentName" placeholder="请输入姓名" class="layui-input" autocomplete="off">
+        </div>
+        <div class="layui-input-inline">
             <%--班期下拉列表--%>
             <select name="classId" id="classId" lay-filter="receive" lay-search="">
                 <c:forEach var="clazzList" items="${sessionScope.clazzList}">
-                    <option value="${clazzList.classId}" name="classId">${clazzList.clazz}</option>
+                    <c:if test="${clazzList.classId == requestScope.classId}">
+                        <option value="${clazzList.classId}" name="classId" selected>${clazzList.clazz}</option>
+                    </c:if>
+                    <c:if test="${clazzList.classId != requestScope.classId}">
+                        <option value="${clazzList.classId}" name="classId">${clazzList.clazz}</option>
+                    </c:if>
                 </c:forEach>
             </select>
         </div>
@@ -62,8 +70,8 @@
             layer = layui.layer,
             laypage = layui.laypage;
         var $ = layui.jquery;
-        //获取最新班期的班期id
-        var classId = ${requestScope.clazzId};
+        //获取班期id
+        var classId = ${requestScope.classId};
         var managerId = ${requestScope.managerId};
         //定义一个表头二级菜单内容的数组
         var head =[];
@@ -72,8 +80,7 @@
             url:"/getCourseByClassId",
             type:"get",
             data:{
-                classId:classId,
-                managerId:managerId
+                classId:classId
             },
             success:function (data) {
                 //执行成功，获取最新班期课程，并将课程名添加到表头二级菜单中
@@ -85,14 +92,14 @@
                     elem: '#demo'
                     ,toolbar: '#toolbarDemo'    //头工具栏
                     ,height: 'full-102'
-                    ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId     //数据接口
+                    ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId      //数据接口
                     ,page: true  //分页
                     ,limit: 8   //每页显示几条数据
                     ,limits: [8,16,24,32]
                     ,cols: [[ //表头
                         {type:'numbers',title:'序号',rowspan:2}
                         ,{field: 'studentId', title: '学生编号', hide:true, rowspan:2}
-                        ,{field: 'studentName', title: '姓名', align:"center", rowspan:2}
+                        ,{field: 'studentName', title: '姓名', align:"center", rowspan:2, style:'color: #1E9FFF;'}
                         ,{field: 'sex', title: '性别',align:"center", rowspan:2,width:40}
                         ,{field: 'graduate', title: '学校', align:"center", rowspan:2,width:120}
                         ,{field: 'homeTown', title: '籍贯', align:"center", rowspan:2,width:110}
@@ -112,16 +119,15 @@
 
         //监听事件，监听lai-filter为test的元素的工具栏
         table.on('toolbar(test)', function(obj){    //obj指按钮
-            if (obj.event == 'query'){
+            if (obj.event == 'query'){//点击查询按钮
                 //获取当前选中的下拉菜单的value值
-                var clazzId = $("#classId option:selected").val();
-                var managerId = ${requestScope.managerId};
+                var classId = $("#classId option:selected").val();
+                var studentName=$("#studentName").val();
                 $.ajax({
                     url:"/getCourseByClassId",
                     type:"get",
                     data:{
-                        classId:clazzId,
-                        managerId:managerId
+                        classId:classId
                     },
                     success:function (data) {
                         //将表头二级菜单内容置空
@@ -130,12 +136,12 @@
                         $.each(data,function (index,value) {
                             head.push( {field:value.courseId, title:value.courseName, align:"center"})
                         });
-
+                        //创建实例
                         var tableIns = table.render({
                             elem: '#demo'
                             ,toolbar: '#toolbarDemo'    //头工具栏
                             ,height: 'full-102'
-                            ,url: '/getStudentListByClassId?managerId=' + managerId        //数据接口
+                            ,url: '/getStudentListByClassId'         //数据接口
                             ,page: true  //分页
                             ,limit: 8   //每页显示几条数据
                             ,limits: [8,16,24,32]
@@ -145,7 +151,9 @@
                         //重载表格数据
                         tableIns.reload({//demo对应table的id
                             where:{ //where代表过滤条件
-                                classId:clazzId
+                                classId:classId,
+                                studentName:studentName,
+                                managerId:managerId
                             },
                             page:{
                                 curr:1
@@ -153,7 +161,7 @@
                             cols:[[ //表头
                                 {type:'numbers',title:'序号',rowspan:2}
                                 ,{field: 'studentId', title: '学生编号', hide:true, rowspan:2}
-                                ,{field: 'studentName', title: '姓名', align:"center", rowspan:2}
+                                ,{field: 'studentName', title: '姓名', align:"center", rowspan:2, style:'color: #1E9FFF;'}
                                 ,{field: 'sex', title: '性别',align:"center", rowspan:2,width:40}
                                 ,{field: 'graduate', title: '学校', align:"center", rowspan:2,width:120}
                                 ,{field: 'homeTown', title: '籍贯', align:"center", rowspan:2,width:110}
@@ -165,8 +173,8 @@
                                 ,{field: 'mevaluate4', title: '三年评价', align:"center", rowspan:2}
                             ],head]
                         });
-
-                        //在页面上保留查询条件
+                        //保留查询条件
+                        $("#studentName").val(studentName);
                         $("#classId").val(clazzId);
                     },
                     error:function () {
@@ -178,24 +186,27 @@
 
         //监听行单击事件，单击行弹出详细的学员评价表
         table.on('row(test)', function(obj){
+            //获取行数据
             var data = obj.data;
             //获取要编辑的编号
             var studentId = data.studentId;
+
             <%
               User user = (User)session.getAttribute("user");
               if (user.getRole() == 1){
             %>
-                location.href =  "sassessDetailed?studentId=" + studentId ;
+                location.href = "allStudentDetailed?studentId=" + studentId ;
             <%
              }
             %>
             <%
             if (user.getRole() == 3){
             %>
-                 location.href =  "allDetailed?studentId=" + studentId ;
+                 location.href = "allDetailed?studentId=" + studentId ;
             <%
              }
             %>
+
             //标注选中样式
             obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
         });

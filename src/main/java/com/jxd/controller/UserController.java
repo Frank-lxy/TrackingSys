@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +21,13 @@ import java.util.List;
 public class UserController {
     @Autowired
     IUserService userService;
-@Autowired
+    @Autowired
     IManagerService managerService;
-@Autowired
+    @Autowired
     ITeacherService teacherService;
-    @RequestMapping("/userList")
-    public String studentList(Model model) {
 
+    @RequestMapping("/userList")
+    public String studentList() {
         return "userList";
     }
 

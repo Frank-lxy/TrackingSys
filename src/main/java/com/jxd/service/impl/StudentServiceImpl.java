@@ -32,13 +32,13 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,Integer count, Integer limit) {
-        return studentDao.getStudentListByClassIdPaging(classId, managerId,count, limit);
+    public List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,String studentName,Integer count, Integer limit) {
+        return studentDao.getStudentListByClassIdPaging(classId, managerId,studentName,count, limit);
     }
 
     @Override
-    public List<Student> getStudentListByClassId(Integer classId,Integer managerId) {
-        return studentDao.getStudentListByClassId(classId,managerId);
+    public List<Student> getStudentListByClassId(Integer classId,Integer managerId,String studentName) {
+        return studentDao.getStudentListByClassId(classId,managerId,studentName);
     }
 
     @Override
@@ -84,26 +84,6 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public boolean deleteStudentById(Integer studentId) {
         return studentDao.deleteStudentById(studentId);
-    }
-
-    @Override
-    public boolean deleteSassessByStudentId(Integer studentId) {
-        return studentDao.deleteSassessByStudentId(studentId);
-    }
-
-    @Override
-    public boolean deleteScoreByStudentId(Integer studentId) {
-        return studentDao.deleteScoreByStudentId(studentId);
-    }
-
-    @Override
-    public boolean deleteMassessByStudentId(Integer studentId) {
-        return studentDao.deleteMassessByStudentId(studentId);
-    }
-
-    @Override
-    public boolean deleteAssessItemByStudentId(Integer studentId) {
-        return studentDao.deleteAssessItemByStudentId(studentId);
     }
 
     @Override

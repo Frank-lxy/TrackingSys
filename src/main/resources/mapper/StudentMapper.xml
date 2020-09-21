@@ -18,12 +18,16 @@
     <select id="getStudentListByClassIdPaging" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
+            <if test="studentName != null and studentName != ''">
+               studentName like '%' #{studentName} '%'
+            </if>
             <if test="classId != null and classId != ''">
-                classId=#{classId}
+                and  classId=#{classId}
             </if>
             <if test="managerId != null and managerId != ''and managerId != '0'">
                 and managerId=#{managerId}
             </if>
+
         </where>
         order by studentId desc
         limit #{count},#{limit}
@@ -33,12 +37,16 @@
     <select id="getStudentListByClassId" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
+            <if test="studentName != null and studentName != ''">
+                 studentName like '%' #{studentName} '%'
+            </if>
             <if test="classId != null and classId != ''">
-                classId=#{classId}
+                and  classId=#{classId}
             </if>
             <if test="managerId != null and managerId != ''and managerId != '0'">
                  and managerId=#{managerId}
             </if>
+
         </where>
         order by studentId desc
     </select>
@@ -81,7 +89,7 @@
         left join clazz c on s.classId=c.classId
         <where>
             <if test="studentName != null and studentName != ''">
-                s.studentName like '%' #{studentName} '%'
+            s.studentName like '%' #{studentName} '%'
             </if>
             <if test="departmentId != null and departmentId != ''">
                 and s.departmentId=#{departmentId}
@@ -100,7 +108,7 @@
     <!--Map<String,Object> getStuInfoById(Integer studentId);-->
     <select id="getStuInfoById" resultType="Map">
         select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,
-        d.departmentId departmentId,d.departmentName departmentName,j.jobName jobName,st.tState tState
+        d.departmentId departmentId,d.departmentName departmentName,j.jobName jobName,st.tState tState,st.managerId managerId
         from student st left join clazz c on st.classId=c.classId
         right join department d on d.departmentId=st.departmentId
         right join job j on j.jobId=st.jobId
@@ -146,7 +154,7 @@
     <select id="getClazzList" resultType="Clazz">
         select classId,clazz,teacherName
         from clazz
-        order by classId desc
+        order by classId
     </select>
 
     <!--List<User> getManagerList();-->
@@ -160,24 +168,6 @@
         delete from student where studentId=#{studentId}
     </delete>
 
-    <!--
-    boolean deleteSassessByStudentId(Integer studentId);
-    boolean deleteScoreByStudentId(Integer studentId);
-    boolean deleteMassessByStudentId(Integer studentId);
-    boolean deleteAssessItemByStudentId(Integer studentId);-->
-    <delete id="deleteSassessByStudentId">
-        delete from sassess where studentId=#{studentId}
-    </delete>
-    <delete id="deleteScoreByStudentId">
-        delete from score where studentId=#{studentId}
-    </delete>
-    <delete id="deleteMassessByStudentId">
-        delete from massess where studentId=#{studentId}
-    </delete>
-    <delete id="deleteAssessItemByStudentId">
-        delete from assessItem where studentId=#{studentId}
-    </delete>
-
     <!--boolean deleteStudentBatch(String studentIds);-->
     <delete id="deleteStudentBatch">
         delete from student where studentId in (${studentIds})
@@ -185,7 +175,7 @@
 
     <!--Map<String,Object> getStudentDetailedById(Integer studentId);-->
     <select id="getStudentDetailedById" resultType="Map">
-        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,s.departmentId departmentId,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
         from (student s left join clazz c on s.classId=c.classId)
         left join department d on s.departmentId=d.departmentId
         where studentId=#{studentId}

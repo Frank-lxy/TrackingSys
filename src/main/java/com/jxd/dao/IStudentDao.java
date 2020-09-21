@@ -28,14 +28,14 @@ public interface IStudentDao {
      * @param classId 班级id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("count") Integer count,@Param("limit") Integer limit);
+    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName") String studentName,@Param("count") Integer count,@Param("limit") Integer limit);
 
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
      * @return 学员列表
      */
-    List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId);
+    List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName")String studentName);
 
     /**
      * 根据班级id获取课程列表
@@ -112,14 +112,6 @@ public interface IStudentDao {
      * @return 是否删除成功
      */
     boolean deleteStudentById(Integer studentId);
-    //删除该学员的学校评价表内容
-    boolean deleteSassessByStudentId(Integer studentId);
-    //删除该学员的成绩表内容
-    boolean deleteScoreByStudentId(Integer studentId);
-    //删除该学员的工作评价表内容
-    boolean deleteMassessByStudentId(Integer studentId);
-    //删除该学员的评分表内容
-    boolean deleteAssessItemByStudentId(Integer studentId);
 
     /**
      * 根据id批量删除学员

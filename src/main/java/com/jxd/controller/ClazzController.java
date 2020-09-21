@@ -108,7 +108,7 @@ public class ClazzController {
     @RequestMapping("/editClazz")
     @ModelAttribute
     public String editClazz(Model model,String classId) {
-        List<Clazz> list = clazzService.getAllClazzById(Integer.parseInt(classId));//获取ID最大的班期
+        Clazz clazz = clazzService.getClazzByClassId(Integer.parseInt(classId));//获取ID最大的班期
         String num = null;
         String str1 = "";
         String str2="";
@@ -117,11 +117,9 @@ public class ClazzController {
         String str5="";
         List<Coursesel> list5 = new ArrayList<>();
         List<String> list6 = new ArrayList<>();
-        for (Clazz s : list) {
-            str1 = s.getClazz();
-            str3=s.getTeacherName();
-        }
-list5=courseselService.getCourseIdById(Integer.parseInt(classId));
+        str1 = clazz.getClazz();
+        str3 = clazz.getTeacherName();
+        list5=courseselService.getCourseIdById(Integer.parseInt(classId));
         for (Coursesel c:list5){
             Integer s=c.getCourseId();
             Course courseName=courseService.getCourseById(s);
