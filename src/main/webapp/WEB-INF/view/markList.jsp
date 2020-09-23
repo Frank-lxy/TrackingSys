@@ -43,7 +43,7 @@
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn  layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
 </script>
 <script>
     layui.use(['table',"layer"], function(){

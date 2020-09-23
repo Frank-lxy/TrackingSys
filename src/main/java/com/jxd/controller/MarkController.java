@@ -131,7 +131,7 @@ public class MarkController {
         //获取所有学生
         List<Map<String,Object>> list1 = massessService.getAllMassessList(managerId);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        /*天数差*/
+        //入职日期与当前日期的天数差
         for (Map map : list1){
             String data1 = (String)map.get("hiredate");
             Date fromDate1 = df.parse(data1);

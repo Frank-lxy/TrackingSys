@@ -8,48 +8,57 @@
         select maId,studentId,evaluate,assess,state,tState from massess
     </sql>
 
+    <!--根据学生Id和状态获得经理评价-->
     <select id="getMassess" resultType="Massess">
         <include refid="BaseSql"></include>
         where studentId=#{studentId} and tState=#{tState}
     </select>
 
+    <!--添加一行空的经理评价-->
     <insert id="addMassessNone" >
         insert into massess(studentId,tState) values (#{studentId},#{tState})
     </insert>
 
+    <!--将空的经理评价删除-->
     <delete id="delMassessById">
         delete from massess  where studentId=#{studentId} and tState=#{tState}
     </delete>
 
+    <!--根据学生Id修改学生入职状态（转正、一年、两年、三年）-->
     <update id="editMassessState">
         update student set tState=#{tState}
         where studentId=#{studentId}
     </update>
 
+    <!--根据评价表Id修改评价-->
     <update id="editMassess">
         update massess set evaluate=#{evaluate},assess=#{assess}
         where maId=#{maId}
     </update>
 
+    <!--通过评价表Id得到经理评价Id-->
     <select id="getMassessById" resultType="Massess">
         <include refid="BaseSql"></include>
          where maId=#{maId}
     </select>
 
+    <!--添加经理评价-->
     <insert id="addMassess" >
         insert into massess(studentId,evaluate,assess,state,tState) values (#{studentId},#{evaluate},#{assess},#{state},#{tState})
     </insert>
 
+    <!--通过学生id活得学生姓名、入职状态-->
     <select id="getStudentById" resultType="Student">
         select studentId,studentName,tState from student where studentId=#{studentId}
     </select>
 
+    <!--通过经理Id获得改经理名下的学生，以及该学生的入职日期、入职状态-->
     <select id="getAllMassessList" resultType="map">
         select studentId,date_format(hiredate,'%Y-%m-%d') hiredate,tState from student
         where managerId=#{managerId}
     </select>
 
-    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName,String departmentId,String jobId);-->
+    <!--分页 通过经理Id连接四表查询该经理名下的学生信息-->
     <select id="getMStudentPaging" resultType="Map">
         select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
         from ((student s left join job j on s.jobId=j.jobId)
@@ -70,7 +79,7 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Student> getAllStudent();-->
+    <!--通过经理Id查询该经理名下的学生的信息-->
     <select id="getAllMStudent" resultType="Student">
         select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,tState,remarks
         from student
@@ -87,7 +96,8 @@
         </where>
     </select>
 
-    <select id="getMassessList" resultType="map">
+    <!--根据学生当前入职状态、评价表中的评价状态和经理Id查询出相关学生信息-->
+    <select id="getMassessList" resultType="Map">
         select  m.maId,s.studentId,m.evaluate,m.assess,s.studentName,d.departmentName,j.jobName,m.state,date_format(s.hiredate,'%Y-%m-%d') hiredate
         from ((massess m right join student s on m.studentId = s.studentId)
         left join department d on d.departmentId = s.departmentId)
@@ -101,7 +111,8 @@
         order by s.studentId desc
     </select>
 
-    <select id="getMassessLists" resultType="map">
+    <!--根据学生当前入职状态、评价表中的评价状态和经理Id查询出相关学生信息-->
+    <select id="getMassessLists" resultType="Map">
         select  m.maId maId,s.studentId studentId,m.evaluate evaluate,m.assess assess,s.studentName studentName,d.departmentName departmentName,j.jobName jobName,m.state state,date_format(s.hiredate,'%Y-%m-%d') hiredate
         from ((massess m right join student s on m.studentId=s.studentId)
         left join department d on d.departmentId = s.departmentId)

@@ -8,7 +8,10 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +67,10 @@ public class StudentController {
 
     @RequestMapping("/getStudentListByClassId")
     @ResponseBody
-    public JSON getStudentListByClassId(Integer classId,Integer managerId,String studentName,Integer limit,Integer page){
+    public JSON getStudentListByClassId(HttpServletRequest request, Integer limit, Integer page){
+        Integer classId = Integer.parseInt(request.getParameter("classId"));
+        Integer managerId = Integer.parseInt(request.getParameter("managerId"));
+        String studentName =request.getParameter("studentName");
         List<Map<String,Object>> studentList = new ArrayList<>();
         int count = (page - 1) * limit;
         //获取该班级的所有学员

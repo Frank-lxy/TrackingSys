@@ -4,53 +4,52 @@
 <!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
 个 个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IMarkDao">
+    <!--查询学生表-->
     <sql id="BaseSql">
         select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,remarks from student
     </sql>
 
-    <!--    Manager getDepatermentId(Integer userId);-->
+    <!--根据登录的用户id连接经理表和部门表查询出经理的名称、部门-->
     <select id="getDepatermentId" resultType="Manager">
         select m.managerId managerId,m.managerName managerName,m.departmentName departmentName,d.departmentId departmentId
         from manager m left join department d on m.departmentName=d.departmentName
         where userId=#{userId}
     </select>
 
-
-    <!--    boolean editMark(Mark mark);-->
+    <!--修改评价项的评分-->
     <update id="editMark">
         update mark set mark=#{mark}
         where studentId=#{studentId} and assessItemId=#{assessItemId} and tState=#{tState}
     </update>
-    <!--    boolean addMark(Mark mark);-->
+
+    <!--添加评价项的评分-->
     <insert id="addMark" >
         insert into mark(studentId,assessItemId,mark,tState)
         values (#{studentId},#{assessItemId},#{mark},#{tState})
     </insert>
-    <!--    boolean addMarkNone(Integer studentId,Integer tState);-->
-    <insert id="addMarkNone" >
-        insert into mark(studentId,tState) values (#{studentId},#{tState})
-    </insert>
 
-    <!--    Mark getMark(Integer studentId, Integer tState);-->
+    <!--根据学生id、评价状态和评价项id获得评价项的分数-->
     <select id="getMark" resultType="Mark">
         select markId,studentId,tState,assessItemId,mark from mark
         where studentId=#{studentId} and tState=#{tState} and assessItemId=#{assessItemId}
     </select>
 
-    <!--   List<Map<String,Object>> getMarkByStuId(Integer studentId,Integer departmentId);-->
+    <!--根据学生id、部门id、评分状态，获取某个员工在某个入职状态时的各评分项的成绩-->
     <select id="getMarkByStuId" resultType="Map">
         select a.assessItemId assessItemId,a.assessItemName assessItemName,m.mark mark
-        from ((assessitem a left join itemsel i on a.assessItemId = i.assessItemId ) left join mark m on a.assessItemId=m.assessItemId)
+        from ((assessitem a left join itemsel i on a.assessItemId = i.assessItemId )
+        left join mark m on a.assessItemId=m.assessItemId)
         where m.studentId=#{studentId} and i.departmentId=#{departmentId} and m.tState=#{tState}
     </select>
 
-    <!--    List<Map<String,Object>> getAllAssessItemByDeptId(Integer departmentId);-->
+    <!--通过部门id获取该部门的评分项名称-->
     <select id="getAllAssessItemByDeptId" resultType="Map">
         select a.assessItemId assessItemId,i.departmentId departmentId,a.assessItemName assessItemName
-        from assessitem a right join itemsel i on a.assessItemId = i.assessItemId  where i.departmentId=#{departmentId}
+        from assessitem a right join itemsel i on a.assessItemId = i.assessItemId
+        where i.departmentId=#{departmentId}
     </select>
 
-    <!--    List<Student> getStudentPaging(Integer departmentId,Integer count, Integer pageSize, String studentName);-->
+    <!--分页 通过经理id和入职状态获得该经理的员工-->
     <select id="getStudentPaging" resultType="Student">
         select studentId, studentName, managerId,tState,departmentId
         from student
@@ -69,7 +68,7 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--    List<Student> getAllStudent(Integer departmentId);-->
+    <!--通过经理id和入职状态获得该经理的员工-->
     <select id="getAllStudent" resultType="Student">
         select studentId, studentName, managerId,tState,departmentId
         from student

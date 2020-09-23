@@ -143,20 +143,19 @@
                             elem: '#demo'
                             ,toolbar: '#toolbarDemo'    //头工具栏
                             ,height: 'full-32'
-                            ,url: '/getStudentListByClassId?managerId='+managerId         //数据接口
+                            ,url: '/getStudentListByClassId'       //数据接口
+                            ,where:{ //where代表过滤条件
+                                classId:classId,
+                                studentName:studentName,
+                                managerId:managerId
+                            }
                             ,page: true  //分页
                             ,limit: 8   //每页显示几条数据
                             ,limits: [8,16,24,32]
                             ,cols: []
                         });
-
                         //重载表格数据
                         tableIns.reload({//demo对应table的id
-                            where:{ //where代表过滤条件
-                                classId:classId,
-                                studentName:studentName,
-                                managerId:managerId
-                            },
                             page:{
                                 curr:1
                             },
