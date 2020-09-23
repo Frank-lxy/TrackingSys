@@ -87,7 +87,7 @@
             elem: '#demo'
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllStudent' //数据接口
-            ,height: 'full-102'
+            ,height: 'full-32'
             ,page:true //开启分页
             ,limit:8   //每页显示几条数据
             ,limits:[8,10,15,20]

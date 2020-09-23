@@ -36,6 +36,11 @@ public class ScoreController {
     @Autowired
     private IStudentService studentService;
 
+    /**
+     * 增加或修改分数
+     * @param score 分数对象
+     * @return 是否成功
+     */
     @RequestMapping(value = "/addOrEditScore",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String addOrEditScore(Score score){
@@ -56,9 +61,14 @@ public class ScoreController {
                 return "修改失败";
             }
         }
-
     }
 
+    /**
+     * 获取成绩列表
+     * @param session 会话
+     * @param model 模型
+     * @return 成绩列表
+     */
     @RequestMapping("/scoreList")
     public String scoreList(HttpSession session,Model model){
         User user = (User) session.getAttribute("user");
@@ -72,8 +82,14 @@ public class ScoreController {
         return "scoreList";
     }
 
+    /**
+     * 查看评价详情
+     * @param studentId 学生id
+     * @param model 模型
+     * @return sassessDetailed页面
+     */
     @RequestMapping("/sassessDetailed")
-    public String sassessDetailed(Integer studentId, Model model){
+    public String sassessDetailed(Integer studentId,Model model){
         Sassess sassess = sassessService.getSassessByStuId(studentId);
         model.addAttribute("sassess",sassess);
         model.addAttribute("studentId",studentId);
@@ -84,6 +100,11 @@ public class ScoreController {
         return "sassessDetailed";
     }
 
+    /**
+     * 根据课程id得到所有课程
+     * @param classId 班级id
+     * @return 班级列表集合
+     */
     @RequestMapping(value = "/getAllCourseByClassId")
     @ResponseBody
     public List<Map<String,Object>> getAllCourseByClassId(Integer classId){
@@ -92,6 +113,14 @@ public class ScoreController {
         return list;
     }
 
+    /**
+     * 分页获取成绩信息
+     * @param classId 班级id
+     * @param limit 跳过的数据数量
+     * @param page 取得的数据的数量
+     * @param studentName 学生姓名
+     * @return json数据
+     */
     @RequestMapping(value = "/getAllScoreInfo",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSON getAllScoreInfo(Integer classId, Integer limit, Integer page, String studentName){
@@ -136,6 +165,13 @@ public class ScoreController {
         return jsonObject;
     }
 
+    /**
+     * 查看分数详细信息
+     * @param studentId 学生id
+     * @param session 会话
+     * @param model 模型
+     * @return json数组
+     */
     @RequestMapping(value = "/getDetailInfoById",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSON  getDetailInfoById(Integer studentId, HttpSession session,Model model){

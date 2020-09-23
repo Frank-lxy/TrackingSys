@@ -91,11 +91,11 @@
                 table.render({
                     elem: '#demo'
                     ,toolbar: '#toolbarDemo'    //头工具栏
-                    ,height: 'full-102'
+                    ,height: 'full-32'
                     ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId      //数据接口
                     ,page: true  //分页
-                    ,limit: 8   //每页显示几条数据
-                    ,limits: [8,16,24,32]
+                    ,limit: 7   //每页显示几条数据
+                    ,limits: [7,14,21,28]
                     ,cols: [[ //表头
                         {type:'numbers',title:'序号',rowspan:2}
                         ,{field: 'studentId', title: '学生编号', hide:true, rowspan:2}
