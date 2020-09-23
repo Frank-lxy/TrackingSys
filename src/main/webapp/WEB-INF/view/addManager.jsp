@@ -193,7 +193,7 @@
                 reg = /^\d{14}(\d|X|x)$|^\d{17}(\d|X|x)$/,
                 photo = $("#filePath").val(),
                 testId=reg.test(idCardNum)
-            if (managerName != ''  && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != ''&&testId==true) {
+            if (managerName != ' '  && birthday != '' && homeTown != '' && phoneNumber != '' && idCardNum != ''&&testId==true) {
                 $.ajax({
                     url: "addNewManager",
                     type: "post",

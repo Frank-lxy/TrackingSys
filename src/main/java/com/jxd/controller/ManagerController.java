@@ -52,6 +52,11 @@ public class ManagerController {
         return "managerList";
     }
 
+    /**
+     * 跳转到新增经理页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/addManager")
     @ModelAttribute
     public String addManager(Model model) {
@@ -68,7 +73,7 @@ public class ManagerController {
     /**
      * 跳转到经理的编辑页面
      * @param model
-     * @param managerId
+     * @param managerId 经理编号
      * @return
      */
     @RequestMapping("/editManager")
@@ -118,7 +123,7 @@ public class ManagerController {
     /**
      * 跳转到经理详情页面
      * @param model
-     * @param managerId
+     * @param managerId 经理编号
      * @return
      */
     @RequestMapping("/managerDetail")
@@ -167,14 +172,14 @@ public class ManagerController {
 
     /**
      * 新增一个经理
-     * @param managerName
-     * @param departmentName
-     * @param birthday
-     * @param idCardNum
-     * @param phoneNumber
-     * @param sex
-     * @param homeTown
-     * @param photo
+     * @param managerName 经理名
+     * @param departmentName 部门名称
+     * @param birthday 生日
+     * @param idCardNum 身份证号
+     * @param phoneNumber 手机号
+     * @param sex 性别
+     * @param homeTown 籍贯
+     * @param photo 照片
      * @return
      */
     @RequestMapping(value = "/addNewManager",produces = "text/html;charset=UTF-8")
@@ -202,15 +207,14 @@ public class ManagerController {
 
     /**
      * 修改经理信息
-     * @param managerId
-     * @param managerName
-     * @param departmentName
-     * @param birthday
-     * @param idCardNum
-     * @param phoneNumber
-     * @param sex
-     * @param homeTown
-     * @param photo
+     * @param managerName 经理名
+     * @param departmentName 部门名称
+     * @param birthday 生日
+     * @param idCardNum 身份证号
+     * @param phoneNumber 手机号
+     * @param sex 性别
+     * @param homeTown 籍贯
+     * @param photo 照片
      * @return
      */
     @RequestMapping(value = "/editTheManager",produces = "text/html;charset=UTF-8")
@@ -233,8 +237,8 @@ boolean isUpdateUser=userService.updateUserName(managerName,man.getUserId());
 
     /**
      * 获取全部的经理信息
-     * @param limit
-     * @param page
+     * @param limit 跳过几条
+     * @param page 每页几条
      * @return
      */
     @RequestMapping(value = "/getAllManager", produces = "application/json;charset=utf-8")
@@ -262,7 +266,7 @@ boolean isUpdateUser=userService.updateUserName(managerName,man.getUserId());
 
     /**
      * 通过id删除经理
-     * @param managerIds
+     * @param managerIds 需要删除的经理编号
      * @return
      */
     @RequestMapping(value = "/delManagerById",produces = "text/html;charset=UTF-8")
@@ -291,8 +295,8 @@ boolean isUpdateUser=userService.updateUserName(managerName,man.getUserId());
 
     /**
      *
-     * @param managerName
-     * @param departmentName
+     * @param managerName 经理名
+     * @param departmentName 部门名
      * @return
      */
     @RequestMapping(value = "/getManagers", produces = "application/json;charset=utf-8")

@@ -33,6 +33,7 @@
     <table id="demo" lay-filter="test"></table>
 </div>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="search">查看</a>&nbsp;
     <a class="layui-btn  layui-btn-xs" lay-event="edit">修改</a>&nbsp;
 </script>
 <script type="text/html" id="toolbarDemo">
@@ -118,6 +119,21 @@
                     type: 2,//弹出完整jsp，type=1弹出底层div
                     title: "编辑班期信息",
                     content: "editClazz?classId=" + classId,
+                    shadeClose: true,//点击遮罩，关闭弹框
+                    area:['400px','430px'],
+                    end: function () {
+                        //刷新当前页
+                        $(".layui-laypage-btn").click();
+                    }
+                });
+            }
+            else if (obj.event==='search'){
+                var classId = data.classId;
+                //根据编号获取信息
+                layer.open({
+                    type: 2,//弹出完整jsp，type=1弹出底层div
+                    title: "查看班期信息",
+                    content: "clazzDetail?classId=" + classId,
                     shadeClose: true,//点击遮罩，关闭弹框
                     area:['400px','430px'],
                     end: function () {

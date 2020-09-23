@@ -26,11 +26,19 @@ public class UserController {
     @Autowired
     ITeacherService teacherService;
 
+    /**
+     * 跳转到userList页面
+     * @return
+     */
     @RequestMapping("/userList")
     public String studentList() {
         return "userList";
     }
 
+    /**
+     * 跳转到addUser页面
+     * @return
+     */
     @RequestMapping("/addUser")
     public String addUser() {
         return "addUser";
@@ -38,8 +46,8 @@ public class UserController {
 
     /**
      * 查询全部的用户信息
-     * @param limit
-     * @param page
+     * @param limit 跳过几条
+     * @param page 每条几页
      * @return
      */
     @RequestMapping(value = "/getAllUser", produces = "application/json;charset=utf-8")
@@ -92,8 +100,8 @@ public class UserController {
 
     /**
      * 查询
-     * @param userName
-     * @param Character
+     * @param userName 用户名
+     * @param Character 角色
      * @return
      */
     @RequestMapping(value = "/getUsers", produces = "application/json;charset=utf-8")
@@ -144,7 +152,7 @@ public class UserController {
 
     /**
      * 重置密码
-     * @param userId
+     * @param userId 用户编号
      * @return
      */
     @RequestMapping(value = "/inituser", produces = "text/html;charset=utf-8")
@@ -161,9 +169,9 @@ public class UserController {
 
     /**
      * 新增用户
-     * @param userName
-     * @param password
-     * @param Character
+     * @param userName 用户名
+     * @param password 密码
+     * @param Character 角色
      * @return
      */
     @RequestMapping("/addNewUser")
@@ -202,18 +210,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/updateAdmin", produces = "text/html;charset=utf-8")
-    @ResponseBody
-    public String updateAdmin(String userId, String password) {
-        boolean isUpdate = false;
-        isUpdate = userService.updateAdmin(Integer.parseInt(userId), password);
-        if (isUpdate) {
-            return "修改成功";
-        } else {
-            return "修改失败";
-        }
-
-    }
+    /**
+     * 通过userId删除用户
+     * @param userIds 用户id字符串
+     * @return
+     */
     @RequestMapping("/delUserById")
     @ResponseBody
     public String delUserById(String userIds) {

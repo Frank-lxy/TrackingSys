@@ -83,7 +83,7 @@
                                 <c:if test="${photo == '' || photo == null}">
                                     <span style="align-content: center">教师照片未上传</span>
                                 </c:if>
-                                <c:if test="${photo != null}">
+                                <c:if test="${photo != '' && photo != null}">
                                     <img src="../../${photo}">
                                 </c:if>
                             </div>
