@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
 <mapper namespace="com.jxd.dao.IUserDao">
-
+    <!--修改密码-->
+    <update id="editPwdById">
+        update user set password=#{password}
+        where userId=#{userId}
+    </update>
     <!--User getUser(User user);-->
     <select id="getUser" resultType="com.jxd.model.User">
         select userId,userName,password,role from user where userName=#{userName} and password=#{password}

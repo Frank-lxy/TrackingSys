@@ -161,8 +161,7 @@
     });
     //关闭当前层
     var close = function () {
-        var index = parent.layer.getFrameIndex(window.name);//获取当前iframe层得索引
-        parent.layer.close(index);
+        parent.location.reload();//刷新页面
     }
 </script>
 </body>
