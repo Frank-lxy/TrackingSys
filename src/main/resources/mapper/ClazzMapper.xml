@@ -4,16 +4,20 @@
 <!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
 个 个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IClazzDao">
+<!--    新增班期-->
     <insert id="addClazz">
         insert into clazz(clazz,teacherName) values (#{clazz},#{teacherName})
     </insert>
+<!--    查询全部的班期信息-->
     <select id="getAllClazz" resultType="com.jxd.model.Clazz">
         SELECT clazz.classId, clazz.clazz, clazz.teacherName FROM clazz
     </select>
+<!--    对班期信息进行分页-->
     <select id="getAllClazzByPage" resultType="com.jxd.model.Clazz">
         SELECT clazz.classId, clazz.clazz, clazz.teacherName FROM clazz
         limit #{count}, #{page}
     </select>
+<!--    通过班期名和教师名对班期进行查询-->
     <select id="getClazz" resultType="com.jxd.model.Clazz">
         SELECT clazz.classId, clazz.clazz, clazz.teacherName FROM clazz
         <where>
@@ -25,22 +29,28 @@
             </if>
         </where>
     </select>
+<!--    查询班期编号最大的班期名-->
     <select id="getMaxClazz" resultType="com.jxd.model.Clazz">
         SELECT clazz FROM clazz WHERE classId=(SELECT MAX(classId) FROM clazz)
     </select>
+<!--    通过班期名查询班期编号-->
     <select id="getAllClazzByName" resultType="com.jxd.model.Clazz">
         SELECT classId FROM clazz WHERE clazz=#{clazz}
     </select>
+<!--    通过班期编号查询班期的详细信息-->
     <select id="getClazzById" resultType="com.jxd.model.Clazz">
         SELECT classId,clazz,teacherName FROM clazz WHERE classId=#{classId}
     </select>
+<!--    通过班期编号更新班期信息-->
     <update id="updateClazz">
         update clazz set clazz=#{clazz},teacherName=#{teacherName}
         where classId=#{classId}
     </update>
+<!--    通过班期编号查询班期详细信息-->
     <select id="getClazzByClassId" resultType="Clazz">
     SELECT classId,clazz,teacherName FROM clazz WHERE classId=#{classId}
     </select>
+<!--    通过班期编号删除班期-->
     <delete id="delClazz">
         delete  form clazz where classId=#{classId}
     </delete>

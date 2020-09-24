@@ -95,6 +95,8 @@
                             curr: 1 //重新从第 1 页开始
                         }
                     });
+                    $("#userName").val(userName);
+                    $("#Character").val(Character);
                     break;
                 case 'add':
                     layer.open({
@@ -158,6 +160,7 @@
                         dataType:"text",
                         success: function (result) {
                             layer.msg('已重置',{icon:1});
+                            window.location.reload();
                         },
                         error:function (e) {
                             layer.msg('重置失败',{icon:2});

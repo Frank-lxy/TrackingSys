@@ -10,18 +10,22 @@
     <select id="getAllManager" resultType="com.jxd.model.Manager">
         <include refid="BaseSql"></include>
     </select>
+<!--    通过经理编号查询全部的经理信息-->
     <select id="getAllManagerById" resultType="com.jxd.model.Manager">
         <include refid="BaseSql"></include>
         where managerId=#{managerId}
     </select>
+<!--    通过经理的编号更新经理的信息-->
     <update id="updateManager">
         update manager set managerName=#{managerName}, departmentName=#{departmentName}, birthday=#{birthday}, idCardNum=#{idCardNum}, phoneNumber=#{phoneNumber}, sex=#{sex}, homeTown=#{homeTown},photo=#{photo}
         where managerId=#{managerId}
     </update>
+<!--    对获取到的全部的经理信息进行分页-->
     <select id="getAllManagerByPage" resultType="com.jxd.model.Manager">
         <include refid="BaseSql"></include>
         limit #{count}, #{page}
     </select>
+<!--    通过经理名和部门名对经理进行查询-->
     <select id="getManagers" resultType="com.jxd.model.Manager">
         <include refid="BaseSql"></include>
         <where>
@@ -33,33 +37,40 @@
             </if>
         </where>
     </select>
+<!--    新增经理信息-->
     <insert id="addManager">
         insert into manager(managerName, departmentName, birthday, idCardNum, phoneNumber, sex, homeTown,photo)
         values (#{managerName},#{departmentName},#{birthday},#{idCardNum},#{phoneNumber},#{sex},#{homeTown},#{photo})
     </insert>
+<!--    新增一条只有经理名和userID的数据-->
     <insert id="addAManager">
         insert into manager(managerName,userId)
         values (#{managerName},#{userId})
     </insert>
+<!--    通过经理编号删除经理-->
     <delete id="delManagerById">
         delete from manager where managerId=#{managerId}
     </delete>
+<!--    通过经理编号查询用户编号-->
     <select id="getManagerById" resultType="com.jxd.model.Manager">
         select userId from manager
         where managerId=#{managerId}
     </select>
+<!--    通过经理编号查询用户编号-->
     <select id="getUserIdByManId" resultType="com.jxd.model.Manager">
         select userId from manager where managerId=#{managerId}
     </select>
-
+<!--通过经理编号查询经理的详细信息-->
     <select id="getManagerByManagerId" resultType="Manager">
         <include refid="BaseSql"></include>
-            where managerId=#{managerId}
+        where managerId=#{managerId}
     </select>
+<!--    通过经理编号更新用户编号-->
     <update id="updateUserId">
         update manager set userId=#{userId}
         where managerId=#{managerId}
     </update>
+<!--    查询最大的经理编号-->
     <select id="getMaxId" resultType="com.jxd.model.Manager">
         select managerId from manager where managerId=(SELECT MAX(managerId)from manager)
     </select>

@@ -31,8 +31,9 @@ public class ClazzController {
 
     /**
      * 获取全部的班期信息
-     * @param limit
-     * @param page
+     *
+     * @param limit 跳过几条
+     * @param page  每页几条
      * @return
      */
     @RequestMapping(value = "/getAllClazz", produces = "application/json;charset=utf-8")
@@ -60,16 +61,17 @@ public class ClazzController {
 
     /**
      * 跳转到classList页面
+     *
      * @param model
      * @return
      */
     @RequestMapping("/clazzList")
-@ModelAttribute
+    @ModelAttribute
     public String clazzList(Model model) {
         List<Clazz> list = clazzService.getAllClazz();//获取全部的班期
-        List<String> list1=new ArrayList<>();
-        for (Clazz s : list){
-            String str=s.getClazz();
+        List<String> list1 = new ArrayList<>();
+        for (Clazz s : list) {
+            String str = s.getClazz();
             list1.add(str);
         }
         model.addAttribute("clazz", list1);
@@ -79,6 +81,7 @@ public class ClazzController {
 
     /**
      * 跳转到新增期次页面
+     *
      * @param model
      * @return
      */
@@ -119,31 +122,32 @@ public class ClazzController {
 
     /**
      * 跳转到修改班期信息页面
+     *
      * @param model
-     * @param classId
+     * @param classId 班期的编号
      * @return
      */
     @RequestMapping("/editClazz")
     @ModelAttribute
-    public String editClazz(Model model,String classId) {
+    public String editClazz(Model model, String classId) {
         Clazz list = clazzService.getClazzById(Integer.parseInt(classId));//获取ID最大的班期
         String num = null;
         String str1 = "";
-        String str2="";
-        String str3="";
-        String str4="";
-        String str5="";
+        String str2 = "";
+        String str3 = "";
+        String str4 = "";
+        String str5 = "";
         List<Coursesel> list5 = new ArrayList<>();
         List<String> list6 = new ArrayList<>();
 
-            str1 = list.getClazz();
-            str3=list.getTeacherName();
+        str1 = list.getClazz();
+        str3 = list.getTeacherName();
 
-list5=courseselService.getCourseIdById(Integer.parseInt(classId));//通过classId查询出已经选了的课程
-        for (Coursesel c:list5){
-            Integer s=c.getCourseId();
-            Course courseName=courseService.getCourseById(s);
-            str2+=courseName.getCourseName();
+        list5 = courseselService.getCourseIdById(Integer.parseInt(classId));//通过classId查询出已经选了的课程
+        for (Coursesel c : list5) {
+            Integer s = c.getCourseId();
+            Course courseName = courseService.getCourseById(s);
+            str2 += courseName.getCourseName();
             list6.add(courseName.getCourseName());
         }
         List<User> list1 = new ArrayList<>();
@@ -157,11 +161,11 @@ list5=courseselService.getCourseIdById(Integer.parseInt(classId));//通过classI
         List<Course> list2 = courseService.getAllCourse(null);
         for (Course c : list2) {
             String s = c.getCourseName();
-if (!str2.contains(c.getCourseName())){
-    list4.add(c.getCourseName());
-}
+            if (!str2.contains(c.getCourseName())) {
+                list4.add(c.getCourseName());
+            }
         }
-        model.addAttribute("classId",classId);
+        model.addAttribute("classId", classId);
         model.addAttribute("courseName", list4);
         model.addAttribute("checkCourseName", list6);
         model.addAttribute("teacherName", list3);
@@ -171,17 +175,68 @@ if (!str2.contains(c.getCourseName())){
         model.addAttribute("CN", str4);
         return "editClazz";
     }
+
+    @RequestMapping("/clazzDetail")
+    @ModelAttribute
+    public String clazzDetail(Model model, String classId) {
+        Clazz list = clazzService.getClazzById(Integer.parseInt(classId));//获取ID最大的班期
+        String num = null;
+        String str1 = "";
+        String str2 = "";
+        String str3 = "";
+        String str4 = "";
+        String str5 = "";
+        List<Coursesel> list5 = new ArrayList<>();
+        List<String> list6 = new ArrayList<>();
+
+        str1 = list.getClazz();
+        str3 = list.getTeacherName();
+
+        list5 = courseselService.getCourseIdById(Integer.parseInt(classId));//通过classId查询出已经选了的课程
+        for (Coursesel c : list5) {
+            Integer s = c.getCourseId();
+            Course courseName = courseService.getCourseById(s);
+            str2 += courseName.getCourseName();
+            list6.add(courseName.getCourseName());
+        }
+        List<User> list1 = new ArrayList<>();
+        List<String> list3 = new ArrayList<>();
+        List<String> list4 = new ArrayList<>();
+        list1 = userService.getAllTeachers();
+        for (User u : list1) {
+            String s = u.getUserName();
+            list3.add(s);
+        }
+        List<Course> list2 = courseService.getAllCourse(null);
+        for (Course c : list2) {
+            String s = c.getCourseName();
+            if (!str2.contains(c.getCourseName())) {
+                list4.add(c.getCourseName());
+            }
+        }
+        model.addAttribute("classId", classId);
+        model.addAttribute("courseName", list4);
+        model.addAttribute("checkCourseName", list6);
+        model.addAttribute("teacherName", list3);
+        model.addAttribute("clazz", str1);
+        model.addAttribute("course", str2);
+        model.addAttribute("teacher", str3);
+        model.addAttribute("CN", str4);
+        return "clazzDetail";
+    }
+
     /**
      * 新增一个新的期次
-     * @param clazz
-     * @param courseName
-     * @param teacherName
+     *
+     * @param clazz       班期名称
+     * @param courseName  课程名
+     * @param teacherName 教师名
      * @return
      */
     @RequestMapping("/addNewClazz")
     @ResponseBody
     public String addNewClazz(String clazz, String courseName, String teacherName) {
-        String []arr=courseName.split(",");
+        String[] arr = courseName.split(",");
         List<String> list1 = new ArrayList<>();
         Integer classId = null;
         Integer courseId = null;
@@ -213,26 +268,27 @@ if (!str2.contains(c.getCourseName())){
 
     /**
      * 修改班期信息
-     * @param classId
-     * @param clazz
-     * @param courseName
-     * @param teacherName
+     *
+     * @param classId     班期编号
+     * @param clazz       班期名称
+     * @param courseName  课程名
+     * @param teacherName 教师名
      * @return
      */
     @RequestMapping("/editTheClazz")
     @ResponseBody
-    public String editTheClazz(String classId,String clazz, String courseName, String teacherName) {
-        String []arr=courseName.split(",");
+    public String editTheClazz(String classId, String clazz, String courseName, String teacherName) {
+        String[] arr = courseName.split(",");
         List<String> list1 = new ArrayList<>();
-        List<Coursesel>list4=new ArrayList<>();
-        list4=courseselService.getCourseIdById(Integer.parseInt(classId));
-        String str="";
-        String str1="";
+        List<Coursesel> list4 = new ArrayList<>();
+        list4 = courseselService.getCourseIdById(Integer.parseInt(classId));
+        String str = "";
+        String str1 = "";
         Integer courseId = null;
         boolean updateCoursesel = false;
-        boolean updateClazz = clazzService.updateClazz(clazz, teacherName,Integer.parseInt(classId));
+        boolean updateClazz = clazzService.updateClazz(clazz, teacherName, Integer.parseInt(classId));
         if (updateClazz) {
-            boolean delcss=courseselService.delCourseselById(Integer.parseInt(classId));
+            boolean delcss = courseselService.delCourseselById(Integer.parseInt(classId));
             for (int i = 0; i < arr.length; i++) {
                 String s = arr[i];
                 List<Course> list2 = courseService.getCourseIdByName(s);
@@ -253,16 +309,17 @@ if (!str2.contains(c.getCourseName())){
 
     /**
      * 过滤，查询
-     * @param clazz
-     * @param teacherName
+     *
+     * @param clazz       班期名称
+     * @param teacherName 教师名
      * @return
      */
     @RequestMapping(value = "/getClazz", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public JSON getClazz(String clazz,String teacherName) {
+    public JSON getClazz(String clazz, String teacherName) {
         //过滤条件
         //获取所有部门
-        List<Clazz> list = clazzService.getClazz(clazz,teacherName);
+        List<Clazz> list = clazzService.getClazz(clazz, teacherName);
 
 //        //将数组转换为json数据
         JSONArray jsonArray = JSONArray.fromObject(list);

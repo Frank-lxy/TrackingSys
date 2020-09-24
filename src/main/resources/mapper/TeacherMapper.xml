@@ -7,21 +7,26 @@
     <sql id="BaseSql">
         select teacherId,teacherName,sex,phoneNumber,hometown,idCardNum,photo,birthday,userId from teacher
     </sql>
+<!--    查询全部的教师-->
     <select id="getAllTeacher" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
     </select>
+<!--    通过id查询全部的教师-->
     <select id="getAllTeacherById" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
         where teacherId=#{teacherId}
     </select>
+<!--    更新教师信息-->
     <update id="updateTeacher">
         update teacher set teacherName=#{teacherName}, birthday=#{birthday}, idCardNum=#{idCardNum}, phoneNumber=#{phoneNumber}, sex=#{sex}, homeTown=#{homeTown},photo=#{photo}
         where teacherId=#{teacherId}
     </update>
+<!--    分页-->
     <select id="getAllTeacherByPage" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
         limit #{count}, #{page}
     </select>
+<!--    通过教师名查询-->
     <select id="getTeachers" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
         <where>
@@ -30,29 +35,36 @@
             </if>
         </where>
     </select>
+<!--    新增教师信息-->
     <insert id="addTeacher">
         insert into teacher(teacherName, birthday, idCardNum, phoneNumber, sex, homeTown,photo)
         values (#{teacherName},#{birthday},#{idCardNum},#{phoneNumber},#{sex},#{homeTown},#{photo})
     </insert>
+<!--新增一条只有用户名和教师名的信息-->
     <insert id="addATeacher">
         insert into teacher(teacherName,userId)
         values (#{teacherName},#{userId})
     </insert>
+<!--    通过id删除教师-->
     <delete id="delTeacherById">
         delete from teacher where teacherId=#{teacherId}
     </delete>
+<!--    通过教师编号查询用户编号-->
     <select id="getTeacherById" resultType="com.jxd.model.Teacher">
         select userId from teacher
         where teacherId=#{teacherId}
     </select>
+<!--    通过教师编号更新用户编号-->
     <update id="updateUserId">
         update teacher set userId=#{userId}
         where teacherId=#{teacherId}
     </update>
+<!--    通过教师id查询教师信息-->
     <select id="getUserIdByTeaId" resultType="com.jxd.model.Teacher">
         <include refid="BaseSql"></include>
         where  teacherId=#{teacherId}
     </select>
+<!--    获取教师编号最大的-->
     <select id="getMaxId" resultType="com.jxd.model.Teacher">
         select teacherId from teacher where teacherId=(SELECT MAX(teacherId)from teacher)
     </select>

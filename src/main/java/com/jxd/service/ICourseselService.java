@@ -19,13 +19,6 @@ public interface ICourseselService {
      * @return
      */
     List<Coursesel> getCourseIdById(Integer classId);
-Coursesel getCourseselIdById(Integer courseId, Integer classId);
-    /**
-     * 更新选课表
-     * @param courseId
-     * @param classId
-     * @return
-     */
-    boolean updateCoursesel( Integer courseId, Integer classId,Integer courseselId);
+
     boolean delCourseselById(Integer classId);
 }

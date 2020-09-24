@@ -55,7 +55,7 @@ public interface ICourseDao {
      * 获取课程列表
      * @return 课程列表
      */
-    List<Course> getAllCourse(String courseName);
+    List<Course> getAllCourse(@Param("courseName")String courseName);
 
     /**
      * 通过课程名获取课程Id

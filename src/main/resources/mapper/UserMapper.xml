@@ -13,33 +13,40 @@
     <select id="getUser" resultType="com.jxd.model.User">
         select userId,userName,password,role from user where userName=#{userName} and password=#{password}
     </select>
-
+<!--获取用户的全部信息-->
     <select id="getAllUser" resultType="com.jxd.model.User">
         select userId,userName,password,role from user
     </select>
+<!--    通过id查询该用户的详细信息-->
     <select id="getUserById" resultType="com.jxd.model.User">
         select userId,userName,password,role from user
         where userId=#{userId}
     </select>
+<!--    对所有的用户信息进行分页-->
     <select id="getAllUserByPage" resultType="com.jxd.model.User">
         select userId,userName,password,role from user order by userId desc
         limit #{pageIndex},#{pageSize}
     </select>
+<!--    新增用户-->
     <insert id="addUser">
         insert into user(userName,password,role) values (#{userName},#{password},#{role})
     </insert>
-    <update id="updateUser">
+<!--    通过用户编号更新用户密码-->
+    <update id="updateUserPwd">
         update user set password=#{password}
         where userId=#{userId}
     </update>
+<!--通过用户编号更新用户名-->
     <update id="updateUserName">
         update user set userName=#{userName}
         where userId=#{userId}
     </update>
+<!--    通过管理员编号修改管理员密码-->
     <update id="updateAdmin">
         update user set password=#{password}
         where userId=#{userId}
     </update>
+<!--    通过用户名和权限查询用户信息-->
     <select id="getUsers" resultType="com.jxd.model.User">
         select userId,userName,role,password from user
         <where>
@@ -51,12 +58,15 @@
             </if>
         </where>
     </select>
+<!--    获取全部的教师名-->
     <select id="getAllTeachers" resultType="com.jxd.model.User">
        SELECT userName from user where role=2
     </select>
+<!--    通过userId删除用户-->
     <delete id="deleteById" >
  delete from user where userId = #{userId}
  </delete>
+<!--    获取最大的用户编号-->
     <select id="getMaxUserId" resultType="com.jxd.model.User">
         select userId from user where userId=(SELECT MAX(userId)from user)
     </select>

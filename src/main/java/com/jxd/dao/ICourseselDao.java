@@ -8,33 +8,24 @@ import java.util.List;
 public interface ICourseselDao {
     /**
      * 课程新增
-     * @param courseId
-     * @param classId
+     * @param courseId 课程编号
+     * @param classId 班期编号
      * @return
      */
     boolean addCoursesel(@Param("courseId") Integer courseId, @Param("classId")Integer classId);
 
-    /**
-     * 获取选课表的id
-     * @param courseId
-     * @param classId
-     * @return
-     */
-    Coursesel getCourseselIdById(@Param("courseId") Integer courseId, @Param("classId")Integer classId);
 
     /**
      * 通过classId获取课程ID
-     * @param classId
+     * @param classId 班期编号
      * @return
      */
     List<Coursesel> getCourseIdById(Integer classId);
 
     /**
-     * 更新选课表
-     * @param courseId
-     * @param classId
+     * 删除选课表
+     * @param classId 班期编号
      * @return
      */
-    boolean updateCoursesel(@Param("courseId") Integer courseId, @Param("classId")Integer classId,@Param("courseselId") Integer courseselId);
     boolean delCourseselById(Integer classId);
 }
