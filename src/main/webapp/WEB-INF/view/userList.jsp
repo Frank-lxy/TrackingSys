@@ -160,7 +160,6 @@
                         dataType:"text",
                         success: function (result) {
                             layer.msg('已重置',{icon:1});
-                            window.location.reload();
                         },
                         error:function (e) {
                             layer.msg('重置失败',{icon:2});
