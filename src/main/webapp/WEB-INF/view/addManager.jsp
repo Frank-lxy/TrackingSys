@@ -122,7 +122,7 @@
                                lay-reqtext="身份证号码不能为空" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 20px">
+                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 0">
                     <button id="addManager" class="layui-btn" lay-submit lay-filter="demo1">提交</button>
                 </div>
             </div>

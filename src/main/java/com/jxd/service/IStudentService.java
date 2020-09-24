@@ -1,12 +1,11 @@
-package com.jxd.dao;
+package com.jxd.service;
 
 import com.jxd.model.*;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
-public interface IStudentDao {
+public interface IStudentService {
 
     /**
      * 查询项目经理评价阶段列表
@@ -30,7 +29,7 @@ public interface IStudentDao {
      * @param limit 每页显示条目数
      * @return 学员列表
      */
-    List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName") String studentName,@Param("count") Integer count,@Param("limit") Integer limit);
+    List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,String studentName,Integer count,Integer limit);
 
     /**
      * 根据班期id查询学员列表
@@ -39,7 +38,7 @@ public interface IStudentDao {
      * @param studentName 学员姓名
      * @return 学员列表
      */
-    List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName")String studentName);
+    List<Student> getStudentListByClassId(Integer classId,Integer managerId,String studentName);
 
     /**
      * 根据班级id获取课程列表
@@ -65,7 +64,7 @@ public interface IStudentDao {
      * @param teacherName 讲师名称
      * @return 学员列表
      */
-    List<Map<String,Object>> getAllStudentByTidPaging(@Param("count") Integer count, @Param("pageSize") Integer pageSize, @Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId,@Param("teacherName") String teacherName);
+    List<Map<String,Object>> getAllStudentByTidPaging(Integer count, Integer pageSize,String studentName,String departmentId,String jobId,String teacherName);
 
     /**
      * 获取学员列表
@@ -75,7 +74,7 @@ public interface IStudentDao {
      * @param teacherName 讲师名称
      * @return 学员列表
      */
-    List<Student> getAllStudentByTid(@Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId,@Param("teacherName") String teacherName);
+    List<Student> getAllStudentByTid(String studentName, String departmentId,String jobId,String teacherName);
 
     /**
      * 根据学员id获取学员状态
@@ -85,14 +84,14 @@ public interface IStudentDao {
     String getStateByStudentId(Integer studentId);
 
     /**
-     * 根据id查询学员信息
+     * 根据学员id查询学员信息
      * @param studentId 学员id
      * @return 学员信息
      */
     Student getStudentById(Integer studentId);
 
     /**
-     * 根据id获取班期
+     * 根据班期id获取班期
      * @param classId 班期id
      * @return 班期
      */
@@ -129,7 +128,7 @@ public interface IStudentDao {
      * @param studentIds 学员id字符串
      * @return 是否批量删除成功
      */
-    boolean deleteStudentBatch(@Param("studentIds") String studentIds);
+    boolean deleteStudentBatch(String studentIds);
 
     /**
      * 根据学员编号查询学员基本信息
@@ -147,7 +146,7 @@ public interface IStudentDao {
      * @param jobId 职务id
      * @return 学员列表
      */
-    List<Map<String,Object>> getStudentPaging(@Param("count") Integer count, @Param("pageSize") Integer pageSize, @Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId);
+    List<Map<String,Object>> getStudentPaging(Integer count,Integer pageSize,String studentName,String departmentId,String jobId);
 
     /**
      * 获取学员列表
@@ -156,14 +155,14 @@ public interface IStudentDao {
      * @param jobId 职务id
      * @return 学员列表
      */
-    List<Student> getAllStudent(@Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId);
+    List<Student> getAllStudent(String studentName,String departmentId,String jobId);
 
     /**
      * 根据学生编号获得学生信息
      * @param studentId 学生编号
      * @return map集合
      */
-   Map<String, Object> getStuInfoById(Integer studentId);
+    Map<String, Object> getStuInfoById(Integer studentId);
 
     /**
      * 根据学生编号获得学生信息

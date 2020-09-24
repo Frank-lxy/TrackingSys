@@ -3,43 +3,43 @@
 <!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
 <mapper namespace="com.jxd.dao.IDepartmentDao">
 
-    <!--boolean editDepartment(Department department);-->
+    <!--boolean editDepartment(Department department);编辑部门-->
     <update id="editDepartment">
         update department set departmentName=#{departmentName}
         where departmentId=#{departmentId}
     </update>
 
-    <!--Department getDepartmentById(Integer departmentId);-->
+    <!--Department getDepartmentById(Integer departmentId);根据部门id获取部门-->
     <select id="getDepartmentById" resultType="Department">
         select departmentId,departmentName
         from department where departmentId=#{departmentId}
     </select>
 
-    <!--boolean addDepartment(Department department);-->
+    <!--boolean addDepartment(Department department);新增部门-->
     <insert id="addDepartment">
         insert into department(departmentName)
         values (#{departmentName})
     </insert>
 
-    <!--Department getDepartmentByName(String departmentName);-->
+    <!--Department getDepartmentByName(String departmentName);根据部门名称获取部门-->
     <select id="getDepartmentByName" resultType="Department">
         <include refid="BaseSql"></include>
         where departmentName=#{departmentName}
     </select>
 
-    <!--boolean deleteDepartmentById(Integer departmentId);-->
+    <!--boolean deleteDepartmentById(Integer departmentId);根据部门id删除部门-->
     <delete id="deleteDepartmentById">
         delete from department where departmentId=#{departmentId}
     </delete>
 
-    <!--List<Student> getStudentByDepartmentId(Integer departmentId);-->
+    <!--List<Student> getStudentByDepartmentId(Integer departmentId);根据部门id获取学员列表-->
     <select id="getStudentByDepartmentId" resultType="Student">
         select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,remarks
         from student
         where departmentId=#{departmentId}
     </select>
 
-    <!--List<Department> getDepartmentPaging(Integer count, Integer pageSize, String departmentName);-->
+    <!--List<Department> getDepartmentPaging(Integer count, Integer pageSize, String departmentName);分页获取部门-->
     <select id="getDepartmentPaging" resultType="Department">
         <include refid="BaseSql"></include>
         <where>
@@ -51,7 +51,7 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Department> getAllDepartment(String departmentName);-->
+    <!--List<Department> getAllDepartment(String departmentName);过滤获取部门-->
     <select id="getAllDepartment" resultType="Department">
         <include refid="BaseSql"></include>
         <where>
@@ -62,6 +62,7 @@
         order by departmentId desc
     </select>
 
+    <!--List<Department> getAllDep();获取部门列表-->
     <select id="getAllDep" resultType="Department">
         <include refid="BaseSql"></include>
     </select>

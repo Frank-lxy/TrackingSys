@@ -48,6 +48,10 @@
             ,form = layui.form
             ,upload = layui.upload;
         $ = layui.jquery;
+        //定义一个是否存在的变量
+        var isExit = false;
+
+        //评分项文本框失去焦点时验证名称是否已存在
         $("#assessItemName").blur(function () {
             $.ajax({
                 url:"getAssessItemByName",
@@ -57,8 +61,12 @@
                 },
                 dataType:"text",
                 success:function (data) {
-                    if (data == 'y'){
+                    //若已存在，给出提示
+                    if (data == 'n'){
+                        isExit = false;
+                    }else {
                         layer.msg("该评价项名称已存在");
+                        isExit = true;
                     }
                 },
                 error:function (data) {
@@ -67,8 +75,11 @@
 
             });
         });
+
+        //点击提交按钮，新增评分项
         $("#addAssessItem").click(function () {
-            if ($("#assessItemName").val() != ''){
+            //若评分项名称不存在且输入不为空，新增评分项
+            if ($("#assessItemName").val() != '' && isExit == false){
                 $.ajax({
                     url:"addAssessItem",
                     type:"post",

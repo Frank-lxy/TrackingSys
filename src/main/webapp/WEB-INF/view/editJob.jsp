@@ -52,6 +52,10 @@
             ,form = layui.form
             ,upload = layui.upload;
         $ = layui.jquery;
+        //定义一个判断名称是否已存在的变量
+        var isExit = false;
+
+        //失去焦点时，判断职务名称是否已存在
         $("#jobName").blur(function () {
             $.ajax({
                 url:"getJobByName",
@@ -61,8 +65,11 @@
                 },
                 dataType:"text",
                 success:function (data) {
-                    if (data == 'y'){
-                        layer.msg("该职务名称已存在");
+                    if (data != 'n' && data != $("#jobId").val()){
+                        //layer.msg("该职务名称已存在");
+                        isExit = true;
+                    }else {
+                        isExit = false;
                     }
                 },
                 error:function (data) {
@@ -71,8 +78,10 @@
 
             });
         });
+
+        //点击提交按钮提交编辑数据
         $("#addJob").click(function () {
-            if ($("#jobName").val() != ''){
+            if ($("#jobName").val() != '' && isExit == false){
                 $.ajax({
                     url:"editJob",
                     type:"post",
@@ -90,6 +99,8 @@
                         setTimeout('closeEdit()',1000);
                     }
                 });
+            }else if (isExit){//若已存在，给出提示
+                layer.msg("该职务名称已存在，不能重复");
             }
         });
     });

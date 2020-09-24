@@ -11,6 +11,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -207,6 +208,19 @@ public class UserController {
         }else {
             return false;
         }
+    }
+
+    @RequestMapping(value = "/updateAdmin", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String updateAdmin(String userId, String password) {
+        boolean isUpdate = false;
+        isUpdate = userService.updateAdmin(Integer.parseInt(userId), password);
+        if (isUpdate) {
+            return "修改成功";
+        } else {
+            return "修改失败";
+        }
+
     }
 
     /**

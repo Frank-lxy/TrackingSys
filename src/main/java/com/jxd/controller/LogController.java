@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Description 登录退出控制
+ * @Description 登录退出
  * @Author Song SaiSai
  * @Date 2020/9/11 17:51
  * @Version 1.0
@@ -24,6 +24,11 @@ public class LogController {
     @Autowired
     IUserService userService;
 
+    /**
+     * 退出系统
+     * @param request 请求
+     * @return 登录页面
+     */
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
         //移除session
@@ -31,6 +36,14 @@ public class LogController {
         return "forward:";
     }
 
+    /**
+     * 验证用户登录
+     * @param user 用户
+     * @param remember 记住密码
+     * @param model 实体类
+     * @param response 响应
+     * @return 响应页面
+     */
     @RequestMapping(value = "/login",produces = "text/html;charset=utf-8")
     public String login(User user, String remember, Model model, HttpServletResponse response){
         //根据用户名密码查询用户
@@ -57,6 +70,12 @@ public class LogController {
         }
     }
 
+    /**
+     * 获取登录页面
+     * @param request 请求
+     * @param model 实体类
+     * @return 登录页面
+     */
     @RequestMapping(value = "/",produces = "text/html;charset=utf-8")
     public String getLogin(HttpServletRequest request,Model model){
         String userName = "";

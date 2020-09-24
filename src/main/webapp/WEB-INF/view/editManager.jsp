@@ -81,10 +81,10 @@
                                 <input type="hidden" id="filePath" value="${photo}">
                                 <div class="showPhoto" id="uploadDiv">
                                     <c:if test="${photo == '' || photo == null}">
-                                        <span style="align-content: center">经理照片未上传</span>
+                                        <img src="../../static/img/photo.png" alt="学员照片">
                                     </c:if>
                                     <c:if test="${photo != '' && photo != null}">
-                                        <img src="../../${photo}">
+                                        <img src="../../${photo}" alt="学员照片">
                                     </c:if>
                                 </div>
                             </div>
@@ -93,17 +93,13 @@
                         <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
                     <div class="layui-input-inline">
-                        <c:if test="${sex=='男'}">
+                        <c:if test="${sex == '男'}">
                             <input type="radio" name="sex" value="男" checked>男
                             <input type="radio" name="sex" value="女">女
                         </c:if>
-                        <c:if test="${sex== '女'}">
+                        <c:if test="${sex == '女'}">
                             <input type="radio" name="sex" value="男">男
                             <input type="radio" name="sex" value="女" checked>女
-                        </c:if>
-                        <c:if test="${sex==''||sex==null}">
-                            <input type="radio" name="sex" value="男" checked>男
-                            <input type="radio" name="sex" value="女">女
                         </c:if>
                     </div>
                 </div>
@@ -117,9 +113,14 @@
                     <label class="layui-form-label"><span style="color: red">*</span>部门：</label>
                     <div class="layui-input-inline">
                         <select name="departmentName" lay-verify="" id="departmentName" lay-search>
-                            <option value="${department}">${department}</option>
-                            <c:forEach var="departmentName" items="${departmentName}">
-                                <option value="${departmentName}">${departmentName}</option>
+                            <option></option>
+                            <c:forEach var="departmentList" items="${sessionScope.departmentList}">
+                                <c:if test="${departmentList.departmentName == departmentName}">
+                                    <option value="${departmentList.departmentName}" name="classId" selected>${departmentList.departmentName}</option>
+                                </c:if>
+                                <c:if test="${departmentList.departmentName != departmentName}">
+                                    <option value="${departmentList.departmentName}" name="classId">${departmentList.departmentName}</option>
+                                </c:if>
                             </c:forEach>
                         </select>
                     </div>
@@ -232,7 +233,7 @@
                 photo = $("#filePath").val(),
                 testId=reg.test(idCardNum),
                 departmentName = $("#departmentName").val();
-            if (managerName != '' && birthday != '' && homeTown != '' && phoneNumber != ''  && idCardNum != ''&&testId==true){
+            if (managerName != '' && birthday != '' && homeTown != '' && phoneNumber != ''  && idCardNum != '' && testId==true){
                 $.ajax({
                     url:"editTheManager",
                     type:"post",

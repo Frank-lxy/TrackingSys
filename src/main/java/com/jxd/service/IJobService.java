@@ -52,6 +52,7 @@ public interface IJobService {
 
     /**
      * 获取职务列表
+     * @param jobName 职务名称
      * @return 职务列表
      */
     List<Job> getAllJob(String jobName);

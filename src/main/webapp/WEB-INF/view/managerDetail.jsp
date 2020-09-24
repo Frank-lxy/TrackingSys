@@ -39,7 +39,6 @@
             height: 170px;
         }
         .showPhoto{
-            border: solid 1px #eaeaea;
             margin: 15px 15px 10px 0;
             height: 170px;
             width: 110px;
@@ -67,27 +66,25 @@
                     </div>
                 </div>
                 <div style="height: 230px;width: 310px;float: right;margin-right: 20px">
-                <div style="margin-left: 0px">
                     <label class="layui-form-label" style="margin-left: 0px">照片：</label>
                     <div class="layui-input-inline">
                         <input type="hidden" id="filePath" value="${photo}" readonly>
                         <div class="showPhoto" id="uploadDiv" readonly>
-                            <c:if test="${photo == '' || photo == null}">
-                                <span style="align-content: center">经理照片未上传</span>
+                            <c:if test="${photo.indexOf('files') == -1}">
+                                <img src="../../static/img/photo.png">
                             </c:if>
-                            <c:if test="${photo != '' || photo != null}">
+                            <c:if test="${photo.indexOf('files') != -1}">
                                 <img src="../../${photo}">
                             </c:if>
                         </div>
                     </div>
                 </div>
-            </div>
-                    <div style="float: left">
-                        <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="sex" id="sex" value="${sex}" required lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input" readonly>
-                        </div>
+                <div style="float: left">
+                    <label class="layui-form-label"><span style="color: red">*</span>性别：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="sex" id="sex" value="${sex}" required lay-verify="required" lay-reqtext="籍贯不能为空" autocomplete="off" class="layui-input" readonly>
                     </div>
+                </div>
                 <div style="float: left">
                     <label class="layui-form-label"><span style="color: red">*</span>出生年月：</label>
                     <div class="layui-input-inline">
@@ -120,7 +117,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 </body>

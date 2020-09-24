@@ -23,14 +23,22 @@
         .layui-table-view .layui-form-checkbox {
             margin-top: 7px;
         }
-
-        .layui-table-cell { height:auto; overflow:visible; text-overflow:inherit; white-space:normal; }
+        .layui-table-cell {
+            height:auto;
+            overflow:visible;
+            text-overflow:inherit;
+            white-space:normal;
+        }
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
     </style>
 </head>
 <body>
-<div align="center">
+<div align="center" style="line-height: 60px;padding-top: 10px">
     <h1>金桥学员成长跟踪表
-        <a href="getStudentTracking"><button id="" class="layui-btn" style="float: right">返回</button></a>
+        <a href="getStudentTracking" style="float: right;margin: 20px 20px 0 0"><button id="" class="layui-btn" style="float: right">返回</button></a>
     </h1>
 </div>
 <div align="center">

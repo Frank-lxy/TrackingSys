@@ -87,10 +87,10 @@
             elem: '#demo'
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllStudent' //数据接口
-            ,height: 'full-32'
+            ,height: 'full-25'
             ,page:true //开启分页
-            ,limit:8   //每页显示几条数据
-            ,limits:[8,10,15,20]
+            ,limit:10   //每页显示几条数据
+            ,limits:[10,15,20,25,30]
             ,cols: [[ //表头
                 {type:'checkbox', width:'5%'}
                 ,{type:'numbers',title:'序号', width:'7%', sort:true}
@@ -249,7 +249,7 @@
                     title: "学员详细信息",
                     content: "getStudentDetailedById?studentId=" + studentId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area: ['930px','390px'],
+                    area: ['940px','390px'],
                     end:function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

@@ -48,6 +48,10 @@
             ,form = layui.form
             ,upload = layui.upload;
         $ = layui.jquery;
+        //定义一个是否存在的变量
+        var isExit = false;
+
+        //部门名称文本框失去焦点时验证部门名称是否已存在
         $("#departmentName").blur(function () {
             $.ajax({
                 url:"getDepartmentByName",
@@ -57,18 +61,22 @@
                 },
                 dataType:"text",
                 success:function (data) {
-                    if (data == 'y'){
+                    if (data == 'n'){
+                        isExit = false;
+                    }else {
                         layer.msg("该部门名称已存在");
+                        isExit = true;
                     }
                 },
                 error:function (data) {
                     layer.msg("执行失败");
                 }
-
             });
         });
+
+        //点击提交按钮，新增部门
         $("#addDepartment").click(function () {
-            if ($("#departmentName").val() != ''){
+            if ($("#departmentName").val() != '' && isExit == false){
                 $.ajax({
                     url:"addDepartment",
                     type:"post",

@@ -57,10 +57,10 @@
             elem: '#demo'
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllCourse' //数据接口
-            ,height: 'full-102'
+            ,height: 'full-25'
             ,page:true //开启分页
-            ,limit:8   //每页显示几条数据
-            ,limits:[8,10,15,20]
+            ,limit:10   //每页显示几条数据
+            ,limits:[10,15,20,25,30]
             ,cols: [[ //表头
                 {type:'numbers',title:'序号', width:'15%', sort:true}
                 ,{field: 'courseId', title: '课程号', hide:true}
@@ -74,7 +74,9 @@
                 case 'query':
                     var filter = $("#filter").val();
                     table.reload("demo",{
-                        where:{courseName:filter}, //where对应过滤条件
+                        where:{
+                            courseName:filter
+                        }, //where对应过滤条件
                         page:{
                             curr: 1
                         }

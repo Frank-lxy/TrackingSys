@@ -21,9 +21,6 @@
             padding: 9px 5px;
             margin-left: 10px;
         }
-        .layui-form-item .layui-input-inline {
-            margin-bottom: 20px;
-        }
         .layui-form-select dl {
             max-height: 190px;
         }
@@ -37,14 +34,11 @@
             height: 28px;
             line-height: 28px;
         }
+        .layui-inline .layui-input-inline{
+            margin: 10px 0;
+        }
         img{
             height: 170px;
-        }
-        .showPhoto{
-            border: solid 1px #eaeaea;
-            margin: 15px 15px 10px 0;
-            height: 170px;
-            width: 110px;
         }
         .layui-laydate-main{
             height: 265px !important;
@@ -57,39 +51,33 @@
 <form style="display: flex; justify-content: center">
     <div class="layui-form">
         <div class="layui-inline">
-            <div style="float: left">
-                <label class="layui-form-label">班期</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="clazz" required lay-verify="required" value="${clazz}" autocomplete="off"
-                           class="layui-input" id="clazz" readonly>
-                </div>
+            <label class="layui-form-label">班期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="clazz" required lay-verify="required" value="${clazz}" autocomplete="off"
+                       class="layui-input" id="clazz" readonly>
             </div>
-            <div style="float: left">
-                <label class="layui-form-label">授课教师</label>
-                <div class="layui-input-inline">
-                    <select name="teacherName" lay-verify="required" id="teacherName"lay-filter="receive" lay-search required>
-                        <option value="">请选择授课教师</option>
-                        <c:forEach var="teacherName" items="${teacherName}">
-                            <option value="${teacherName}">${teacherName}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">课程</label>
-                <div class="layui-input-inline">
-                    <c:forEach var="courseName" items="${courseName}">
-                        <input type="checkbox" class="courseName" title="${courseName}" id="courseName"
-                               value="${courseName}"  lay-filter="hope" type="checkbox"
-                               name="courseName" >
+            <label class="layui-form-label">授课教师</label>
+            <div class="layui-input-inline">
+                <select name="teacherName" lay-verify="required" id="teacherName"lay-filter="receive" lay-search required>
+                    <option value="">请选择授课教师</option>
+                    <c:forEach var="teacherName" items="${teacherName}">
+                        <option value="${teacherName}">${teacherName}</option>
                     </c:forEach>
-                </div>
+                </select>
             </div>
-
-            <div class="layui-form-item">
-                <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 10px">
-                    <button class="layui-btn" id="addNewClazz" lay-submit lay-filter="formDemo">提交</button>
-                </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程</label>
+            <div class="layui-input-inline">
+                <c:forEach var="courseName" items="${courseName}">
+                    <input type="checkbox" class="courseName" title="${courseName}" id="courseName"
+                           value="${courseName}"  lay-filter="hope" type="checkbox" name="courseName" >
+                </c:forEach>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-inline" style="margin-left: 45%;margin-bottom: 0;margin-top: 10px">
+                <button class="layui-btn" id="addNewClazz" lay-submit lay-filter="formDemo">提交</button>
             </div>
         </div>
     </div>
@@ -151,8 +139,6 @@
         });
     });
     var closeAdd = function () {
-        /*var index = parent.layer.getFrameIndex(window.name);//获取当前iframe层得索引
-        parent.layer.close(index);*/
         parent.location.reload();
     }
 </script>

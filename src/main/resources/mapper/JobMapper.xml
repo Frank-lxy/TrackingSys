@@ -2,36 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
 <mapper namespace="com.jxd.dao.IJobDao">
-    <!--boolean editJob(Job job);-->
+
+    <!--boolean editJob(Job job);编辑职务-->
     <update id="editJob">
         update job set jobName=#{jobName}
         where jobId=#{jobId}
     </update>
 
-    <!--Job getJobById(Integer jobId);-->
+    <!--Job getJobById(Integer jobId);根据职务id获取职务-->
     <select id="getJobById" resultType="Job">
         select jobId,jobName
         from job where jobId=#{jobId}
     </select>
 
-    <!--boolean addJob(Job job);-->
+    <!--boolean addJob(Job job);新增职务-->
     <insert id="addJob">
         insert into job(jobName)
         values (#{jobName})
     </insert>
 
-    <!--Job getJobByName(String jobName);-->
+    <!--Job getJobByName(String jobName);根据职务名称获取职务-->
     <select id="getJobByName" resultType="Job">
         <include refid="BaseSql"></include>
         where jobName=#{jobName}
     </select>
 
-    <!--boolean deleteJobById(Integer jobId);-->
+    <!--boolean deleteJobById(Integer jobId);-根据职务id删除职务-->
     <delete id="deleteJobById">
         delete from job where jobId=#{jobId}
     </delete>
 
-    <!--List<Job> getJobPaging(Integer count, Integer pageSize, String jobName);-->
+    <!--List<Job> getJobPaging(Integer count, Integer pageSize, String jobName);分页获取职务-->
     <select id="getJobPaging" resultType="Job">
         <include refid="BaseSql"></include>
         <where>
@@ -43,7 +44,7 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Job> getAllJob( String jobName);-->
+    <!--List<Job> getAllJob( String jobName);获取所有职务-->
     <select id="getAllJob" resultType="Job">
         <include refid="BaseSql"></include>
         <where>

@@ -53,6 +53,7 @@ public interface IAssessItemDao {
 
     /**
      * 获取评价项列表
+     * @param assessItemName 评分项名称
      * @return 评价项列表
      */
     List<AssessItem> getAllAssessItem(@Param("assessItemName") String assessItemName);

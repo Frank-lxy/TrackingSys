@@ -2,19 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
 <mapper namespace="com.jxd.dao.IStudentDao">
-    <!--List<TState> getTStateList();-->
-    <select id="getTStateList" resultType="TState">
-        select tState,stateName from tState;
-    </select>
 
-    <!--List<Massess> getMassessByStuId(Integer studentId);-->
+    <!--List<Massess> getMassessByStuId(Integer studentId);根据学员id获取经理评价列表-->
     <select id="getMassessByStuId" resultType="Massess">
         select maId,studentId,evaluate,assess,state,tState
         from massess
         where studentId=#{studentId}
     </select>
 
-    <!--List<Student> getStudentListByClassIdPaging(Integer classId,Integer count,Integer limit);-->
+    <!--List<Student> getStudentListByClassIdPaging(Integer classId,Integer count,Integer limit);根据班期id分页获取学员列表-->
     <select id="getStudentListByClassIdPaging" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
@@ -33,7 +29,7 @@
         limit #{count},#{limit}
     </select>
 
-    <!--List<Student> getStudentListByClassId(Integer classId);-->
+    <!--List<Student> getStudentListByClassId(Integer classId);根据班期id获取学员列表-->
     <select id="getStudentListByClassId" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
@@ -51,11 +47,125 @@
         order by studentId desc
     </select>
 
-    <!--List<Course> getCourseByClassId(Integer classId);-->
+    <!--List<Course> getCourseByClassId(Integer classId);根据班期id获取课程列表-->
     <select id="getCourseByClassId" resultType="Course">
         select c.courseId courseId,c.courseName courseName
         from course c left join coursesel cs on c.courseId=cs.courseId
         where cs.classId=#{classId}
+    </select>
+
+    <!--boolean editStudent(Student student);编辑学员-->
+    <update id="editStudent">
+        update student
+        <if test="hiredate != null and hiredate != ''">
+            set studentName=#{studentName},sex=#{sex},nation=#{nation},birthday=#{birthday},homeTown=#{homeTown},marriage=#{marriage},phone=#{phone},identityNum=#{identityNum},graduate=#{graduate},major=#{major},photo=#{photo},classId=#{classId},managerId=#{managerId},departmentId=#{departmentId},jobId=#{jobId},hiredate=#{hiredate},remarks=#{remarks}
+        </if>
+        <if test="hiredate == null or hiredate == ''">
+            set studentName=#{studentName},sex=#{sex},nation=#{nation},birthday=#{birthday},homeTown=#{homeTown},marriage=#{marriage},phone=#{phone},identityNum=#{identityNum},graduate=#{graduate},major=#{major},photo=#{photo},classId=#{classId},managerId=#{managerId},departmentId=#{departmentId},jobId=#{jobId},remarks=#{remarks}
+        </if>
+        where studentId=#{studentId}
+    </update>
+
+    <!--String getStateByStudentId(Integer studentId);根据学员id获取工作状态-->
+    <select id="getStateByStudentId" resultType="String">
+        select state from sassess where studentId=#{studentId};
+    </select>
+
+    <!--Student getStudentById(Integer studentId);根据学员id获取学员-->
+    <select id="getStudentById" resultType="Student">
+        <include refid="BaseSql"></include>
+        where studentId=#{studentId}
+    </select>
+
+    <!--Clazz getClazzById(Integer classId);根据班期id虎丘班期-->
+    <select id="getClazzById" resultType="Clazz">
+        select classId,clazz,teacherName from clazz
+        where classId=#{classId}
+    </select>
+
+    <!--boolean addStudent(Student student);新增学员-->
+    <insert id="addStudent">
+        insert into student(studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,remarks)
+        values (#{studentName},#{sex},#{nation},#{birthday},#{homeTown},#{marriage},#{phone},#{identityNum},#{graduate},#{major},#{photo},#{classId},#{remarks})
+    </insert>
+
+    <!--List<Clazz> getClazzList();获取班期列表-->
+    <select id="getClazzList" resultType="Clazz">
+        select classId,clazz,teacherName
+        from clazz
+        order by classId
+    </select>
+
+    <!--List<User> getManagerList();获取项目经理列表-->
+    <select id="getManagerList" resultType="User">
+        select userId,userName,password,role
+        from user where role=3
+    </select>
+
+    <!--boolean deleteStudentById(Integer studentId);根据学员id删除学员-->
+    <delete id="deleteStudentById">
+        delete from student where studentId=#{studentId}
+    </delete>
+
+    <!--boolean deleteStudentBatch(String studentIds);根据学员id批量删除学员-->
+    <delete id="deleteStudentBatch">
+        delete from student where studentId in (${studentIds})
+    </delete>
+
+    <!--Map<String,Object> getStudentDetailedById(Integer studentId);根据学员id获取学员详细信息-->
+    <select id="getStudentDetailedById" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,s.departmentId departmentId,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
+        from (student s left join clazz c on s.classId=c.classId)
+        left join department d on s.departmentId=d.departmentId
+        where studentId=#{studentId}
+    </select>
+
+    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName,String departmentId,String jobId);分页获取学员-->
+    <select id="getStudentPaging" resultType="Map">
+        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
+        from ((student s left join job j on s.jobId=j.jobId)
+        left join department d on s.departmentId=d.departmentId)
+        left join clazz c on s.classId=c.classId
+        <where>
+            <if test="studentName != null and studentName != ''">
+                s.studentName like '%' #{studentName} '%'
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and s.departmentId=#{departmentId}
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and s.jobId=#{jobId}
+            </if>
+        </where>
+        order by s.studentId desc
+        limit #{count},#{pageSize}
+    </select>
+
+    <!--List<Student> getAllStudent(String studentName,String departmentId,String jobId);获取过滤后所有学员-->
+    <select id="getAllStudent" resultType="Student">
+        <include refid="BaseSql"></include>
+        <where>
+            <if test="studentName != null and studentName != ''">
+                studentName like '%' #{studentName} '%'
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and departmentId=#{departmentId}
+            </if>
+            <if test="jobId != null and jobId != ''">
+                and jobId=#{jobId}
+            </if>
+        </where>
+    </select>
+
+    <sql id="BaseSql">
+        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,tState,remarks
+        from student
+    </sql>
+
+
+    <!--List<TState> getTStateList();-->
+    <select id="getTStateList" resultType="TState">
+        select tState,stateName from tState;
     </select>
 
     <!--List<Student> getAllStudentByTid(String studentName,String departmentId,String jobId,String teacherName);-->
@@ -89,7 +199,7 @@
         left join clazz c on s.classId=c.classId
         <where>
             <if test="studentName != null and studentName != ''">
-            s.studentName like '%' #{studentName} '%'
+                s.studentName like '%' #{studentName} '%'
             </if>
             <if test="departmentId != null and departmentId != ''">
                 and s.departmentId=#{departmentId}
@@ -121,112 +231,4 @@
         right join job j on j.jobId=st.jobId
         where studentId=#{studentId}
     </select>
-
-    <!--boolean editStudent(Student student);-->
-    <update id="editStudent">
-        update student
-        <if test="hiredate != null and hiredate != ''">
-            set studentName=#{studentName},sex=#{sex},nation=#{nation},birthday=#{birthday},homeTown=#{homeTown},marriage=#{marriage},phone=#{phone},identityNum=#{identityNum},graduate=#{graduate},major=#{major},photo=#{photo},classId=#{classId},managerId=#{managerId},departmentId=#{departmentId},jobId=#{jobId},hiredate=#{hiredate},remarks=#{remarks}
-        </if>
-        <if test="hiredate == null or hiredate == ''">
-            set studentName=#{studentName},sex=#{sex},nation=#{nation},birthday=#{birthday},homeTown=#{homeTown},marriage=#{marriage},phone=#{phone},identityNum=#{identityNum},graduate=#{graduate},major=#{major},photo=#{photo},classId=#{classId},managerId=#{managerId},departmentId=#{departmentId},jobId=#{jobId},remarks=#{remarks}
-        </if>
-        where studentId=#{studentId}
-    </update>
-
-    <!--String getStateByStudentId(Integer studentId);-->
-    <select id="getStateByStudentId" resultType="String">
-        select state from sassess where studentId=#{studentId};
-    </select>
-
-    <!--Student getStudentById(Integer studentId);-->
-    <select id="getStudentById" resultType="Student">
-        <include refid="BaseSql"></include>
-        where studentId=#{studentId}
-    </select>
-
-    <!--Clazz getClazzById(Integer classId);-->
-    <select id="getClazzById" resultType="Clazz">
-        select classId,clazz,teacherName from clazz
-        where classId=#{classId}
-    </select>
-
-    <!--boolean addStudent(Student student);-->
-    <insert id="addStudent">
-        insert into student(studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,remarks)
-        values (#{studentName},#{sex},#{nation},#{birthday},#{homeTown},#{marriage},#{phone},#{identityNum},#{graduate},#{major},#{photo},#{classId},#{remarks})
-    </insert>
-
-    <!--List<Clazz> getClazzList();-->
-    <select id="getClazzList" resultType="Clazz">
-        select classId,clazz,teacherName
-        from clazz
-        order by classId
-    </select>
-
-    <!--List<User> getManagerList();-->
-    <select id="getManagerList" resultType="User">
-        select userId,userName,password,role
-        from user where role=3
-    </select>
-
-    <!--boolean deleteStudentById(Integer studentId);-->
-    <delete id="deleteStudentById">
-        delete from student where studentId=#{studentId}
-    </delete>
-
-    <!--boolean deleteStudentBatch(String studentIds);-->
-    <delete id="deleteStudentBatch">
-        delete from student where studentId in (${studentIds})
-    </delete>
-
-    <!--Map<String,Object> getStudentDetailedById(Integer studentId);-->
-    <select id="getStudentDetailedById" resultType="Map">
-        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,s.birthday birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,s.photo photo,c.clazz clazz,s.departmentId departmentId,d.departmentName departmentName,s.hiredate hiredate,s.remarks remarks
-        from (student s left join clazz c on s.classId=c.classId)
-        left join department d on s.departmentId=d.departmentId
-        where studentId=#{studentId}
-    </select>
-
-    <!--List<Map<String,Object>> getStudentPaging(Integer count, Integer pageSize, String studentName,String departmentId,String jobId);-->
-    <select id="getStudentPaging" resultType="Map">
-        select s.studentId studentId,s.studentName studentName,s.sex sex,s.nation nation,date_format(s.birthday,'%Y-%m-%d') birthday,s.homeTown homeTown,s.marriage marriage,s.phone phone,s.identityNum identityNum,s.graduate graduate,s.major major,c.clazz clazz,d.departmentName departmentName,j.jobName jobName,date_format(s.hiredate,'%Y-%m-%d') hiredate,s.remarks remarks
-        from ((student s left join job j on s.jobId=j.jobId)
-        left join department d on s.departmentId=d.departmentId)
-        left join clazz c on s.classId=c.classId
-        <where>
-            <if test="studentName != null and studentName != ''">
-                s.studentName like '%' #{studentName} '%'
-            </if>
-            <if test="departmentId != null and departmentId != ''">
-                and s.departmentId=#{departmentId}
-            </if>
-            <if test="jobId != null and jobId != ''">
-                and s.jobId=#{jobId}
-            </if>
-        </where>
-        order by s.studentId desc
-        limit #{count},#{pageSize}
-    </select>
-
-    <!--List<Student> getAllStudent();-->
-    <select id="getAllStudent" resultType="Student">
-        <include refid="BaseSql"></include>
-        <where>
-            <if test="studentName != null and studentName != ''">
-                studentName like '%' #{studentName} '%'
-            </if>
-            <if test="departmentId != null and departmentId != ''">
-                and departmentId=#{departmentId}
-            </if>
-            <if test="jobId != null and jobId != ''">
-                and jobId=#{jobId}
-            </if>
-        </where>
-    </select>
-
-    <sql id="BaseSql">
-        select studentId,studentName,sex,nation,birthday,homeTown,marriage,phone,identityNum,graduate,major,photo,classId,managerId,departmentId,jobId,hiredate,tState,remarks
-        from student
-    </sql>
 </mapper>

@@ -38,7 +38,6 @@
 <body>
 <div align="center" style="line-height: 60px;padding-top: 10px">
     <h1>金桥学员成长跟踪表
-        <%--<a href="getStudentTracking"><button id="" class="layui-btn" style="float: right;margin: 20px 20px 0 0">返回</button></a>--%>
         <button id="returnBtn" class="layui-btn" style="float: right;margin: 20px 20px 0 0">返回</button>
     </h1>
 </div>
@@ -46,18 +45,24 @@
     <%--学校评价表--%>
     <table id="demo0" lay-filter="test"></table>
     <div id="demoDiv0" style="margin-top: -10px"></div>
-    <%--转正评价表--%>
-    <table id="demo1" lay-filter="test"></table>
-    <div id="demoDiv1" style="margin-top: -10px"></div>
-    <%--一年评价表--%>
-    <table id="demo2" lay-filter="test"></table>
-    <div id="demoDiv2" style="margin-top: -10px"></div>
-    <%--两年评价表--%>
-    <table id="demo3" lay-filter="test"></table>
-    <div id="demoDiv3" style="margin-top: -10px"></div>
-    <%--三年评价表--%>
-    <table id="demo4" lay-filter="test"></table>
-    <div id="demoDiv4" style="margin-top: -10px"></div>
+        <%
+            if (request.getAttribute("departmentId") != "n"){
+        %>
+            <%--转正评价表--%>
+            <table id="demo1" lay-filter="test"></table>
+            <div id="demoDiv1" style="margin-top: -10px"></div>
+            <%--一年评价表--%>
+            <table id="demo2" lay-filter="test"></table>
+            <div id="demoDiv2" style="margin-top: -10px"></div>
+            <%--两年评价表--%>
+            <table id="demo3" lay-filter="test"></table>
+            <div id="demoDiv3" style="margin-top: -10px"></div>
+            <%--三年评价表--%>
+            <table id="demo4" lay-filter="test"></table>
+            <div id="demoDiv4" style="margin-top: -10px"></div>
+        <%
+            }
+        %>
 </div>
 
 <script type="text/html" id="toolbarDemo0">
@@ -65,60 +70,46 @@
         <h2>学校评价</h2>
     </div>
 </script>
-<script type="text/html" id="toolbarDemo1">
-    <div align="center">
-        <h2>转正工作评价</h2>
-    </div>
-</script>
-<script type="text/html" id="toolbarDemo2">
-    <div align="center">
-        <h2>一年工作评价</h2>
-    </div>
-</script>
-<script type="text/html" id="toolbarDemo3">
-    <div align="center">
-        <h2>两年工作评价</h2>
-    </div>
-</script>
-<script type="text/html" id="toolbarDemo4">
-    <div align="center">
-        <h2>三年工作评价</h2>
-    </div>
-</script>
+    <%
+        if (request.getAttribute("departmentId") != "n"){
+    %>
+    <script type="text/html" id="toolbarDemo1">
+        <div align="center">
+            <h2>转正工作评价</h2>
+        </div>
+    </script>
+    <script type="text/html" id="toolbarDemo2">
+        <div align="center">
+            <h2>一年工作评价</h2>
+        </div>
+    </script>
+    <script type="text/html" id="toolbarDemo3">
+        <div align="center">
+            <h2>两年工作评价</h2>
+        </div>
+    </script>
+    <script type="text/html" id="toolbarDemo4">
+        <div align="center">
+            <h2>三年工作评价</h2>
+        </div>
+    </script>
+    <%
+        }
+    %>
 <script>
-
-    $(function () {
-        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.sassess.assess}</td></tr>")
-        $("#demoDiv0").append(obj)
-    });
-
-    $(function () {
-        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess1.assess}</td></tr>")
-        $("#demoDiv1").append(obj)
-    });
-
-    $(function () {
-        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess2.assess}</td></tr>")
-        $("#demoDiv2").append(obj)
-    });
-
-    $(function () {
-        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess3.assess}</td></tr>")
-        $("#demoDiv3").append(obj)
-    });
-
-    $(function () {
-        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess4.assess}</td></tr>")
-        $("#demoDiv4").append(obj)
-    });
-
     $(function () {
         var classId = ${requestScope.classId};
+        /*点击返回按钮*/
         $("#returnBtn").click(function () {
             location.href = "getStudentTracking?classId=" + classId
         });
     });
 
+    $(function () {
+        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.sassess.assess}</td></tr>")
+        $("#demoDiv0").append(obj)
+    });
+    /*学校评价*/
     layui.use(['table','layer'], function(){
         var table = layui.table,
             layer = layui.layer;
@@ -169,9 +160,13 @@
         })
     });
 
+    <%
+        if (request.getAttribute("departmentId") != "n"){
+    %>
+    /*转正评价*/
     layui.use(['table',"layer"], function(){
-        var table = layui.table;
-        var layer = layui.layer;
+        var table = layui.table,
+            layer = layui.layer;
         var $ = layui.jquery;
         var tState = 1;
         //学员id
@@ -217,10 +212,15 @@
             }
         })
     });
+    $(function () {
+        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess1.assess}</td></tr>")
+        $("#demoDiv1").append(obj)
+    });
 
+    /*一年评价*/
     layui.use(['table',"layer"], function(){
-        var table = layui.table;
-        var layer = layui.layer;
+        var table = layui.table,
+            layer = layui.layer;
         var $ = layui.jquery;
         var tState = 2;
         //学员id
@@ -266,10 +266,15 @@
             }
         })
     });
+    $(function () {
+        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess2.assess}</td></tr>")
+        $("#demoDiv2").append(obj)
+    });
 
+    /*两年评价*/
     layui.use(['table',"layer"], function(){
-        var table = layui.table;
-        var layer = layui.layer;
+        var table = layui.table,
+            layer = layui.layer;
         var $ = layui.jquery;
         var tState = 3;
         //学员id
@@ -315,10 +320,15 @@
             }
         })
     });
+    $(function () {
+        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess3.assess}</td></tr>")
+        $("#demoDiv3").append(obj)
+    });
 
+    /*三年评价*/
     layui.use(['table',"layer"], function(){
-        var table = layui.table;
-        var layer = layui.layer;
+        var table = layui.table,
+            layer = layui.layer;
         var $ = layui.jquery;
         var tState = 4;
         //学员id
@@ -364,6 +374,13 @@
             }
         })
     });
+    $(function () {
+        var obj =$("<table  class=\"layui-table\" style=\"width:1025\"><tr><td width='100px'>评价<br>(包括主要优点及缺点)</td><td height='180px'>${requestScope.massess4.assess}</td></tr>")
+        $("#demoDiv4").append(obj)
+    });
+    <%
+        }
+    %>
 </script>
 </body>
 </html>

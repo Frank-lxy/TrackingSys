@@ -13,6 +13,11 @@ public interface IDepartmentService {
      * @return 是否编辑成功
      */
     boolean editDepartment(Department department);
+
+    /**
+     * 获取全部的部门
+     * @return 部门列表
+     */
     List<Department> getAllDep();
 
     /**
@@ -61,6 +66,7 @@ public interface IDepartmentService {
 
     /**
      * 获取部门列表
+     * @param departmentName 部门名称
      * @return 部门列表
      */
     List<Department> getAllDepartment(String departmentName);
