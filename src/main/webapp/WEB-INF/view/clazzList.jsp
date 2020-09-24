@@ -63,12 +63,12 @@
         //第一个实例
         table.render({
             elem: '#demo'
-            ,height: 'full-32'
-            ,limit:8
-            ,limits:[8,10,15,20]
+            ,height: 'full-25'
+            ,page:true //开启分页
+            ,limit:10   //每页显示几条数据
+            ,limits:[10,15,20,25,30]
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllClazz' //数据接口
-            ,page: true //开启分页
             ,cols: [[ //表头
                 {type:'numbers',title:'序号', width:'15%', sort:true}
                 ,{field: 'courseId', title: '课程号', hide:true}

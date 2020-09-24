@@ -44,33 +44,56 @@ public class StudentController {
     @Autowired
     IMarkService markService;
 
+    /**
+     * 获取学员的详细追踪表信息
+     * @param studentId 学员id
+     * @param model 实体类
+     * @return allStudentDetailed页面
+     */
     @RequestMapping("/allStudentDetailed")
     public String allStudentDetailed(Integer studentId, Model model){
+        //根据学员id获取所在班期id，并存入请求
         Integer classId = studentService.getStudentById(studentId).getClassId();
         model.addAttribute("classId",classId);
-
+        //获取学校评价
+        Sassess sassess = sassessService.getSassessByStuId(studentId);
+        model.addAttribute("sassess",sassess);
+        //根据学员id获取部门id
         Integer departmentId = (Integer) studentService.getStudentDetailedById(studentId).get("departmentId");
-        model.addAttribute("departmentId",departmentId);
-
-        Massess massess1 = massessService.getMassess(studentId,1);
-        model.addAttribute("massess1",massess1);
-        Massess massess2 = massessService.getMassess(studentId,2);
-        model.addAttribute("massess2",massess2);
-        Massess massess3 = massessService.getMassess(studentId,3);
-        model.addAttribute("massess3",massess3);
-        Massess massess4 = massessService.getMassess(studentId,4);
-        model.addAttribute("massess4",massess4);
+        if (departmentId != null){
+            model.addAttribute("departmentId",departmentId);
+            //获取各阶段的经理评价
+            Massess massess1 = massessService.getMassess(studentId,1);
+            model.addAttribute("massess1",massess1);
+            Massess massess2 = massessService.getMassess(studentId,2);
+            model.addAttribute("massess2",massess2);
+            Massess massess3 = massessService.getMassess(studentId,3);
+            model.addAttribute("massess3",massess3);
+            Massess massess4 = massessService.getMassess(studentId,4);
+            model.addAttribute("massess4",massess4);
+        }else {
+            model.addAttribute("departmentId","n");
+        }
 
         model.addAttribute("studentId",studentId);
         return "allStudentDetailed";
     }
 
+    /**
+     * 根据班期id获取学员列表
+     * @param request 请求
+     * @param limit 每页显示的数据
+     * @param page 页数
+     * @return 学员列表json数组
+     */
     @RequestMapping("/getStudentListByClassId")
     @ResponseBody
-    public JSON getStudentListByClassId(HttpServletRequest request, Integer limit, Integer page){
+    public JSON getStudentListByClassId(HttpServletRequest request,Integer limit,Integer page){
+        //获取请求参数
         Integer classId = Integer.parseInt(request.getParameter("classId"));
         Integer managerId = Integer.parseInt(request.getParameter("managerId"));
-        String studentName =request.getParameter("studentName");
+        String studentName = request.getParameter("studentName");
+
         List<Map<String,Object>> studentList = new ArrayList<>();
         int count = (page - 1) * limit;
         //获取该班级的所有学员
@@ -100,11 +123,11 @@ public class StudentController {
             map.put("homeTown",student.getHomeTown());
 
             //添加学校课程评分
-            if(scores.size() == 0){
+            if(scores.size() == 0 || courseList.size() == 0){//没有学校评价或未选课
                 for (int i = 0;i < courseList.size(); i++){
                     map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
-            }else if (scores.size() == courseList.size()){
+            }else if (scores.size() == courseList.size()){//学校评价全部完成
                 for (int i = 0;i < scores.size(); i++){
                     if (scores.get(i).get("score") == null){
                         map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
@@ -112,7 +135,7 @@ public class StudentController {
                         map.put(courseList.get(i).get("courseId").toString(),scores.get(i).get("score"));
                     }
                 }
-            }else {
+            }else {//学校评价部分完成
                 for (int i = 0;i < scores.size(); i++){
                     if (scores.get(i).get("score") == null){
                         map.put(courseList.get(i).get("courseId").toString(),"<div style=\"color:#9c9c9c\">待评分</div>");
@@ -126,18 +149,18 @@ public class StudentController {
             }
 
             //添加学校整体评价评分
-            if (sassess == null){
+            if (sassess == null){//学校整体评价评分未评分
                 map.put("sevaluate","<div style=\"color:#9c9c9c\">待评分</div>");
-            }else {
+            }else {//学校整体评价评分已评分
                 map.put("sevaluate",sassess.getEvaluate());
             }
 
             //添加项目经理整体评价评分
-            if(massesses.size() == 0){
+            if(massesses.size() == 0 || tStateList.size() == 0){//未开始项目经理评分或未入职
                 for (int i = 0;i < tStateList.size(); i++){
                     map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
                 }
-            }else if (massesses.size() == tStateList.size()){
+            }else if (massesses.size() == tStateList.size()){//完成所有项目经理评分
                 for (int i = 0;i < massesses.size(); i++){
                     if (massesses.get(i).getEvaluate() == null){
                         map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
@@ -145,7 +168,7 @@ public class StudentController {
                         map.put("mevaluate" + (i + 1),massesses.get(i).getEvaluate());
                     }
                 }
-            }else {
+            }else {//完成部分项目经理评分
                 for (int i = 0;i < massesses.size(); i++){
                     if (massesses.get(i).getEvaluate() == null){
                         map.put("mevaluate" + (i + 1),"<div style=\"color:#9c9c9c\">待评分</div>");
@@ -172,6 +195,11 @@ public class StudentController {
         return jsonObject;
     }
 
+    /**
+     * 根据班期id获取课程列表
+     * @param classId 班期id
+     * @return 课程列表
+     */
     @RequestMapping(value = "/getCourseByClassId")
     @ResponseBody
     public List<Map<String, Object>> getCourseByClassId(Integer classId){
@@ -180,24 +208,13 @@ public class StudentController {
         return list;
     }
 
-    @RequestMapping("/allDetailed")
-    public String allDetailed(HttpServletRequest request,Integer studentId, Model model){
-        Massess massess1 = massessService.getMassess(studentId,1);
-        model.addAttribute("massess1",massess1);
-        Massess massess2 = massessService.getMassess(studentId,2);
-        model.addAttribute("massess2",massess2);
-        Massess massess3 = massessService.getMassess(studentId,3);
-        model.addAttribute("massess3",massess3);
-        Massess massess4 = massessService.getMassess(studentId,4);
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        Manager manager = markService.getDepatermentId(user.getUserId());
-        model.addAttribute("departmentId",manager.getDepartmentId());
-        model.addAttribute("massess4",massess4);
-        model.addAttribute("studentId",studentId);
-        return "allDetailed";
-    }
-
+    /**
+     * 查询并显示所有学员的评分信息
+     * @param request 请求
+     * @param model 实体类
+     * @param classId 班期id
+     * @return studentTracking页面
+     */
     @RequestMapping(value = "/getStudentTracking",produces = "text/html;charset=utf-8")
     public String getStudentTracking(HttpServletRequest request,Model model,Integer classId){
         //获取各个下拉列表的值，并存入session
@@ -218,7 +235,6 @@ public class StudentController {
             model.addAttribute("managerId",0);
         }
 
-//        if (request.getAttribute("classId") != null&&request.getAttribute("classId")!= " "){
         if (classId != null){
             model.addAttribute("classId",classId);
         }else {
@@ -233,6 +249,11 @@ public class StudentController {
         return "studentTracking";
     }
 
+    /**
+     * 编辑学员
+     * @param student 要编辑的学员
+     * @return 编辑后的提示信息
+     */
     @RequestMapping(value = "/editStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStudent(Student student){
@@ -244,6 +265,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * 删除文件
+     * @param path 文件路径
+     * @param request 请求
+     * @return 删除提示
+     */
     @RequestMapping(value = "/delFile",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delFile(String path,HttpServletRequest request){
@@ -262,6 +289,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * 根据学员id获取学员信息
+     * @param studentId 学员id
+     * @param model 实体类
+     * @return 编辑学员页面
+     */
     @RequestMapping(value = "/getStudentById",produces = "text/html;charset=utf-8")
     public String getStudentById(Integer studentId, Model model){
         //根据学员编号获取学员基本信息
@@ -273,6 +306,11 @@ public class StudentController {
         return "editStudent";
     }
 
+    /**
+     * 新增学员
+     * @param student 学员
+     * @return 新增提示信息
+     */
     @RequestMapping(value = "/addStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String addStudent(Student student){
@@ -285,6 +323,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * 上传文件
+     * @param multipartFile 上传的文件
+     * @param request 请求
+     * @return 上传后的文件路径
+     */
     @RequestMapping("/uploadFile")
     @ResponseBody
     public String uploadFile(@RequestParam("photo") MultipartFile multipartFile, HttpServletRequest request){
@@ -313,11 +357,20 @@ public class StudentController {
         return "files/" + newName;
     }
 
+    /**
+     * 获取新增学员页面
+     * @return 新增学员页面
+     */
     @RequestMapping("getStudentAdd")
     public String getStudentAdd(){
         return "addStudent";
     }
 
+    /**
+     * 根据学员id删除学员
+     * @param studentId 学员id
+     * @return 删除后的提示信息
+     */
     @RequestMapping(value = "/deleteStudentById",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String deleteStudentById(Integer studentId){
@@ -330,6 +383,11 @@ public class StudentController {
         }
     }
 
+    /**
+     * 批量删除学员
+     * @param studentIds 学员id字符串
+     * @return 批量删除后的提示信息
+     */
     @RequestMapping(value = "deleteStudentBatch",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String deleteStudentBatch(String studentIds){
@@ -342,6 +400,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * 根据学员id获取学员详细信息并返回学员详细信息页面
+     * @param studentId 学员id
+     * @param model 实体类
+     * @return 学员详细信息页面
+     */
     @RequestMapping(value = "/getStudentDetailedById",produces = "text/html;charset=utf-8")
     public String getStudentDetailedById(Integer studentId, Model model){
         //根据学员id获取学员详细信息
@@ -350,9 +414,14 @@ public class StudentController {
         return "studentDetailed";
     }
 
+    /**
+     * 获取学员列表
+     * @param request 请求
+     * @return 学员列表
+     */
     @RequestMapping(value = "/getAllStudent",produces = "application/json;charset=utf-8")
     @ResponseBody
-    public JSON getAllStudent(HttpServletRequest request, HttpSession session){
+    public JSON getAllStudent(HttpServletRequest request){
         //过滤条件
         String studentName = request.getParameter("studentName");
         String departmentId = request.getParameter("departmentId");
@@ -378,21 +447,38 @@ public class StudentController {
         return jsonObject;
     }
 
+    /**
+     * 获取学员列表页面
+     * @return 学员列表页面
+     */
     @RequestMapping("/getStudentList")
     public String getStudentList(){
         return "studentList";
     }
 
 
+    /**
+     * 教师端显示学员列表
+     * @param model 实体类
+     * @return 教师端学员列表
+     */
     @RequestMapping("/tStudentList")
     public String tStudentList(Model model){
+        //获取下拉列表内容，并存入session中
         List<Department> departmentList = departmentService.getAllDepartment(null);
         List<Job> jobList = jobService.getAllJob(null);
+
         model.addAttribute("departmentList",departmentList);
         model.addAttribute("jobList",jobList);
         return "tStudentList";
     }
 
+    /**
+     * 根据讲师id获取学员列表
+     * @param request 请求
+     * @param session 会话
+     * @return 学员列表
+     */
     @RequestMapping(value = "/getAllStudentByTid",produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getAllStudentByTid(HttpServletRequest request, HttpSession session){
@@ -426,11 +512,23 @@ public class StudentController {
     }
 
 
+    /**
+     * 项目经理端显示学员信息
+     * @param request 请求
+     * @param model 实体类
+     * @return 学员列表
+     */
     @RequestMapping("/mStudentList")
     public String mStudentList(HttpServletRequest request,Model model){
+        //获取下拉列表内容，并存入session
         List<Clazz> clazzList = studentService.getClazzList();
         List<User> managerList = studentService.getManagerList();
         List<Job> jobList = jobService.getAllJob(null);
+
+        model.addAttribute("clazzList",clazzList);
+        model.addAttribute("managerList",managerList);
+        model.addAttribute("jobList",jobList);
+        //获取用户，并根据用户id获取经理id
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         Manager manager = markService.getDepatermentId(user.getUserId());
@@ -441,5 +539,31 @@ public class StudentController {
         return "mStudentList";
     }
 
-
+    /**
+     * 获取经理端学员跟踪表
+     * @param request 请求
+     * @param studentId 学员id
+     * @param model 实体类
+     * @return 经理端学员跟踪表
+     */
+    @RequestMapping("/allDetailed")
+    public String allDetailed(HttpServletRequest request,Integer studentId, Model model){
+        //获取经理评价信息并存入请求中
+        Massess massess1 = massessService.getMassess(studentId,1);
+        model.addAttribute("massess1",massess1);
+        Massess massess2 = massessService.getMassess(studentId,2);
+        model.addAttribute("massess2",massess2);
+        Massess massess3 = massessService.getMassess(studentId,3);
+        model.addAttribute("massess3",massess3);
+        Massess massess4 = massessService.getMassess(studentId,4);
+        model.addAttribute("massess4",massess4);
+        //获取用户
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        //根据用户id获取经理id
+        Manager manager = markService.getDepatermentId(user.getUserId());
+        model.addAttribute("departmentId",manager.getDepartmentId());
+        model.addAttribute("studentId",studentId);
+        return "allDetailed";
+    }
 }

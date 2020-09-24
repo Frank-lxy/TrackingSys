@@ -69,6 +69,8 @@
     layui.use(['laydate','form'], function(){
         var $ = layui.jquery
         ,oldPassword = ${sessionScope.user.password}
+        //表单验证
+        //验证输入的旧密码是否正确
         $("#oldPwd").blur(function () {
             $(this).prop("class","layui-input");//每次触发时先清空一下red类选择器
             $("#oldPwdDiv").html("");//清空div
@@ -81,6 +83,7 @@
                 $("#oldPwdDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>旧密码输入错误</span>")
             }
         })
+        //验证输入的新密码是否符合规范
         $("#pwd").blur(function () {
             $(this).prop("class","layui-input");//每次触发时先清空一下red类选择器
             $("#pwdDiv").html("");//清空div
@@ -94,6 +97,7 @@
                 $("#rePwdDiv").html("");//清空div
             }
         });
+        //验证确认密码是否符合规范，及是否和第一次输入的密码一致
         $("#rePwd").blur(function () {
             $(this).prop("class","layui-input ");//每次触发时先清空一下red类选择器
             $("#rePwdDiv").html("");//清空div
@@ -106,6 +110,7 @@
                 $("#rePwdDiv").html("<i class=\"layui-icon layui-icon-face-cry\" style=\"font-size: 18px; color: red;\"></i> <span style='color: red'>两次密码输入不一致</span>")
             }
         });
+        //提交的时候，各个输入框的内容是否符合规范
         $("#editPwd").click(function () {
             if ($("#pwd").val()!='' && $("#rePwd").val()!=''&& $("#oldPwd").val() != '' && $("#pwd").val() == $("#rePwd").val() && oldPassword == $("#oldPwd").val()){
                 $.ajax({
@@ -161,7 +166,7 @@
     });
     //关闭当前层
     var close = function () {
-        parent.location.reload();//刷新页面
+        parent.location.reload();
     }
 </script>
 </body>

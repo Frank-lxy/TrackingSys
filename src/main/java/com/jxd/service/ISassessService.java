@@ -11,8 +11,9 @@ public interface ISassessService {
     /**
      * 分页查询评价信息
      * @param studentName 学生姓名
-     * @param classId 班级编号
-     * @param count 跳过几条数据
+     * @param userName 用户名
+     * @param classId 班级id
+     * @param count 选择几条数据
      * @param page 选择几条数据
      * @return 评价信息集合
      */
@@ -41,21 +42,24 @@ public interface ISassessService {
 
     /**
      * 查询全部评价信息
-     * @return
+     * @param studentName 学生姓名
+     * @param userName 用户名
+     * @param classId 班级id
+     * @return 评价集合
      */
     List<Map<String,Object>> getAllAssess(String studentName, String userName, Integer classId);
 
     /**
      * 根据学生id查找评价
-     * @param studentId
-     * @return
+     * @param studentId 学生id
+     * @return 评价对象
      */
     Sassess getSassessByStuId(Integer studentId);
 
     /**
      * 通过用户id得到用户
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 用户对象
      */
     User getUserById(Integer userId);
 }

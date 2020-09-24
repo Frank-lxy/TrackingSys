@@ -46,7 +46,6 @@
         <div class="layui-input-inline">
             <button class="layui-btn layui-btn-sm"  lay-event="query">查询</button>
             <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-<%--            <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>--%>
         </div>
     </div>
 
@@ -144,14 +143,15 @@
                     }
 
                     break;
-            };
+            }
         });
+
         table.on('tool(test)',function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
             if(layEvent === 'modify'){ //编辑
-                var userId=data.userId;
+                var userId = data.userId;
                 layer.confirm('真的重置么', function(index){
                     $.ajax({
                         url:"/inituser",
@@ -165,12 +165,10 @@
                             layer.msg('重置失败',{icon:2});
                         }
                     })
-
                 });
             }
         })
     });
-
 </script>
 </body>
 </html>

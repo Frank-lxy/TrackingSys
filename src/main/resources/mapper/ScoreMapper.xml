@@ -4,40 +4,43 @@
 <!-- namespace 目前可以自定义要唯一，将来面向接口编程时对应dao接口，一 接口，一
 个 个mapper 相当于一个dao 接口的实现类 -->
 <mapper namespace="com.jxd.dao.IScoreDao">
-    <!--boolean editScore(Score score);-->
+    <!--修改成绩-->
     <update id="editScore">
         update score set score=#{score}
         where studentId=#{studentId} and courseId=#{courseId}
     </update>
-    <!--boolean addScore(Score score);-->
+
+    <!--添加成绩-->
     <insert id="addScore" >
         insert into score(studentId,courseId,score)
         values (#{studentId},#{courseId},#{score})
     </insert>
-    <!--Score getScore(Score score);-->
+
+    <!--获取一条成绩数据-->
     <select id="getScore" resultType="Score">
         select studentId,courseId,score from score
         where studentId=#{studentId} and courseId=#{courseId}
     </select>
+
+    <!--通过老师姓名获得老师班期-->
     <select id="getClazzListByTchName" resultType="Clazz">
     select classId,clazz,teacherName from clazz where teacherName=#{teacherName} order by classId desc
     </select>
 
-    <!--List<Course> getAllCourseByClassId(Integer classId);-->
+    <!--通过班期id获取本班期的所有课程-->
     <select id="getAllCourseByClassId" resultType="Map">
         select cs.courseId courseId,cs.classId classId,co.courseName courseName
         from course co right join coursesel cs on co.courseId = cs.courseId  where cs.classId=#{classId}
     </select>
 
-    <!--  public List<Map<String, Object>> getScoreByStuId(Integer studentId,Integer classId)-->
+    <!--根据学生id获取该学生的所有成绩信息-->
     <select id="getScoreByStuId" resultType="Map">
         select co.courseId courseId,co.courseName courseName,s.score score
         from ((course co left join coursesel cs on co.courseId = cs.courseId ) left join score s on co.courseId=s.courseId)
         where s.studentId=#{studentId} and cs.classId=#{classId}
     </select>
 
-    <!--学生-->
-    <!--List<Student> getStudentPaging(Integer count, Integer pageSize, String studentName);-->
+    <!--分页获取学生-->
     <select id="getStudentPaging" resultType="Student">
         <include refid="BaseSql"></include>
         <where>
@@ -52,7 +55,7 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<Student> getAllStudent();-->
+    <!--获取全部学生-->
     <select id="getAllStudent" resultType="Student">
         <include refid="BaseSql"></include>
         <where>

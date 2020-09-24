@@ -16,7 +16,6 @@ public interface IScoreDao {
      * @param classId 课程id
      * @return 课程集合
      */
-
     List<Map<String,Object>> getAllCourseByClassId(Integer classId);
 
     /**
@@ -41,7 +40,7 @@ public interface IScoreDao {
      * @param count 跳过的数量
      * @param pageSize 取得数据的数量
      * @param studentName 学生姓名
-     * @return
+     * @return 学生集合
      */
     List<Student> getStudentPaging(@Param("classId") Integer classId,@Param("count") Integer count,@Param("pageSize") Integer pageSize, @Param("studentName") String studentName);
 

@@ -18,10 +18,10 @@
             height: 50px;
         }
         .layui-table img {
-            max-width: 170px;
+            max-width: 180px;
         }
         img{
-            width: 160px;
+            width: 170px;
             height: 223px;
         }
     </style>

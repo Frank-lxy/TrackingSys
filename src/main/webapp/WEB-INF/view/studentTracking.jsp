@@ -77,8 +77,7 @@
         var head =[];
         //获取表格数据
         $.ajax({
-            url:"/getCourseByClassId",
-            type:"get",
+            url: "getCourseByClassId",
             data:{
                 classId:classId
             },
@@ -91,7 +90,7 @@
                 table.render({
                     elem: '#demo'
                     ,toolbar: '#toolbarDemo'    //头工具栏
-                    ,height: 'full-102'
+                    ,height: 'full-34'
                     ,url: '/getStudentListByClassId?classId=' + classId + '&managerId=' + managerId      //数据接口
                     ,page: true  //分页
                     ,limit: 8   //每页显示几条数据
@@ -99,7 +98,7 @@
                     ,cols: [[ //表头
                         {type:'numbers',title:'序号',rowspan:2}
                         ,{field: 'studentId', title: '学生编号', hide:true, rowspan:2}
-                        ,{field: 'studentName', title: '姓名', align:"center", rowspan:2, style:'color: #1E9FFF;'}
+                        ,{field: 'studentName', title: '姓名', align:"center", rowspan:2, style:'color: #009688;'}
                         ,{field: 'sex', title: '性别',align:"center", rowspan:2,width:40}
                         ,{field: 'graduate', title: '学校', align:"center", rowspan:2,width:120}
                         ,{field: 'homeTown', title: '籍贯', align:"center", rowspan:2,width:110}
@@ -122,14 +121,13 @@
             if (obj.event == 'query'){//点击查询按钮
                 //获取当前选中的下拉菜单的value值
                 var classId = $("#classId option:selected").val();
-                var studentName=$("#studentName").val();
+                var studentName = $("#studentName").val();
                 var managerId = ${requestScope.managerId};
                 $.ajax({
                     url:"/getCourseByClassId",
                     type:"get",
                     data:{
-                        classId:classId,
-                        managerId:managerId
+                        classId:classId
                     },
                     success:function (data) {
                         //将表头二级菜单内容置空
@@ -142,9 +140,9 @@
                         var tableIns = table.render({
                             elem: '#demo'
                             ,toolbar: '#toolbarDemo'    //头工具栏
-                            ,height: 'full-32'
-                            ,url: '/getStudentListByClassId'       //数据接口
-                            ,where:{ //where代表过滤条件
+                            ,height: 'full-34'
+                            ,url: '/getStudentListByClassId'        //数据接口
+                            ,where: { //where代表过滤条件
                                 classId:classId,
                                 studentName:studentName,
                                 managerId:managerId
@@ -154,6 +152,7 @@
                             ,limits: [8,16,24,32]
                             ,cols: []
                         });
+
                         //重载表格数据
                         tableIns.reload({//demo对应table的id
                             page:{
@@ -162,7 +161,7 @@
                             cols:[[ //表头
                                 {type:'numbers',title:'序号',rowspan:2}
                                 ,{field: 'studentId', title: '学生编号', hide:true, rowspan:2}
-                                ,{field: 'studentName', title: '姓名', align:"center", rowspan:2, style:'color: #1E9FFF;'}
+                                ,{field: 'studentName', title: '姓名', align:"center", rowspan:2, style:'color: #009688;'}
                                 ,{field: 'sex', title: '性别',align:"center", rowspan:2,width:40}
                                 ,{field: 'graduate', title: '学校', align:"center", rowspan:2,width:120}
                                 ,{field: 'homeTown', title: '籍贯', align:"center", rowspan:2,width:110}

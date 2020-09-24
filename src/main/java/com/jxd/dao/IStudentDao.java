@@ -23,9 +23,11 @@ public interface IStudentDao {
 
     /**
      * 根据班期id分页查询学员列表
+     * @param classId 班级id
+     * @param managerId 项目经理id
+     * @param studentName 学员姓名
      * @param count 跳过的条数
      * @param limit 每页显示条目数
-     * @param classId 班级id
      * @return 学员列表
      */
     List<Student> getStudentListByClassIdPaging(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName") String studentName,@Param("count") Integer count,@Param("limit") Integer limit);
@@ -33,6 +35,8 @@ public interface IStudentDao {
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
+     * @param managerId 项目经理id
+     * @param studentName 学员姓名
      * @return 学员列表
      */
     List<Student> getStudentListByClassId(@Param("classId") Integer classId,@Param("managerId") Integer managerId,@Param("studentName")String studentName);
@@ -56,12 +60,19 @@ public interface IStudentDao {
      * @param count 跳过的数据
      * @param pageSize 每页显示条数
      * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
+     * @param teacherName 讲师名称
      * @return 学员列表
      */
     List<Map<String,Object>> getAllStudentByTidPaging(@Param("count") Integer count, @Param("pageSize") Integer pageSize, @Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId,@Param("teacherName") String teacherName);
 
     /**
      * 获取学员列表
+     * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
+     * @param teacherName 讲师名称
      * @return 学员列表
      */
     List<Student> getAllStudentByTid(@Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId,@Param("teacherName") String teacherName);
@@ -132,12 +143,17 @@ public interface IStudentDao {
      * @param count 跳过的数据
      * @param pageSize 每页显示条数
      * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
      * @return 学员列表
      */
     List<Map<String,Object>> getStudentPaging(@Param("count") Integer count, @Param("pageSize") Integer pageSize, @Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId);
 
     /**
      * 获取学员列表
+     * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
      * @return 学员列表
      */
     List<Student> getAllStudent(@Param("studentName") String studentName,@Param("departmentId") String departmentId,@Param("jobId") String jobId);
@@ -155,5 +171,4 @@ public interface IStudentDao {
      * @return map集合
      */
     Map<String, Object> getStudentInfoById(Integer studentId);
-
 }

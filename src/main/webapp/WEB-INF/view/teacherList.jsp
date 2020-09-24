@@ -79,8 +79,8 @@
                 ,{type:'numbers',title:'序号', width:'15%', sort:true}
                 ,{field: 'teacherId', title: '教师编号', hide:true}
                 ,{field: 'teacherName', title: '教师姓名', width:'20%',align:"center"}
-                ,{field: 'phoneNumber', title: '手机号', width:'20%',align:"center"}
-                ,{field: 'sex', title: '性别',align:"center", width:'20%', templet: '#sexTpl', sort:true}
+                ,{field: 'phoneNumber', title: '手机号',align:"center"}
+                ,{field: 'sex', title: '性别',align:"center", templet: '#sexTpl', sort:true}
                 ,{title:'操作', toolbar:'#barDemo',align:'center', width:180, style:'background-color: #f8f8f8;'}
             ]]
         });
@@ -107,7 +107,7 @@
                         title:"新增教师",
                         content:'addTeacher',
                         shadeClose:true,//点击遮罩，关闭弹框
-                        area:['650px','490px']
+                        area:['650px','430px']
                     });
                     break;
                 case 'delete':
@@ -161,7 +161,7 @@
                     title: "编辑教师信息",
                     content: "editTeacher?teacherId=" + teacherId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area:['650px','490px'],
+                    area:['650px','420px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();
@@ -176,7 +176,7 @@
                     title: "教师详细信息",
                     content: "teacherDetail?teacherId=" + teacherId,
                     shadeClose: true,//点击遮罩，关闭弹框
-                    area:['650px','490px'],
+                    area:['650px','380px'],
                     end: function () {
                         //刷新当前页
                         $(".layui-laypage-btn").click();

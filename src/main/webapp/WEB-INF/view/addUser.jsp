@@ -15,14 +15,13 @@
 
 <body>
 <div style="display: flex; justify-content: center">
-    <div class="layui-form">
+    <div class="layui-form" style="padding-top: 10px">
         <div class="layui-inline">
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
                     <input type="text" name="userName" required lay-verify="required" placeholder="请输入姓名"
-                           autocomplete="off" class="layui-input" id="userName" auto-complete="new-password"
-                    >
+                           autocomplete="off" class="layui-input" id="userName" auto-complete="new-password">
                 </div>
             </div>
             <div class="layui-form-item">

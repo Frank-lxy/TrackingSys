@@ -18,7 +18,7 @@ public interface IManagerService {
      * @param page
      * @return
      */
-    List<Manager> getAllManagerByPage( Integer count, Integer page);
+    List<Manager> getAllManagerByPage(Integer count, Integer page);
     Manager getUserIdByManId(Integer managerId);
 
     /**
@@ -27,7 +27,7 @@ public interface IManagerService {
      * @param departmentName
      * @return
      */
-    List<Manager>getManagers( String managerName, String departmentName);
+    List<Manager>getManagers(String managerName, String departmentName);
 
     /**
      * 新增经理
@@ -42,7 +42,7 @@ public interface IManagerService {
      * @param userId
      * @return
      */
-    boolean addAManager(String managerName,Integer userId);
+    boolean addAManager(String managerName, Integer userId);
 
     /**
      * 通过id删除经理信息
@@ -63,7 +63,7 @@ public interface IManagerService {
      * @param manager
      * @return
      */
-    boolean updateManager( Manager manager);
+    boolean updateManager(Manager manager);
 
     /**
      * 把userId插入到新增的数据中
@@ -71,7 +71,7 @@ public interface IManagerService {
      * @param managerId
      * @return
      */
-    boolean updateUserId(Integer userId,Integer managerId);
+    boolean updateUserId(Integer userId, Integer managerId);
 
     /**
      * 获取最大的Id

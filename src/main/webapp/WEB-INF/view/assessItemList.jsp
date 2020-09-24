@@ -57,10 +57,10 @@
             elem: '#demo'
             ,toolbar: '#toolbarDemo'//添加工具栏
             ,url: '/getAllAssessItem' //数据接口
-            ,height: 'full-102'
+            ,height: 'full-25'
             ,page:true //开启分页
-            ,limit:8   //每页显示几条数据
-            ,limits:[8,10,15,20]
+            ,limit:10   //每页显示几条数据
+            ,limits:[10,15,20,25,30]
             ,cols: [[ //表头
                 {type:'numbers',title:'序号', width:'15%', sort:true}
                 ,{field: 'assessItemId', title: '评价项id', hide:true}
@@ -71,32 +71,39 @@
         //监听事件，监听lay-filter为test的元素的工具栏
         table.on('toolbar(test)', function(obj){
             switch(obj.event){
-                case 'query':
+                case 'query'://点击查询
+                    //获取过滤条件
                     var filter = $("#filter").val();
                     table.reload("demo",{
-                        where:{assessItemName:filter}, //where对应过滤条件
+                        where:{//where对应过滤条件
+                            assessItemName:filter
+                        },
                         page:{
                             curr: 1
                         }
                     });
+                    //保留过滤条件
                     $("#filter").val(filter);
                     break;
-                case 'add':
+                case 'add'://点击新增
                     layer.open({
-                        type:2,//弹出完整jsp，type=1弹出底层div
-                        title:"新增评价项",
+                        type:2, //弹出完整jsp，type=1弹出底层div
+                        title:"新增评价项",  //弹窗标题
                         content:'getAssessItemAdd',
-                        shadeClose:true,//点击遮罩，关闭弹框
-                        area:['400px','210px']
+                        shadeClose:true,    //点击遮罩，关闭弹框
+                        area:['400px','210px']  //弹窗大小
                     });
                     break;
             }
         });
-        //监听行工具事件
+
+        //监听表格的行工具事件
         table.on('tool(test)', function(obj){
+            //获取行数据
             var data = obj.data;
-            if(obj.event === 'del'){
+            if(obj.event === 'del'){//点击删除
                 layer.confirm('确定要删除吗？',{icon:2,title:'删除'} ,function(index){
+                    //获取该行的评分项id
                     var assessItemId = data.assessItemId;
                     $.ajax({
                         url:"deleteAssessItemById",
@@ -106,7 +113,7 @@
                         },
                         success:function (delMsg) {
                             layer.msg(delMsg);
-                            //重新加载表格
+                            //删除完成重新加载表格
                             table.reload("demo",function () {
                                 url:"getAllAssessItem"
                             })
@@ -116,8 +123,8 @@
                         }
                     })
                 });
-            } else if (obj.event === 'edit'){
-                //获取要编辑的编号
+            } else if (obj.event === 'edit'){//点击编辑
+                //获取要编辑的评分项编号
                 var assessItemId = data.assessItemId;
                 //根据编号获取信息
                 layer.open({

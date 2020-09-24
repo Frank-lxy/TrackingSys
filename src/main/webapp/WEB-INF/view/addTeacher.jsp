@@ -26,7 +26,7 @@
         }
 
         .layui-form-item .layui-input-inline {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .layui-form-select dl {

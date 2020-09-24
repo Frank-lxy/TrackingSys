@@ -28,16 +28,29 @@ public class SassessController {
     @Autowired
     IUserService userService;
 
+    /**
+     * 修改密码页面
+     * @return editPwd网页
+     */
     @RequestMapping("/editPwd")
     public String editPwd(){
         return "editPwd";
     }
 
+    /**
+     * 评价列表页面
+     * @return sassessList网页
+     */
     @RequestMapping("/sassessList")
     public String sassessList(){
         return "sassessList";
     }
 
+    /**
+     * 根据用户id修改密码
+     * @param user 用户对象
+     * @return 是否修改成功
+     */
     @RequestMapping(value = "/editPwdById",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String editPwdById(User user){
@@ -50,6 +63,15 @@ public class SassessController {
         }
     }
 
+    /**
+     * 分页获取评价
+     * @param studentName 学生姓名
+     * @param classId 班级id
+     * @param limit 跳过的数量
+     * @param page 获取数据的数量
+     * @param userId 用户id
+     * @return json数组
+     */
     @RequestMapping(value = "/getAssessByPage",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSONObject getAssessByPage(String studentName,Integer classId,Integer limit, Integer page,Integer userId){
@@ -72,6 +94,14 @@ public class SassessController {
         return jsonObject;
     }
 
+    /**
+     * 增加评价页面
+     * @param studentId 学生id
+     * @param classId 班级id
+     * @param studentName 班级姓名
+     * @param model 模型
+     * @return addSassess
+     */
     @RequestMapping("/sassess")
     public String sassessPage(Integer studentId,Integer classId,String studentName,Model model){
         //增加评价时需要传递的参数
@@ -82,6 +112,11 @@ public class SassessController {
         return "addSassess";
     }
 
+    /**
+     * 增加评价
+     * @param sassess 评价对象
+     * @return 是否评价成功
+     */
     @RequestMapping(value = "/addSassess",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String addSassess(Sassess sassess){
@@ -94,6 +129,13 @@ public class SassessController {
         }
     }
 
+    /**
+     * 修改评价
+     * @param saId 评价编号
+     * @param studentName 学生姓名
+     * @param model 模型
+     * @return editSassess
+     */
     @RequestMapping("/getSassessById")
     public String getSassessById(Integer saId, String studentName,Model model){
         //修改评价时得到原来的评价数据
@@ -103,6 +145,11 @@ public class SassessController {
         return "editSassess";
     }
 
+    /**
+     * 修改评价
+     * @param sassess 评价对象
+     * @return 是否修改成功
+     */
     @RequestMapping(value = "/editSassess",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String editSassess(Sassess sassess){

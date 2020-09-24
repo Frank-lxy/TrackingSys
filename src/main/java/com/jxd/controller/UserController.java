@@ -210,6 +210,19 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/updateAdmin", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String updateAdmin(String userId, String password) {
+        boolean isUpdate = false;
+        isUpdate = userService.updateAdmin(Integer.parseInt(userId), password);
+        if (isUpdate) {
+            return "修改成功";
+        } else {
+            return "修改失败";
+        }
+
+    }
+
     /**
      * 通过userId删除用户
      * @param userIds 用户id字符串

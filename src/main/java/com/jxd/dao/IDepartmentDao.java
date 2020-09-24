@@ -17,7 +17,7 @@ public interface IDepartmentDao {
 
     /**
      * 获取全部的部门
-     * @return
+     * @return 部门列表
      */
     List<Department> getAllDep();
     /**
@@ -66,6 +66,7 @@ public interface IDepartmentDao {
 
     /**
      * 获取部门列表
+     * @param departmentName 部门名称
      * @return 部门列表
      */
     List<Department> getAllDepartment(@Param("departmentName")String departmentName);

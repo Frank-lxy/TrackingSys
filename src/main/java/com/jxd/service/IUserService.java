@@ -5,12 +5,12 @@ import com.jxd.model.User;
 import java.util.List;
 
 public interface IUserService {
+
     /**
      * 获得登录用户
      * @param user 登录用户
      * @return 用户
      */
-
     User getUser(User user);
 
     /**

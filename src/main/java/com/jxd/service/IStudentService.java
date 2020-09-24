@@ -22,7 +22,11 @@ public interface IStudentService {
 
     /**
      * 根据班期id分页查询学员列表
-     * @param classId 班期id
+     * @param classId 班级id
+     * @param managerId 项目经理id
+     * @param studentName 学员姓名
+     * @param count 跳过的条数
+     * @param limit 每页显示条目数
      * @return 学员列表
      */
     List<Student> getStudentListByClassIdPaging(Integer classId,Integer managerId,String studentName,Integer count,Integer limit);
@@ -30,6 +34,8 @@ public interface IStudentService {
     /**
      * 根据班期id查询学员列表
      * @param classId 班期id
+     * @param managerId 项目经理id
+     * @param studentName 学员姓名
      * @return 学员列表
      */
     List<Student> getStudentListByClassId(Integer classId,Integer managerId,String studentName);
@@ -53,12 +59,19 @@ public interface IStudentService {
      * @param count 跳过的数据
      * @param pageSize 每页显示条数
      * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
+     * @param teacherName 讲师名称
      * @return 学员列表
      */
     List<Map<String,Object>> getAllStudentByTidPaging(Integer count, Integer pageSize,String studentName,String departmentId,String jobId,String teacherName);
 
     /**
      * 获取学员列表
+     * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
+     * @param teacherName 讲师名称
      * @return 学员列表
      */
     List<Student> getAllStudentByTid(String studentName, String departmentId,String jobId,String teacherName);
@@ -85,6 +98,12 @@ public interface IStudentService {
     Clazz getClazzById(Integer classId);
 
     /**
+     * 获取项目经理列表
+     * @return 项目经理
+     */
+    List<User> getManagerList();
+
+    /**
      * 新增学员
      * @param student 要新增的学员
      * @return 是否增加成功
@@ -96,12 +115,6 @@ public interface IStudentService {
      * @return 班期
      */
     List<Clazz> getClazzList();
-
-    /**
-     * 获取项目经理列表
-     * @return 项目经理
-     */
-    List<User> getManagerList();
 
     /**
      * 根据id删除学员
@@ -129,12 +142,17 @@ public interface IStudentService {
      * @param count 跳过的数据
      * @param pageSize 每页显示条数
      * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
      * @return 学员列表
      */
     List<Map<String,Object>> getStudentPaging(Integer count,Integer pageSize,String studentName,String departmentId,String jobId);
 
     /**
      * 获取学员列表
+     * @param studentName 学员名称
+     * @param departmentId 部门id
+     * @param jobId 职务id
      * @return 学员列表
      */
     List<Student> getAllStudent(String studentName,String departmentId,String jobId);

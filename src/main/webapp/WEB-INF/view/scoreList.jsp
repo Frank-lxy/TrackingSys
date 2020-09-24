@@ -38,7 +38,7 @@
     </div>
     <div align="right">
         <div class="layui-input-inline">
-            <input type="text" id="studentName" name="studentName" placeholder="请输入姓名" class="layui-input">
+            <input type="text" id="studentName" name="studentName" placeholder="请输入姓名" class="layui-input" autocomplete="off">
         </div>
 
         <div class="layui-input-inline">
@@ -55,16 +55,17 @@
     <a class="layui-btn  layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
 </script>
 <script>
-    layui.use(['table',"layer"], function(){
+    layui.use(['table',"layer","laypage"], function(){
         var table = layui.table
             ,layer = layui.layer
-            ,$ = layui.jquery;
+            ,$ = layui.jquery,
+            laypage = layui.laypage;
         //最新班期的id
         var classId=${requestScope.clazz.classId};
         //获取老师所教期次课程
             var head =[];
             $.ajax({
-                url:"getAllCourseByClassId",
+                url:"/getAllCourseByClassId",
                 type:"get",
                 data:{
                     classId:classId
@@ -142,20 +143,23 @@
                 case 'query':
                     var studentName=$("#studentName").val();
                     var classId = $("#clazzId option:selected").val();
-
-                    var head =[];
                     $.ajax({
-                        url:"getAllCourseByClassId",
+                        url:"/getAllCourseByClassId",
                         type:"get",
                         data:{
                             classId:classId
                         },
                         success:function (data) {
+                            head =[];
                             $.each(data,function (index,value) {
                                 head.push( {field:value.courseId, title:value.courseName,align:"center",edit: 'text'})
                             })
-                            var tavleIns = table.render({
-                                elem: '#demo'
+                            var tableIns = table.render({
+                                where:{
+                                    classId:classId,
+                                    studentName:studentName,
+                                }//where代表过滤条件
+                                ,elem: '#demo'
                                 ,toolbar: '#toolbarDemo'
                                 ,height: 'full-32'
                                 ,url: '/getAllScoreInfo?classId='+classId//数据接口
@@ -166,10 +170,7 @@
 
                             });
 
-                            table.reload("demo",{//demo对应table的id
-                                where:{
-                                    studentName:studentName,
-                                },//where代表过滤条件
+                            tableIns.reload({//demo对应table的id
                                 page:{
                                     curr:1
                                 },cols: [[
@@ -183,8 +184,6 @@
                                     ,{title:'操作',align:'center', toolbar: '#barDemo',width:90,rowspan:2}
                                 ],head]
                             });
-
-
                             $("#studentName").val(studentName);//在页面上保留查询条件
                             $("#clazzId option").each(function() { // 遍历所有option，如果option内容为classId，就设置起selected属性为true
                                 if($(this).val()==classId){
@@ -195,6 +194,13 @@
                             layer.msg("执行失败")
                         }
                     })
+                    //保留查询条件
+                    $("#studentName").val(studentName);//在页面上保留查询条件
+                    $("#clazzId option").each(function() { // 遍历所有option，如果option内容为classId，就设置起selected属性为true
+                        if($(this).val()==classId){
+                            $(this).prop("selected",true);
+                        }});
+
                     break;
             };
         });

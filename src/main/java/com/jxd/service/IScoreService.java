@@ -18,29 +18,33 @@ public interface IScoreService {
 
     /**
      * 查询全部学生
-     * @return
+     * @param classId 班级id
+     * @param studentName 学生姓名
+     * @return 学生集合
      */
     List<Student> getAllStudent(Integer classId,String studentName);
 
     /**
      * 分页查询学生
+     * @param classId 班级id
      * @param count 跳过的数量
      * @param pageSize 取得数据数量
      * @param studentName 学生姓名
-     * @return
+     * @return 学生集合
      */
     List<Student> getStudentPaging(Integer classId,Integer count, Integer pageSize, String studentName);
 
     /**
      * 获取某位学生的全部成绩
      * @param studentId 学生id
-     * @return 成绩集合
+     * @param classId 班期id
+     * @return 成绩信息集合
      */
     List<Map<String,Object>> getScoreByStuId(Integer studentId,Integer classId);
 
     /**
-     * 根据教师id查找所带班期
-     * @param teacherName 教师id
+     * 根据教师姓名查找所带班期
+     * @param teacherName 教师姓名
      * @return 班期集合
      */
     List<Clazz> getClazzListByTchName(String teacherName);
@@ -61,8 +65,8 @@ public interface IScoreService {
 
     /**
      * 修改成绩
-     * @param score
-     * @return
+     * @param score 成绩对象
+     * @return 是否修改成功
      */
     boolean editScore(Score score);
 

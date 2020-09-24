@@ -6,39 +6,38 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface IUserDao {
+
     /**
      * 获得登录用户
      * @param user 登录用户
      * @return 用户
      */
-
     User getUser(User user);
+
 
     /**
      * 通过userName和权限进行查询
-     * @param userName 用户名
+     * @param userName 用户名称
      * @param role 权限
-     * @return
+     * @return 用户列表
      */
     List<User> getUsers(@Param("userName")String userName,@Param("role")Integer role);
 
     /**
      * 查询出过滤后的数据并分页
-     * @param userName 用户名
+     * @param userName 用户名称
      * @param role 权限
-     * @param pageIndex 每页条数
-     * @param pageSize 跳过几页
-     * @return
+     * @param pageIndex
+     * @param pageSize
+     * @return 用户列表
      */
     List<User> getUsersByPage(@Param("userName")String userName,@Param("role")Integer role,@Param("pageIndex") Integer pageIndex,@Param("pageSize") Integer pageSize);
 
     /**
      * 获取全部的用户
-     * @return
+     * @return 用户列表
      */
     List<User> getAllUser();
-
-    List<User> getUsers();
 
     /**
      * 获取全部的教师
@@ -96,7 +95,9 @@ public interface IUserDao {
      * @return
      */
     boolean updateUserPwd(@Param("userId")Integer userId, @Param("password")String password);
+
     boolean updateUserName(@Param("userName")String userName , @Param("userId")Integer userId);
+
     /**
      * 新增用户信息
      * @param userName 用户名

@@ -3,36 +3,36 @@
 <!-- namespace目前可以自定义要唯一，将来面向接口编程时对应dao接口，一个mapper相当于一个dao接口的实现类 -->
 <mapper namespace="com.jxd.dao.IAssessItemDao">
 
-    <!--boolean editAssessItem(AssessItem assessItem);-->
+    <!--boolean editAssessItem(AssessItem assessItem);编辑评分项-->
     <update id="editAssessItem">
         update assessitem set assessItemName=#{assessItemName}
         where assessItemId=#{assessItemId}
     </update>
 
-    <!--AssessItem getAssessItemById(Integer assessItemId);-->
+    <!--AssessItem getAssessItemById(Integer assessItemId);根据评分项id查询评分项-->
     <select id="getAssessItemById" resultType="AssessItem">
         select assessItemId,assessItemName
         from assessitem where assessItemId=#{assessItemId}
     </select>
 
-    <!--boolean addAssessItem(AssessItem assessItem);-->
+    <!--boolean addAssessItem(AssessItem assessItem);新增评分项-->
     <insert id="addAssessItem">
         insert into assessitem(assessItemName)
         values (#{assessItemName})
     </insert>
 
-    <!--AssessItem getAssessItemByName(String assessItemName);-->
+    <!--AssessItem getAssessItemByName(String assessItemName);根据评分项名称查询评分项-->
     <select id="getAssessItemByName" resultType="AssessItem">
         <include refid="BaseSql"></include>
         where assessItemName=#{assessItemName}
     </select>
 
-    <!--boolean deleteAssessItemById(Integer assessItemId);-->
+    <!--boolean deleteAssessItemById(Integer assessItemId);根据评分项id删除评分项-->
     <delete id="deleteAssessItemById">
         delete from assessitem where assessItemId=#{assessItemId}
     </delete>
 
-    <!--List<AssessItem> getAssessItemPaging(Integer count, Integer pageSize,String assessItemName);-->
+    <!--List<AssessItem> getAssessItemPaging(Integer count, Integer pageSize,String assessItemName);分页查询评分项列表-->
     <select id="getAssessItemPaging" resultType="AssessItem">
         <include refid="BaseSql"></include>
         <where>
@@ -44,7 +44,7 @@
         limit #{count},#{pageSize}
     </select>
 
-    <!--List<AssessItem> getAllAssessItem(String assessItemName);-->
+    <!--List<AssessItem> getAllAssessItem(String assessItemName);查询评分项列表-->
     <select id="getAllAssessItem" resultType="AssessItem">
         <include refid="BaseSql"></include>
         <where>

@@ -6,22 +6,25 @@
     <sql id="BaseSql">
         select saId,studentId,classId,state,evaluate,assess from sassess
     </sql>
-    <!--User getUserById(Integer userId);-->
+
+    <!--通过用户id获取用户-->
     <select id="getUserById" resultType="User">
         select userName from user where userId = #{userId}
     </select>
-   <!-- Sassess getSassessByStuId(Integer studentId);-->
+
+   <!-- 根据学生id获取评价-->
     <select id="getSassessByStuId" resultType="Sassess">
         <include refid="BaseSql"></include>
         where studentId=#{studentId}
     </select>
-    <!--Sassess getSassessById(Integer sassessId);-->
+
+    <!--根据评价id获取评价-->
     <select id="getSassessById" resultType="Sassess">
         <include refid="BaseSql"></include>
         where saId=#{saId}
     </select>
 
-    <!--public List<Map<String, Object>> getAllAssess()-->
+    <!--获取评价表中所有评价-->
     <select id="getAllAssess" resultType="Map">
         select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,c.teacherName teacherName,sa.saId saId,sa.state state,sa.evaluate evaluate,sa.assess assess
         from (student st left join clazz c on st.classId = c.classId)
@@ -39,7 +42,8 @@
             </if>
         </where>
     </select>
-    <!--  List<Map<String,Object>> getAssessByPage(String studentName, Integer classId, Integer count, Integer page);-->
+
+    <!--分页获取评价表中的评价-->
     <select id="getAssessByPage" resultType="Map">
         select st.studentId studentId,st.studentName studentName,c.classId classId,c.clazz clazz,c.teacherName teacherName,sa.saId saId,sa.state state,sa.evaluate evaluate,sa.assess assess
         from (student st left join clazz c on st.classId = c.classId)
@@ -58,13 +62,14 @@
         </where>
         limit #{count},#{page}
     </select>
-   <!-- boolean addSassess(Sassess sassess);-->
+
+   <!--增加评价-->
     <insert id="addSassess">
         insert into sassess(studentId,classId,state,evaluate,assess)
         values (#{studentId},#{classId},1,#{evaluate},#{assess})
     </insert>
 
-   <!-- public boolean editSassess(Sassess sassess)-->
+   <!-- 修改评价-->
     <update id="editSassess">
         update sassess
         set evaluate=#{evaluate},assess=#{assess}
