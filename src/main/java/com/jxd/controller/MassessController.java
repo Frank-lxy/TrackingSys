@@ -34,27 +34,56 @@ public class MassessController {
     @Autowired
     IMarkService markService;
 
+    /**
+     * 评价的跳转页面
+     * @param model 模板
+     * @return 转正时期的评价的页面
+     */
     @RequestMapping("/massessList")
     public String massessList(Model model){
         model.addAttribute("tState",1);
         return "massessList";
     }
+
+    /**
+     * 评价的跳转页面
+     * @param model 模板
+     * @return 一年时期的评价的页面
+     */
     @RequestMapping("/massessList1")
     public String massessList1(Model model){
         model.addAttribute("tState",2);
         return "massessList";
     }
+
+    /**
+     * 评价的跳转页面
+     * @param model 模板
+     * @return 两年时期的评价的页面
+     */
     @RequestMapping("/massessList2")
     public String massessList2(Model model){
         model.addAttribute("tState",3);
         return "massessList";
     }
+
+    /**
+     * 评价的跳转页面
+     * @param model 模板
+     * @return 三年时期的评价的页面
+     */
     @RequestMapping("/massessList3")
     public String massessList3(Model model){
         model.addAttribute("tState",4);
         return "massessList";
     }
 
+    /**
+     * 所有学生的评价数据
+     * @param request 接收请求
+     * @param managerId 学生id
+     * @return 所有学生的评价数据
+     */
     @RequestMapping(value = "/getAllMStudent",produces = "application/json;charset=utf-8")
     @ResponseBody
     public JSON getMAllStudent(HttpServletRequest request,Integer managerId){
@@ -79,6 +108,11 @@ public class MassessController {
         return jsonObject;
     }
 
+    /**
+     * 修改评价
+     * @param massess 评价对象
+     * @return 是否修改成功
+     */
     @RequestMapping(value = "/editMassess",produces = "text/html;charset=utf-8")
     @ResponseBody//针对ajax操作，将响应内容添加至响应流
     public String editMassess(Massess massess){
@@ -90,6 +124,12 @@ public class MassessController {
         }
     }
 
+    /**
+     * 修改页面的跳转
+     * @param maId 评价id
+     * @param model 模板
+     * @return 修改页面
+     */
     @RequestMapping("/getMassessById")
     public String getMassessById(Integer maId, Model model){
         Massess massess = massessService.getMassessById(maId);
@@ -100,6 +140,11 @@ public class MassessController {
         return "editMassess";
     }
 
+    /**
+     * 添加评价
+     * @param massess 评价对象
+     * @return 是否添加成功
+     */
     @RequestMapping(value = "/addMassess",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String addMassess(Massess massess){
@@ -114,6 +159,12 @@ public class MassessController {
         }
     }
 
+    /**
+     * 添加页面跳转
+     * @param studentId 学生id
+     * @param model 模板
+     * @return 跳转到添加评价页面
+     */
     @RequestMapping("/addMassessPage")
     public String addMassessPage(Integer studentId, Model model){
         Student student = massessService.getStudentById(studentId);
@@ -121,6 +172,13 @@ public class MassessController {
         return "addMassess";
     }
 
+    /**
+     * 获得不同入职日期的所有学生的评价
+     * @param request 接收请求
+     * @param tState 员工入职状态
+     * @return 所有学生不同入职状态的评价数据
+     * @throws ParseException
+     */
     @RequestMapping("/getAllMassess")
     @ResponseBody
     public JSONObject getAllMassess(HttpServletRequest request,Integer tState) throws ParseException {

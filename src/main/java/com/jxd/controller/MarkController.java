@@ -38,6 +38,12 @@ public class MarkController {
     @Autowired
     IManagerService managerService;
 
+    /**
+     * 评分列表
+     * @param request 接收请求
+     * @param model 模板
+     * @return 评分列表页面
+     */
     @RequestMapping("/markList")
     public String markList(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
@@ -47,6 +53,13 @@ public class MarkController {
         model.addAttribute("tState",1);
         return "markList";
     }
+
+    /**
+     * 评分列表
+     * @param request 接收请求
+     * @param model 模板
+     * @return 评分列表页面
+     */
     @RequestMapping("/markList1")
     public String markList1(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
@@ -56,6 +69,13 @@ public class MarkController {
         model.addAttribute("tState",2);
         return "markList";
     }
+
+    /**
+     * 评分列表
+     * @param request 接收请求
+     * @param model 模板
+     * @return 评分列表页面
+     */
     @RequestMapping("/markList2")
     public String markList2(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
@@ -65,6 +85,13 @@ public class MarkController {
         model.addAttribute("tState",3);
         return "markList";
     }
+
+    /**
+     * 评分列表
+     * @param request 接收请求
+     * @param model 模板
+     * @return 评分列表页面
+     */
     @RequestMapping("/markList3")
     public String markList3(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
@@ -75,6 +102,14 @@ public class MarkController {
         return "markList";
     }
 
+    /**
+     *  评分查看
+     * @param request 接收请求
+     * @param studentId 学生Id
+     * @param tState 入职状态
+     * @param model 模板
+     * @return 学生跟踪表页面
+     */
     @RequestMapping("/massessDetailed")
     public String massessDetailed(HttpServletRequest request,Integer studentId, Integer tState,Model model){
         Massess massess = massessService.getMassess(studentId,tState);
@@ -88,6 +123,11 @@ public class MarkController {
         return "massessDetailed";
     }
 
+    /**
+     * 添加评分
+     * @param mark 评分
+     * @return 是否添加成功
+     */
     @RequestMapping(value = "/addOrEditMark",produces ={ "text/html;charset=UTF-8"})
     @ResponseBody
     public String addOrEditMark(Mark mark){
@@ -113,6 +153,11 @@ public class MarkController {
 
     }
 
+    /**
+     * 获取部门评分项
+     * @param departmentId 部门id
+     * @return 评分项列表
+     */
     @RequestMapping(value = "/getAllAssessItemByDeptId")
     @ResponseBody
     public List<Map<String,Object>> getAllAssessItemByDeptId(Integer departmentId){
@@ -121,6 +166,16 @@ public class MarkController {
         return list;
     }
 
+    /**
+     * 按时间显示不同入职阶段的评分
+     * @param request 接收请求
+     * @param limit 条数
+     * @param page 几页
+     * @param studentName 学生姓名
+     * @param tState 员工入职状态
+     * @return 评分的详细数据
+     * @throws ParseException
+     */
     @RequestMapping(value = "/getAllMarkInfo",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSON getAllMarkInfo(HttpServletRequest request, Integer limit, Integer page, String studentName,Integer tState) throws ParseException {
@@ -197,6 +252,13 @@ public class MarkController {
         return jsonObject;
     }
 
+    /**
+     * 获得查看页面的跟踪表的具体数据
+     * @param studentId 学生id
+     * @param tState 员工入职状态
+     * @param session session
+     * @return 跟踪表页面的详细数据
+     */
     @RequestMapping(value = "/getDetailById",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public JSON  getDetailById(Integer studentId,Integer tState, HttpSession session){
